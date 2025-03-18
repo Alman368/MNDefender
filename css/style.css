@@ -5,9 +5,9 @@
     margin-top: 120px;
     
 }
-.bloqueSuperior {
+/*.bloqueSuperior {
     background: linear-gradient(135deg,rgb(255, 255, 255),rgb(131, 133, 149)) ;
-    /* Ejemplo más pronunciado (curva más profunda) */
+    /* Ejemplo más pronunciado (curva más profunda) 
     border-bottom-left-radius: 100% 13%;
     border-bottom-right-radius: 100% 13%;
 
@@ -16,7 +16,7 @@
     background: rgba(149,165,166,255);
     border-top-left-radius: 100% 13%;
     border-top-right-radius: 100% 13%;
-}
+}*/
 .extraDatos{
     background: rgba(44, 62, 80, 255);
 }
@@ -42,4 +42,17 @@ h4.border-footer
 
 .tarjetaBody{
     max-height: auto;
+}
+.inicio_chat{
+    margin: 1% 6% 0 6%;
+}
+
+.proyectos{
+    border: 1px solid rgb(178, 188, 198);
+    border-radius: 10px;
+    padding:7px;
+}
+
+#proyecto_2:hover, #proyecto_2:hover, #proyecto_3:hover{
+    background-color: rgba(128, 128, 128, 0.173);
 }
