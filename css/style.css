@@ -49,10 +49,29 @@ h4.border-footer
 
 .proyectos{
     border: 1px solid rgb(178, 188, 198);
-    border-radius: 10px;
+    border-radius: 3%;
     padding:7px;
 }
 
-#proyecto_2:hover, #proyecto_2:hover, #proyecto_3:hover{
+#proyecto_2:hover, #proyecto_3:hover{
     background-color: rgba(128, 128, 128, 0.173);
+    transform: scale(1.05); 
 }
+.bi-trash{
+    opacity:0;
+}
+.bi-plus-square-fill:hover{
+    cursor: pointer;
+}
+.item-proyecto:hover .bi-trash{
+    opacity: 1;
+    background-color: red;
+    padding:7px;
+    border-radius: 10%;
+    position: absolute;
+    top:5.5px;
+    right:9px;
+}
+.list-group-item:hover {
+    padding: 1.1rem 1rem;
+  }

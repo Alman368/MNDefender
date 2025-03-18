@@ -6,6 +6,7 @@
 	
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/bootstrap.css">
+	<link rel="stylesheet" href="css/chat.css">
     
 
 
@@ -101,20 +102,45 @@
 				<p class="mb-0">Mensaje de alerta para indicar que se ha podido producir un error <a href="#" class="alert-link">(ver detalles)</a>.</p>
 			</div>
 
-			<div class="row">
+			<div class="row mb-5">
 				<div class="col-md-3 ms-5">
 					<div class="proyectos mb-3 text-end" style="max-width: 20rem;">
 						<div class="card-header m-1"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="var(--bs-teal)" class="bi bi-plus-square-fill float-right" viewBox="0 0 16 16">
 							<path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0"/>
 						  </svg></div>
 						<div class="list-group text-start">
-							<a href="#" id="proyecto_1" class="list-group-item list-group-item-action active">Proyecto 1</a>
-							<a href="#" id="proyecto_2" class="list-group-item list-group-item-action">Proyecto 2</a>
-							<a href="#" id="proyecto_3" class="list-group-item list-group-item-action">Proyecto 3</a>
+							<a href="#" id="proyecto_1" class="item-proyecto list-group-item list-group-item-action active">Proyecto 1 
+								<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="white" class="bi bi-trash" viewBox="0 0 16 16">
+								<path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+								<path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+							  </svg></a>
+							
+							<a href="#" id="proyecto_2" class="item-proyecto list-group-item list-group-item-action">Proyecto 2
+								<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="white" class="bi bi-trash" viewBox="0 0 16 16">
+									<path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+									<path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+								  </svg>
+							</a>
+							<a href="#" id="proyecto_3" class="item-proyecto list-group-item list-group-item-action">Proyecto 3
+								<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="white" class="bi bi-trash" viewBox="0 0 16 16">
+									<path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+									<path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+								  </svg>
+							</a>
 						  </div>
 					  </div>
 				</div>
 				<div class="col-md -3">
+					<div class="chat-container p-3">
+						<div id="chat-messages" class="chat-messages">
+						<!-- Aquí se inyectan los mensajes con JS -->
+						</div>
+						<form id="chat-form" class="chat-form" autocomplete="off">
+						<input type="text" id="user-input" placeholder="Escribe tu mensaje..." required>
+						<button class="btn btn-primary" type="submit">Enviar</button>
+						</form>
+					</div>
+
 
 				</div>
 
