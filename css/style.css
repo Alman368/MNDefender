@@ -1,13 +1,42 @@
+
+.subtitulo
+{
+    font-size: large;
+    font-weight: bold;
+}
+.degradado-texto
+{
+    color: rgb(119, 129, 152)
+}
+.max-width-20rem
+{
+    max-width: 20rem;
+}
+
+.max-width-25rem
+{
+    max-width: 25rem;
+}
+
+.border-card
+{
+    border-color: rgb(178, 188, 198);
+}
+
+.height-auto
+{
+    height: auto;
+}
 .logocentral {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-top: 120px;
-    
+
 }
-/*.bloqueSuperior {
+
+.bloqueSuperior {
     background: linear-gradient(135deg,rgb(255, 255, 255),rgb(131, 133, 149)) ;
-    /* Ejemplo más pronunciado (curva más profunda) 
     border-bottom-left-radius: 100% 13%;
     border-bottom-right-radius: 100% 13%;
 
@@ -16,19 +45,18 @@
     background: rgba(149,165,166,255);
     border-top-left-radius: 100% 13%;
     border-top-right-radius: 100% 13%;
-}*/
+}
 .extraDatos{
     background: rgba(44, 62, 80, 255);
 }
 .border-bottom {
-border-bottom: color(srgb rgb(60, 55, 82));   
+border-bottom: color(srgb rgb(60, 55, 82));
 }
 .border-footer {
-	border-bottom: 1px solid rgb(38, 43, 59);	 
+	border-bottom: 1px solid rgb(38, 43, 59);
 }
 
-h4.border-footer
-{
+h4.border-footer {
 	background-color: rgba(45,61,78,255);
 }
 
@@ -38,7 +66,7 @@ h4.border-footer
     border-color: rgb(178, 188, 198);
     display: flex;
     flex-direction: column;
-}   
+}
 
 .tarjetaBody{
     max-height: auto;
@@ -55,8 +83,8 @@ h4.border-footer
 
 #proyecto_2:hover, #proyecto_3:hover{
     background-color: rgba(128, 128, 128, 0.173);
-    transform: scale(1.05); 
 }
+
 .bi-trash{
     opacity:0;
 }
@@ -72,6 +100,81 @@ h4.border-footer
     top:5.5px;
     right:9px;
 }
+
 .list-group-item:hover {
     padding: 1.1rem 1rem;
-  }
+}
+
+
+ /* Definición de la animación */
+ @keyframes an-opacity
+{
+    0%
+    {
+        opacity: 0; /* Invisible */
+        transform: translateX(15%);
+    }
+    100%
+    {
+        opacity: 1; /* Visible */
+        transform: translateX(0);
+
+    }
+}
+
+.animated-opacity1
+{
+    opacity: 0; /* Inicia invisible */
+    animation: an-opacity 2.5s ease-out forwards;
+    animation-delay: 1s;
+    transform: translateX(15%);
+    transform-origin: center; /* La animación se aplica desde el centro */
+}
+.animated-opacity2
+{
+    opacity: 0; /* Inicia invisible */
+    animation: an-opacity 2.5s ease-out forwards;
+    animation-delay: 1.5s;
+    transform: translateX(15%);
+    transform-origin: center; /* La animación se aplica desde el centro */
+}
+.animated-opacity3
+{
+    opacity: 0; /* Inicia invisible */
+    animation: an-opacity 2.5s ease-out forwards;
+    animation-delay: 2s;
+    transform: translateX(15%);
+    transform-origin: center; /* La animación se aplica desde el centro */
+}
+
+  /* Definición de la animación */
+@keyframes zoom {
+    0%
+    {
+      opacity: 0; /* Inicia invisible */
+      transform: scale(0); /* Inicia sin tamaño */
+    }
+    100%
+    {
+      opacity: 1; /* Se hace visible */
+      transform: scale(1); /* Alcanza su tamaño original */
+    }
+}
+
+.animated-zoom1
+{
+    opacity: 0; /* Inicia invisible */
+    transform: scale(0); /* Inicia sin tamaño */
+    transform-origin: center; /* La escala se aplica desde el centro */
+    animation: zoom 1s ease-out forwards;
+    animation-delay: 1s;
+}
+
+.animated-zoom2
+{
+    opacity: 0; /* Inicia invisible */
+    transform: scale(0); /* Inicia sin tamaño */
+    transform-origin: center; /* La escala se aplica desde el centro */
+    animation: zoom 1s ease-out forwards;
+    animation-delay: 3s;
+}
