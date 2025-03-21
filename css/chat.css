@@ -3,10 +3,10 @@
 	background-color: #fff;
 	max-width: 100%;
 	border: 1px solid rgb(178, 188, 198);
-    border-radius: 2%;
+    border-radius: 7px;
 	display: flex;
 	flex-direction: column;
-	height: 70vh;
+	height: 90vh;
 	overflow: hidden;
   }
   .chat-messages {
@@ -24,16 +24,21 @@
   }
   .chat-form {
 	display: flex;
-	border-top: 1px solid #ddd;
+  }
+  .chat-sup{
+	background-color: #f2f2f2;
+	border-top: 2px solid #ddd;
   }
   .chat-form input {
 	flex: 1;
 	border: none;
 	padding: 10px;
+	border-radius: 7px 0 0 7px;
   }
   .chat-form button {
 	border: none;
 	padding: 0 20px;
+	border-radius: 0 7px 7px 0;
   }
   .bot-message {
 	background-color: #e2e3e5;
@@ -57,7 +62,7 @@
 
 .proyectos{
     border: 1px solid rgb(178, 188, 198);
-    border-radius: 3%;
+    border-radius: 6px;
     padding:7px;
 	background-color: #ffffff;
 	max-width: 100%;
@@ -77,7 +82,7 @@
     opacity: 1;
     background-color: rgba(231, 76, 60, 255);
     padding:3.2%;
-    border-radius: 1%;
+    border-radius: 10%;
     position: absolute;
 	right: 6%;
 }
