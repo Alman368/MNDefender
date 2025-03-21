@@ -3,16 +3,15 @@
 	background-color: #fff;
 	max-width: 100%;
 	border: 1px solid rgb(178, 188, 198);
-    border-radius: 7px;
+    border-radius: 6px;
 	display: flex;
 	flex-direction: column;
-	height: 90vh;
+	min-height: 70vh;
 	overflow: hidden;
   }
   .chat-messages {
 	flex: 1;
 	padding: 10px;
-	overflow-y: auto;
 	background-color: #ffffff;
   }
   .chat-message {
@@ -24,21 +23,16 @@
   }
   .chat-form {
 	display: flex;
-  }
-  .chat-sup{
-	background-color: #f2f2f2;
-	border-top: 2px solid #ddd;
+	border-top: 1px solid #ddd;
   }
   .chat-form input {
 	flex: 1;
 	border: none;
 	padding: 10px;
-	border-radius: 7px 0 0 7px;
   }
   .chat-form button {
 	border: none;
 	padding: 0 20px;
-	border-radius: 0 7px 7px 0;
   }
   .bot-message {
 	background-color: #e2e3e5;
