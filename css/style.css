@@ -147,3 +147,7 @@ h4.border-footer {
     animation: zoom 1s ease-out forwards;
     animation-delay: 3s;
 }
+
+.white-background{
+	background-color: white !important;
+}
