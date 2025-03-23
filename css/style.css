@@ -163,3 +163,8 @@ h4.border-footer {
 .white-background {
 	background-color: white !important;
 }
+/* En pantallas md o mayores, el card tendrá un max-width de 20rem */
+@media (min-width: 768px) {
+    .custom-max-width {
+        max-width: 20rem;
+}
