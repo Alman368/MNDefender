@@ -5,7 +5,7 @@
 	border-radius: 6px;
 	display: flex;
 	flex-direction: column;
-	min-height: 70vh;
+	min-height: 85vh;
 	overflow: hidden;
 }
 
@@ -92,4 +92,8 @@
 .custom-button {
 	border-top-left-radius: 0 !important;  /* Elimina el redondeo en la parte superior izquierda */
 	border-bottom-left-radius: 0 !important;  /* Elimina el redondeo en la parte inferior izquierda */
+}
+.bg-custom {
+	background-color: #f8f8f8 !important;
+	border-top: 1px solid #e7e7e7 !important;
 }
