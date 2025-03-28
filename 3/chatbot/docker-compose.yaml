@@ -1,0 +1,6 @@
+services:
+  flaskapp:
+    container_name: chatbot
+    image: agsalguero/chatbot:latest
+    ports:
+      - "5000:5000"
