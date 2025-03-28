@@ -1,4 +1,4 @@
-.chat-container {
+#chat-container {
 	background-color: #fff;
 	max-width: 100%;
 	border: 1px solid rgb(178, 188, 198);
@@ -7,6 +7,7 @@
 	flex-direction: column;
 	min-height: 85vh;
 	overflow: hidden;
+	position: relative;
 }
 
 .chat-messages {
@@ -96,4 +97,10 @@
 .bg-custom {
 	background-color: #f8f8f8 !important;
 	border-top: 1px solid #e7e7e7 !important;
+}
+
+#input-messages{
+	position: absolute;
+	bottom:0;
+	width: 100%;
 }
