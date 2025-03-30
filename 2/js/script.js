@@ -31,13 +31,19 @@ function handleMessageSend(){
 	if (messageText !== ""){
 		createChatMessage(messageText, false);
 		userInput.value = '';
+		
+		// Añade un pequeño retraso antes de que el bot responda (opcional)
+		setTimeout(() => {
+			// El bot responde con el mismo mensaje que el usuario
+			createChatMessage(messageText, true);
+		}, 001); // Retraso de 500ms para simular procesamiento
 	}
 }
 
 // Inicialización cuando el DOM está listo
 document.addEventListener('DOMContentLoaded', function() {
     // Crea un mensaje inicial del bot
-    createChatMessage("Hola, soy un bot, ¿tú cómo te llamas?", true);
+    createChatMessage("Hola, soy un bot, ¿en qué puedo ayudarte?", true);
 
 	//Obtiene el botón de envío
 	const sendButton = document.getElementById('send-button');
@@ -55,64 +61,3 @@ document.addEventListener('DOMContentLoaded', function() {
 	}
 	);
 });
-
-
-/*
-// Función para manejar el envío de mensajes del usuario
-async function handleUserSubmit(event) {
-    event.preventDefault();
-
-    // Obtener el input del usuario
-    const userInput = document.getElementById('user-input');
-    const messageText = userInput.value.trim();
-
-    if (messageText === '') return;
-
-    // Mostrar mensaje del usuario
-    createChatMessage(messageText, false);
-
-    // Limpiar el input
-    userInput.value = '';
-
-    try {
-        // Llamada a la API del chatbot (sustituir con tu endpoint real)
-        const response = await fetch('https://tu-api-de-chatbot.com/chat', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                message: messageText,
-                // Añadir cualquier otro parámetro necesario
-            })
-        });
-
-        if (!response.ok) {
-            throw new Error('Error en la respuesta del chatbot');
-        }
-
-        const data = await response.json();
-
-        // Mostrar respuesta del bot
-        createChatMessage(data.response || 'Lo siento, no puedo procesar tu mensaje en este momento.');
-    } catch (error) {
-        console.error('Error al comunicarse con el chatbot:', error);
-        createChatMessage('Hubo un problema al procesar tu mensaje. Por favor, inténtalo de nuevo.');
-    }
-}
-
-// Inicializar event listeners cuando el DOM esté cargado
-document.addEventListener('DOMContentLoaded', function() {
-    // Añadir listener al formulario de chat
-    const chatForm = document.getElementById('chat-form');
-    chatForm.addEventListener('submit', handleUserSubmit);
-
-    // Mensaje inicial del bot
-    createChatMessage("Hola, soy un asistente de SVAIA. ¿En qué puedo ayudarte hoy?");
-});
-
-
-
-
-
-*/

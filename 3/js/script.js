@@ -45,9 +45,8 @@ async function handleMessageSend(){
 				throw new Error("Error en la respuesta del chatbot");
 			}
 			const data = await response.json();
-			// comprobación: console.log(JSON.stringify(data, null, 2));
 			// Mostrar respuesta del bot
-			createChatMessage(data.response.message, true);
+			createChatMessage(data.message, true);
 		} catch (error) {
 			console.error("Error al comunicarse con el chatbot:", error);
 			createChatMessage("Hubo un problema al procesar tu mensaje. Por favor, inténtalo de nuevo.", true);
@@ -82,7 +81,3 @@ document.addEventListener('DOMContentLoaded', function() {
 	}
 	);
 });
-
-
-
-
