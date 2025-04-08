@@ -28,7 +28,7 @@ async function handleMessageSend(){
 	//obtiene el elemento de input
 	const userInput = document.getElementById('user-input');
 	const messageText = userInput.value.trim();
-	if (messageText !== ""){
+	if (messageText !== ""){ 
 		createChatMessage(messageText, false);
 		try {
 			// Petición POSt a la API del chatbot
@@ -65,9 +65,8 @@ document.addEventListener('DOMContentLoaded', function() {
 	const sendButton = document.getElementById('send-button');
 
 	// Añade un evento al botón de envío
-	// Añade un evento al botón de envío
 	sendButton.addEventListener("click", function(event) {
-		event.preventDefault(); // Añade esta línea
+		event.preventDefault();
 		handleMessageSend();
 	});
 

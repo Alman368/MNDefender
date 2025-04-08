@@ -1,0 +1,127 @@
+{% extends "layout.html" %}
+{% block content %}
+	<div class="bloqueSuperior_chat">
+		<div class="container">
+			<div class="inicio_chat">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="./">Inicio</a></li>
+					<li class="breadcrumb-item active">Chat</li>
+				</ol>
+			</div>
+			<div class="container alert alert-dismissible alert-warning">
+				<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+				<h4 class="alert-heading">Atención!</h4>
+				<p class="mb-0">Mensaje de alerta para indicar que se ha podido producir un error <a href="#"
+						class="alert-link">(ver detalles)</a>.</p>
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<div class="proyectos mb-3 d-none d-md-block">
+						<div class="card-header mb-2 d-flex justify-content-end"><svg xmlns="http://www.w3.org/2000/svg"
+								width="30" height="30" fill="var(--bs-teal)" class="bi bi-plus-square-fill float-right"
+								viewBox="0 0 16 16">
+								<path
+									d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0" />
+							</svg></div>
+						<div class="list-group text-start">
+							<a href="#" id="proyecto_1"
+								class="item-proyecto list-group-item list-group-item-action active d-flex align-items-center">Proyecto
+								1
+								<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="white"
+									class="bi bi-trash" viewBox="0 0 16 16">
+									<path
+										d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+									<path
+										d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+								</svg></a>
+
+							<a href="#" id="proyecto_2"
+								class="item-proyecto list-group-item list-group-item-action d-flex align-items-center">Proyecto
+								2
+								<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="white"
+									class="bi bi-trash" viewBox="0 0 16 16">
+									<path
+										d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+									<path
+										d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+								</svg>
+							</a>
+							<a href="#" id="proyecto_3"
+								class="item-proyecto list-group-item list-group-item-action d-flex align-items-center">Proyecto
+								3
+								<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="white"
+									class="bi bi-trash" viewBox="0 0 16 16">
+									<path
+										d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+									<path
+										d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+								</svg>
+							</a>
+						</div>
+					</div>
+					<div class="d-block d-md-none mb-3">
+						<div
+							class="card-header mb-0 d-flex justify-content-end white-background pt-2 pb-3 pe-2 rounded border">
+							<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="var(--bs-teal)"
+								class="bi bi-plus-square-fill float-right" viewBox="0 0 16 16">
+								<path
+									d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0" />
+							</svg>
+						</div>
+						<select class="form-select">
+							<option>Proyecto 1</option>
+							<option>Proyecto 2</option>
+							<option>Proyecto 3</option>
+						</select>
+					</div>
+				</div>
+				<div class="col-md-8">
+					<div id = "chat-container" class="chat-container border mb-4">
+						<div id="chat-messages">
+							<!-- Example messages -->
+							<template id = "templateBot">
+								<div class="row p-3 pt-2 pb-0">
+									<div class="col-2">
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+											class="bi bi-robot" viewBox="0 0 16 16">
+											<path
+												d="M6 12.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5M3 8.062C3 6.76 4.235 5.765 5.53 5.886a26.6 26.6 0 0 0 4.94 0C11.765 5.765 13 6.76 13 8.062v1.157a.93.93 0 0 1-.765.935c-.845.147-2.34.346-4.235.346s-3.39-.2-4.235-.346A.93.93 0 0 1 3 9.219zm4.542-.827a.25.25 0 0 0-.217.068l-.92.9a25 25 0 0 1-1.871-.183.25.25 0 0 0-.068.495c.55.076 1.232.149 2.02.193a.25.25 0 0 0 .189-.071l.754-.736.847 1.71a.25.25 0 0 0 .404.062l.932-.97a25 25 0 0 0 1.922-.188.25.25 0 0 0-.068-.495c-.538.074-1.207.145-1.98.189a.25.25 0 0 0-.166.076l-.754.785-.842-1.7a.25.25 0 0 0-.182-.135" />
+											<path
+												d="M8.5 1.866a1 1 0 1 0-1 0V3h-2A4.5 4.5 0 0 0 1 7.5V8a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1v1a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-1a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1v-.5A4.5 4.5 0 0 0 10.5 3h-2zM14 7.5V13a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7.5A3.5 3.5 0 0 1 5.5 4h5A3.5 3.5 0 0 1 14 7.5" />
+										</svg>
+									</div>
+									<div class="col-10 bg-secondary text-white justify-content-start rounded p-3">
+										<p class="m-0 message-content">Hola! Soy un bot, ¿en qué puedo ayudarte?</p>
+									</div>
+								</div>
+							</template>
+							<template id = "templateUser">
+								<div class="row p-3 pb-0">
+									<div class="col-10 bg-primary text-white rounded p-3">
+										<p class="m-0 message-content">Estoy realizando una aplicación web para recoger las vulnerabilidades
+											de mis proyectos.</p>
+									</div>
+									<div class="col-2 d-flex justify-content-center p-2">
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+											class="bi bi-person-fill" viewBox="0 0 16 16">
+											<path
+												d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
+										</svg>
+									</div>
+								</div>
+							</template>
+							<!-- End of example messages -->
+						</div>
+						<!-- Move chat-sup outside of the chat-messages div but inside chat-container -->
+						<div class="px-3 py-2 bg-custom" id="input-messages">
+							<form id="chat-form" class="chat-form" autocomplete="off">
+								<input type="text" id="user-input" class="rounded-start border" placeholder="Escribe tu mensaje..." required>
+								<button id = "send-button" class="btn btn-primary custom-button " type="submit">Enviar</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
