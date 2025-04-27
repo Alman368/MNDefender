@@ -16,7 +16,8 @@ class Proyecto(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(100), nullable=False)
     descripcion = db.Column(db.Text, nullable=True)
-    fecha = db.Column(db.Date, nullable=False)
+    fecha_creacion = db.Column(db.DateTime, nullable=False, default=datetime.now)
+    fecha_modificacion = db.Column(db.DateTime, nullable=False, default=datetime.now, onupdate=datetime.now)
     # Relación con usuario
     usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'), nullable=False)
     usuario = db.relationship('Usuario', backref=db.backref('proyectos', lazy=True))
@@ -34,6 +35,7 @@ class ProyectoEtiqueta(db.Model):
 class Usuario(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(100), nullable=False)
+    apellidos = db.Column(db.String(100), nullable=False)  # Añadido campo apellidos
     email = db.Column(db.String(100), nullable=False, unique=True)
     username = db.Column(db.String(50), nullable=False, unique=True)
     password_hash = db.Column(db.String(256), nullable=False)
@@ -110,12 +112,12 @@ def create_app():
         if current_user.rol == 'administrador':
             # Admin ve todos los proyectos
             p = db.session.scalars(db.select(Proyecto).order_by(
-                Proyecto.fecha.desc())).all()
+                Proyecto.fecha_modificacion.desc())).all()
         else:
             # Usuario normal solo ve sus proyectos
             p = db.session.scalars(db.select(Proyecto).where(
                 Proyecto.usuario_id == current_user.id).order_by(
-                Proyecto.fecha.desc())).all()
+                Proyecto.fecha_modificacion.desc())).all()
         return render_template("proyectos.html", proyectos=p)
 
     # Consulta un proyecto por id (protegida)
@@ -140,10 +142,11 @@ def create_app():
         if request.method == "POST":
             nombre = request.form["nombre"]
             descripcion = request.form["descripcion"]
-            fecha = request.form["fecha"]
+            now = datetime.now()
             p = Proyecto(nombre=nombre,
                          descripcion=descripcion,
-                         fecha=fecha,
+                         fecha_creacion=now,
+                         fecha_modificacion=now,
                          usuario_id=current_user.id)
             db.session.add(p)
             db.session.commit()
@@ -169,13 +172,7 @@ def create_app():
         if request.method == "POST":
             p.nombre = request.form['nombre']
             p.descripcion = request.form['descripcion']
-
-            try:
-                p.fecha = datetime.strptime(request.form['fecha'], '%Y-%m-%d').date()
-            except ValueError:
-                flash("Formato de fecha inválido. Use YYYY-MM-DD.", "error")
-                return render_template("proyecto_editar.html", proyecto=p), 400
-
+            p.fecha_modificacion = datetime.now()
             db.session.commit()
             flash(f"Proyecto <em>{p.nombre}</em> modificado con éxito", "exito")
             return redirect(url_for("proyectos"))
@@ -227,19 +224,20 @@ def create_app():
             return redirect(url_for("usuarios")), 404
 
     @app.route("/usuario/nuevo", methods=["GET", "POST"])
-    @login_required  # Falta esta decoración para proteger la ruta
+    @login_required
     def usuario_nuevo():
-        if current_user.rol != 'administrador':  # Falta verificación de permisos
+        if current_user.rol != 'administrador':
             flash("No tienes permiso para acceder a esta página.", "error")
             return redirect(url_for("index")), 403
 
         if request.method == "POST":
             nombre = request.form["nombre"]
+            apellidos = request.form["apellidos"]  # Añadido campo apellidos
             email = request.form["email"]
             username = request.form["username"]
             password = request.form["password"]
             rol = request.form.get("rol", "usuario")
-            u = Usuario(nombre=nombre, email=email, username=username, rol=rol, fecha_registro=datetime.now().date())
+            u = Usuario(nombre=nombre, apellidos=apellidos, email=email, username=username, rol=rol, fecha_registro=datetime.now().date())
             u.set_password(password)
             db.session.add(u)
             db.session.commit()
@@ -249,9 +247,9 @@ def create_app():
             return render_template("usuario_nuevo.html")
 
     @app.route("/usuario/editar/<int:id>", methods=["GET", "POST"])
-    @login_required  # Falta esta decoración para proteger la ruta
+    @login_required
     def usuario_editar(id=None):
-        if current_user.rol != 'administrador':  # Falta verificación de permisos
+        if current_user.rol != 'administrador':
             flash("No tienes permiso para acceder a esta página.", "error")
             return redirect(url_for("index")), 403
 
@@ -263,6 +261,7 @@ def create_app():
 
         if request.method == "POST":
             u.nombre = request.form['nombre']
+            u.apellidos = request.form['apellidos']  # Añadido campo apellidos
             u.email = request.form['email']
             u.rol = request.form.get('rol', 'usuario')
             db.session.commit()
@@ -271,23 +270,51 @@ def create_app():
         else:
             return render_template("usuario_editar.html", usuario=u)
 
+    # Eliminar un usuario (solo administrador)
     @app.route("/usuario/eliminar/<int:id>")
-    @login_required  # Falta esta decoración para proteger la ruta
+    @login_required
     def usuario_eliminar(id=None):
-        if current_user.rol != 'administrador':  # Falta verificación de permisos
-            flash("No tienes permiso para acceder a esta página.", "error")
+        if current_user.rol != 'administrador':
+            flash("No tienes permiso para eliminar usuarios.", "error")
             return redirect(url_for("index")), 403
 
         try:
             u = db.one_or_404(db.select(Usuario).where(Usuario.id == id))
+
+            # Evitar eliminar el propio usuario admin que está logueado
+            if u.id == current_user.id:
+                flash("No puedes eliminar tu propio usuario.", "error")
+                return redirect(url_for("usuarios"))
+
+            nombre_usuario = u.nombre
+            db.session.delete(u)
+            db.session.commit()
+            flash(f"Usuario <em>{nombre_usuario}</em> eliminado con éxito.", "exito")
+            return redirect(url_for("usuarios"))
         except NoResultFound:
             flash("Usuario no encontrado.", "error")
             return redirect(url_for("usuarios")), 404
 
-        db.session.delete(u)
-        db.session.commit()
-        flash(f"Usuario <em>{u.nombre}</em> eliminado con éxito.", "exito")
-        return redirect(url_for("usuarios"))
+    # Nueva ruta para que los usuarios editen su propio perfil
+    @app.route("/perfil", methods=["GET", "POST"])
+    @login_required
+    def editar_perfil():
+        u = current_user
+
+        if request.method == "POST":
+            u.nombre = request.form['nombre']
+            u.apellidos = request.form['apellidos']
+            u.email = request.form['email']
+
+            # Cambio de contraseña opcional
+            if request.form.get('password') and request.form.get('password').strip():
+                u.set_password(request.form['password'])
+
+            db.session.commit()
+            flash("Tu perfil ha sido actualizado con éxito", "exito")
+            return redirect(url_for("index"))
+        else:
+            return render_template("perfil.html", usuario=u)
 
     # Crear tablas y usuarios iniciales
     with app.app_context():
@@ -298,6 +325,7 @@ def create_app():
         if not admin:
             admin = Usuario(
                 nombre='Administrador',
+                apellidos='Sistema',  # Añadido el apellido
                 email='admin@example.com',
                 username='admin',
                 rol='administrador',
@@ -309,7 +337,8 @@ def create_app():
         user = db.session.scalar(db.select(Usuario).where(Usuario.username == 'user'))
         if not user:
             user = Usuario(
-                nombre='Usuario Normal',
+                nombre='Usuario',
+                apellidos='Normal',  # Añadido el apellido
                 email='user@example.com',
                 username='user',
                 rol='usuario',
