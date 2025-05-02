@@ -49,4 +49,3 @@ class AnimalFactsService:
     def get_response(self, input_text):
         import random
         return random.choice(self.facts)
-    

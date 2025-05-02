@@ -8,7 +8,7 @@ services:
     environment:
       MYSQL_DATABASE: gestion_proyectos
       MYSQL_USER: usuario_app
-      MYSQL_PASSWORD: contraseña_segura
+      MYSQL_PASSWORD: contrasena_segura
       MYSQL_ROOT_PASSWORD: root_seguro
     ports:
       - "3306:3306"

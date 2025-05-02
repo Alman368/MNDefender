@@ -61,8 +61,7 @@
 	max-width: 100%;
 }
 
-#proyecto_2:hover,
-#proyecto_3:hover {
+#proyecto:hover{
 	background-color: rgba(128, 128, 128, 0.173);
 }
 
