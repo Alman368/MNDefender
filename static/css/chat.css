@@ -61,9 +61,6 @@
 	max-width: 100%;
 }
 
-#proyecto:hover{
-	background-color: rgba(128, 128, 128, 0.173);
-}
 
 .bi-trash {
 	opacity: 0;

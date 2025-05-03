@@ -28,7 +28,7 @@ async function handleMessageSend(){
 	//obtiene el elemento de input
 	const userInput = document.getElementById('user-input');
 	const messageText = userInput.value.trim();
-	if (messageText !== ""){ 
+	if (messageText !== ""){
 		createChatMessage(messageText, false);
 		try {
 			// Petición POSt a la API del chatbot
@@ -77,6 +77,24 @@ document.addEventListener('DOMContentLoaded', function() {
 			event.preventDefault(); // Evita el comportamiento por defecto del Enter
 			handleMessageSend();
 		}
-	}
-	);
+	});
+
+    // Manejo de la selección de proyectos
+    const proyectoItems = document.querySelectorAll('.item-proyecto');
+    proyectoItems.forEach(function(item) {
+        item.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            // Quita la clase 'active' de todos los proyectos
+            proyectoItems.forEach(function(proyecto) {
+                proyecto.classList.remove('active');
+            });
+
+            // Añade la clase 'active' al proyecto seleccionado
+            this.classList.add('active');
+
+            // Aquí puedes añadir código adicional para cargar el contenido del proyecto seleccionado
+            console.log('Proyecto seleccionado:', this.id);
+        });
+    });
 });
