@@ -1,4 +1,4 @@
-// Función para crear y añadir mensajes al chat
+// Función para crear y añadir mensajes al chat en el html
 function createChatMessage(messageText, isFromBot) {
     // Selecciona la plantilla según quien envía el mensaje (bot o usuario)
     const messageTemplate = document.getElementById(
@@ -24,21 +24,57 @@ function createChatMessage(messageText, isFromBot) {
 	chatContainer.scrollTop = chatContainer.scrollHeight;
 }
 
+//Función para manejar el input del usuario y enviar el mensaje al bot
 async function handleMessageSend(){
 	//obtiene el elemento de input
 	const userInput = document.getElementById('user-input');
 	const messageText = userInput.value.trim();
+
+	// Obtiene el proyecto activo y su data-id
+	const activeProject = document.querySelector('.item-proyecto.active');
+	if (!activeProject) {
+		alert("Por favor, selecciona un proyecto primero");
+		return;
+	}
+	const proyectoId = activeProject.dataset.id;
+
 	if (messageText !== ""){
 		createChatMessage(messageText, false);
 		try {
-			// Petición POSt a la API del chatbot
+			// Guardar el mensaje en la base de datos (backend)
+			const res = await fetch("/api/mensaje", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify({
+					contenido: messageText,
+					es_bot: false,
+					proyecto_id: proyectoId // Asegúrate de que proyectoId esté definido
+				})
+			});
+
+			if (!res.ok) {
+				throw new Error("Error al guardar el mensaje");
+			}
+
+			const dataGuardar = await res.json();
+			console.log("Mensaje guardado:", dataGuardar);
+
+		} catch (error) {
+			console.error("Error al guardar el mensaje:", error);
+			// Puedes notificarlo al usuario si quieres
+		}
+		try {
+			// Petición POST a la API del chatbot
 			const response = await fetch("http://127.0.0.1:5000/send-message", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json"
 				},
 				body: JSON.stringify({
-					message: messageText
+					message: messageText,
+					proyecto_id: proyectoId
 				})
 			})
 			if (!response.ok) {
@@ -47,6 +83,24 @@ async function handleMessageSend(){
 			const data = await response.json();
 			// Mostrar respuesta del bot
 			createChatMessage(data.message, true);
+
+			// También guardar la respuesta del bot en la base de datos
+			try {
+				await fetch("/api/mensaje", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify({
+						contenido: data.message,
+						es_bot: true,
+						proyecto_id: proyectoId
+					})
+				});
+			} catch (error) {
+				console.error("Error al guardar la respuesta del bot:", error);
+			}
+
 		} catch (error) {
 			console.error("Error al comunicarse con el chatbot:", error);
 			createChatMessage("Hubo un problema al procesar tu mensaje. Por favor, inténtalo de nuevo.", true);
@@ -79,22 +133,48 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 	});
 
-    // Manejo de la selección de proyectos
-    const proyectoItems = document.querySelectorAll('.item-proyecto');
-    proyectoItems.forEach(function(item) {
-        item.addEventListener('click', function(e) {
-            e.preventDefault();
+    // Manejo de la selección de proyectos clickando en ellos
+	const proyectoItems = document.querySelectorAll('.item-proyecto');
+	proyectoItems.forEach(function(item) {
+		item.addEventListener('click', async function(e) {
+			e.preventDefault();
 
-            // Quita la clase 'active' de todos los proyectos
-            proyectoItems.forEach(function(proyecto) {
-                proyecto.classList.remove('active');
-            });
+			// Quita la clase 'active' de todos los proyectos
+			proyectoItems.forEach(function(proyecto) {
+				proyecto.classList.remove('active');
+			});
 
-            // Añade la clase 'active' al proyecto seleccionado
-            this.classList.add('active');
+			// Añade la clase 'active' al proyecto seleccionado
+			this.classList.add('active');
 
-            // Aquí puedes añadir código adicional para cargar el contenido del proyecto seleccionado
-            console.log('Proyecto seleccionado:', this.id);
-        });
-    });
+			// Obtener el ID del proyecto seleccionado
+			const id = this.dataset.id; // Corregido: datas.id → dataset.id
+			if (!id) {
+				console.error('El elemento seleccionado no tiene un data-id válido.');
+				return;
+			}
+			console.log('Proyecto seleccionado:', id);
+
+			try {
+				 // Limpiar el contenedor de chat antes de cargar nuevos mensajes
+				const chatContainer = document.getElementById('chat-messages');
+				chatContainer.innerHTML = '';
+
+				// Consultar la API para cargar el contenido del proyecto
+				const res = await fetch(`/api/proyecto/${id}/mensajes`); // Corregido: /api/ → /api/proyecto/
+				if (!res.ok) {
+					throw new Error("Error al cargar el contenido del proyecto");
+				}
+
+				const mensajes = await res.json();
+
+				mensajes.forEach(msg => {
+					// Usar contenido en lugar de mensaje y es_bot es booleano, no string
+					createChatMessage(msg.contenido, msg.es_bot);
+				});
+			} catch (error) {
+				console.error("Error al cargar el contenido del proyecto:", error);
+			}
+		});
+	});
 });

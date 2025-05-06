@@ -68,11 +68,25 @@ def create_app():
         return render_template('chat.html', proyectos=proyectos)
 
     # Consulta un proyecto por id
-    @app.route("/proyecto/<int:id>")
-    def proyecto(id=None):
-        id_proyecto = db.session.scalars(db.select(Proyecto).where(Proyecto.id == id)).one()
-        return render_template("chat.html", proyecto=id_proyecto)
+	# @app.route("/proyecto/<int:id>")
+	# def proyecto(id=None):
+	#     id_proyecto = db.session.scalars(db.select(Proyecto).where(Proyecto.id == id)).one()
+	#     return render_template("chat.html", proyecto=id_proyecto)
 
+	# API para conectar con javascript, devolver mensajes de un proyecto por id
+    @app.route("/proyecto/<int:id>/mensajes")
+	def proyecto_mensajes(id=None):
+		try:
+			# Obtener los mensajes del proyecto por ID
+			mensajes = db.session.scalars(db.select(Mensaje).where(Mensaje.proyecto_id == id)).all()
+			# Crear una lista de diccionarios con los datos relevantes
+			mensajes_data = [
+			{"contenido": mensaje.contenido, "es_bot": mensaje.es_bot, "fecha_creacion": mensaje.fecha_creacion}
+			for mensaje in mensajes
+			]
+			return jsonify(mensajes_data), 200
+		except NoResultFound:
+			return jsonify({"error": "No se encontraron mensajes para este proyecto."}), 404
 
     # Mantener la ruta existente por compatibilidad
     @app.route("/proyecto/nuevo", methods=["GET", "POST"])
