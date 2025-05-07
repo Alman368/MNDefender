@@ -62,7 +62,7 @@
 }
 
 
-.bi-trash {
+.bi-trash, .bi-pencil-square {
 	opacity: 0;
 }
 
@@ -77,6 +77,14 @@
 	border-radius: 10%;
 	position: absolute;
 	right: 6%;
+}
+
+.item-proyecto:hover .bi-pencil-square {
+	opacity: 1;
+	padding: 3.2%;
+	border-radius: 10%;
+	position: absolute;
+	right: 16%;
 }
 
 .list-group-item:hover {
