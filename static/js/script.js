@@ -87,7 +87,7 @@ async function handleMessageSend(event = null) {
         alert("Por favor, selecciona un proyecto primero");
         return;
     }
-    
+
     // FIX: Convertir a número para asegurar compatibilidad con la BD
     const proyectoId = parseInt(activeProject.dataset.id, 10);
     if (isNaN(proyectoId)) {
@@ -112,7 +112,7 @@ async function handleMessageSend(event = null) {
         });
 
         if (!res.ok) throw new Error(`Error al guardar el mensaje: ${res.status}`);
-        
+
         // Enviar mensaje al chatbot
         const botResponse = await fetch("/send-message", {
             method: "POST",
@@ -124,13 +124,13 @@ async function handleMessageSend(event = null) {
         });
 
         if (!botResponse.ok) throw new Error("Error en la respuesta del chatbot");
-        
+
         const data = await botResponse.json();
-        
+
         // Mostrar y guardar respuesta del bot
         if (data && data.message) {
             createChatMessage(data.message, true);
-            
+
             await fetch("/api/mensaje", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -156,7 +156,7 @@ async function cargarMensajesProyecto(id) {
             console.error("ID de proyecto inválido para cargar mensajes:", id);
             return;
         }
-        
+
         const chatContainer = document.getElementById('chat-messages');
         chatContainer.innerHTML = '';
 
@@ -165,7 +165,7 @@ async function cargarMensajesProyecto(id) {
         if (!res.ok) throw new Error(`Error: ${res.status}`);
 
         const mensajes = await res.json();
-        
+
         if (!mensajes || mensajes.length === 0) {
             createChatMessage("Hola, soy un bot. ¿En qué puedo ayudarte con este proyecto?", true);
             //mandar mensaje del bot a la base de datos
@@ -181,13 +181,13 @@ async function cargarMensajesProyecto(id) {
         } else {
             // Ordenar mensajes por fecha
             mensajes.sort((a, b) => new Date(a.fecha_creacion) - new Date(b.fecha_creacion));
-            
+
             mensajes.forEach(msg => {
                 // Normalizar es_bot a booleano
                 let isBot = Boolean(msg.es_bot);
                 if (msg.es_bot === 1) isBot = true;
                 if (msg.es_bot === 0) isBot = false;
-                
+
                 createChatMessage(msg.contenido, isBot);
             });
         }
@@ -205,20 +205,20 @@ async function deleteProject(projectId, projectElement) {
         if (!confirmar) {
             return; // El usuario canceló la eliminación
         }
-        
+
         // Convertir a número para asegurar compatibilidad con la BD
         projectId = parseInt(projectId, 10);
         if (isNaN(projectId)) {
             console.error("ID de proyecto inválido para eliminar:", projectId);
             return;
         }
-        
+
         console.log("Intentando eliminar proyecto con ID:", projectId);
-        
+
         // Verificar si hay restricciones de eliminación (como mensajes asociados)
         const response = await fetch(`/api/proyecto/eliminar/${projectId}`, {
             method: 'DELETE',
-            headers: { 
+            headers: {
                 "Content-Type": "application/json",
                 "X-Requested-With": "XMLHttpRequest"  // Indicar que es una petición AJAX
             },
@@ -226,17 +226,17 @@ async function deleteProject(projectId, projectElement) {
         });
 
         console.log("Respuesta del servidor:", response.status, response.statusText);
-        
+
         // Verificar si la respuesta fue exitosa (código 200-299)
         if (!response.ok) {
             const errorData = await response.json();
             throw new Error(errorData.error || `Error del servidor: ${response.status}`);
         }
-        
+
         // Procesar la respuesta exitosa
         const responseData = await response.json();
         console.log("Proyecto eliminado exitosamente:", responseData);
-        
+
         // Limpiar chat si era el proyecto activo
         if (projectElement.classList.contains('active')) {
             const chatContainer = document.getElementById('chat-messages');
@@ -248,13 +248,71 @@ async function deleteProject(projectId, projectElement) {
 
         // Eliminar el elemento del DOM
         projectElement.remove();
-        
+
         // Mostrar notificación de éxito
         alert('Proyecto eliminado correctamente');
 
     } catch (error) {
         console.error('Error al eliminar proyecto:', error);
         alert('No se pudo eliminar el proyecto: ' + error.message + '. Revisa la consola para más detalles.');
+    }
+}
+
+//Función para editar un proyecto
+async function editProject(projectId, projectName, projectDescription) {
+    try {
+        // Convertir a número para asegurar compatibilidad con la BD
+        projectId = parseInt(projectId, 10);
+        if (isNaN(projectId)) {
+            console.error("ID de proyecto inválido para editar:", projectId);
+            return;
+        }
+
+        // Realizar la petición PUT a la API
+        const response = await fetch(`/api/proyecto/editar/${projectId}`, {
+            method: 'PUT',
+            headers: {
+                "Content-Type": "application/json",
+                "X-Requested-With": "XMLHttpRequest"
+            },
+            body: JSON.stringify({
+                nombre: projectName,
+                descripcion: projectDescription
+            }),
+            credentials: 'same-origin'
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || `Error del servidor: ${response.status}`);
+        }
+
+        const responseData = await response.json();
+        console.log("Proyecto editado exitosamente:", responseData);
+
+        // Actualizar el nombre del proyecto en la interfaz
+        const projectElement = document.querySelector(`.item-proyecto[data-id="${projectId}"]`);
+        if (projectElement) {
+            // Obtener el nodo de texto que contiene el nombre del proyecto
+            const textNode = Array.from(projectElement.childNodes)
+                .find(node => node.nodeType === Node.TEXT_NODE);
+
+            if (textNode) {
+                textNode.nodeValue = projectName;
+            }
+        }
+
+        // Cerrar el modal
+        const modalElement = document.getElementById('editProjectModal');
+        const modal = bootstrap.Modal.getInstance(modalElement);
+        modal.hide();
+
+        // Mostrar notificación de éxito
+        alert('Proyecto modificado correctamente');
+
+    } catch (error) {
+        console.error('Error al editar proyecto:', error);
+        alert('No se pudo editar el proyecto: ' + error.message);
     }
 }
 
@@ -265,7 +323,7 @@ document.addEventListener('DOMContentLoaded', function() {
         console.error("ERROR CRÍTICO: No se encontró el elemento 'chat-messages'");
         return;
     }
-    
+
     // Cargar mensajes del proyecto activo
     const proyectoActivo = document.querySelector('.item-proyecto.active');
     if (proyectoActivo) {
@@ -296,18 +354,18 @@ document.addEventListener('DOMContentLoaded', function() {
     proyectoItems.forEach(function(item) {
         item.addEventListener('click', function(e) {
             e.preventDefault();
-            
+
             // Obtener ID del proyecto
             const id = this.dataset.id;
             if (!id) {
                 console.error('El elemento seleccionado no tiene un data-id válido');
                 return;
             }
-            
+
             // Actualizar proyecto activo
             proyectoItems.forEach(p => p.classList.remove('active'));
             this.classList.add('active');
-            
+
             // Cargar mensajes
             cargarMensajesProyecto(id);
         });
@@ -316,13 +374,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // Manejar eventos para eliminar proyectos
     document.addEventListener('click', function(e) {
         // Verificar si el clic fue en el SVG o en alguno de sus elementos path
-        const trashIcon = e.target.closest('.bi-trash') || 
+        const trashIcon = e.target.closest('.bi-trash') ||
                         (e.target.tagName === 'path' && e.target.parentNode.classList.contains('bi-trash'));
-        
+
         if (trashIcon) {
             e.preventDefault();
             e.stopPropagation();
-            
+
             // Buscar el elemento padre del proyecto
             const projectElement = e.target.closest('.item-proyecto');
             if (projectElement) {
@@ -330,4 +388,71 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     });
+
+    // Manejar eventos para editar proyectos
+    document.addEventListener('click', function(e) {
+        // Verificar si el clic fue en el SVG de edición o en alguno de sus elementos path
+        const pencilIcon = e.target.closest('.bi-pencil-square') ||
+                        (e.target.tagName === 'path' && e.target.parentNode.classList.contains('bi-pencil-square'));
+
+        if (pencilIcon) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            // Buscar el elemento padre del proyecto
+            const projectElement = e.target.closest('.item-proyecto');
+            if (projectElement) {
+                const projectId = projectElement.dataset.id;
+
+                // Obtener el nombre actual del proyecto (texto dentro del elemento)
+                const textContent = Array.from(projectElement.childNodes)
+                    .find(node => node.nodeType === Node.TEXT_NODE)?.nodeValue?.trim();
+
+                // Obtener la descripción actual del proyecto desde el servidor
+                fetch(`/api/proyecto/${projectId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Rellenar el formulario del modal con los datos actuales
+                        const modal = document.getElementById('editProjectModal');
+                        const nameInput = modal.querySelector('input[name="project_name"]');
+                        const descriptionInput = modal.querySelector('textarea[name="project_description"]');
+
+                        if (nameInput && descriptionInput) {
+                            nameInput.value = textContent || data.nombre || '';
+                            descriptionInput.value = data.descripcion || '';
+
+                            // Añadir un atributo data-id al formulario
+                            const form = document.getElementById('editProjectForm');
+                            form.setAttribute('data-project-id', projectId);
+
+                            // Mostrar el modal
+                            const modalInstance = new bootstrap.Modal(modal);
+                            modalInstance.show();
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error al obtener datos del proyecto:', error);
+                        alert('Error al cargar los datos del proyecto');
+                    });
+            }
+        }
+    });
+
+    // Configurar el evento submit para el formulario de edición
+    const editProjectForm = document.getElementById('editProjectForm');
+    if (editProjectForm) {
+        editProjectForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const projectId = this.getAttribute('data-project-id');
+            const projectName = this.querySelector('input[name="project_name"]').value;
+            const projectDescription = this.querySelector('textarea[name="project_description"]').value;
+
+            if (projectId && projectName && projectDescription) {
+                editProject(projectId, projectName, projectDescription);
+            } else {
+                alert('Faltan datos para editar el proyecto');
+            }
+        });
+    }
 });

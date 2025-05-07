@@ -50,20 +50,20 @@ def proyecto_mensajes(id=None):
 		return jsonify(mensajes_data), 200
 	except NoResultFound:
 		return jsonify({"error": "No se encontraron mensajes para este proyecto."}), 404
-	
+
 @api_bp.route("/proyecto/eliminar/<int:id>", methods=["DELETE"])
 def proyecto_eliminar(id=None):
     # Obtener el proyecto por ID o devolver un error 404 si no existe
     try:
         p = db.session.query(Proyecto).filter(Proyecto.id == id).one()
-        
+
         # Primero eliminar todos los mensajes asociados al proyecto
         db.session.query(Mensaje).filter(Mensaje.proyecto_id == id).delete()
-        
+
         # Luego eliminar el proyecto de la base de datos
         db.session.delete(p)
         db.session.commit()
-        
+
         # Devolver respuesta de éxito
         return jsonify({"mensaje": f"Proyecto {p.nombre} eliminado con éxito", "id": id}), 200
     except NoResultFound:
@@ -71,3 +71,41 @@ def proyecto_eliminar(id=None):
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": f"Error al eliminar el proyecto: {str(e)}"}), 500
+
+# API para editar el proyecto
+@api_bp.route("/proyecto/editar/<int:id>", methods=["PUT"])
+def proyecto_editar(id=None):
+	data = request.get_json()
+	if not data:
+		return jsonify({"error": "No se proporcionaron datos"}), 400
+
+	# Obtener el proyecto por ID o devolver un error 404 si no existe
+	try:
+		p = db.session.query(Proyecto).filter(Proyecto.id == id).one()
+		p.nombre = data.get("nombre", p.nombre)
+		p.descripcion = data.get("descripcion", p.descripcion)
+		db.session.commit()
+
+		return jsonify({"mensaje": f"Proyecto {p.nombre} editado con éxito", "id": id}), 200
+	except NoResultFound:
+		return jsonify({"error": "Proyecto no encontrado"}), 404
+	except Exception as e:
+		db.session.rollback()
+		return jsonify({"error": f"Error al editar el proyecto: {str(e)}"}), 500
+
+# API para obtener un proyecto por ID
+@api_bp.route("/proyecto/<int:id>", methods=["GET"])
+def proyecto_obtener(id=None):
+    try:
+        proyecto = db.session.query(Proyecto).filter(Proyecto.id == id).one()
+        return jsonify({
+            "id": proyecto.id,
+            "nombre": proyecto.nombre,
+            "descripcion": proyecto.descripcion,
+            "fecha_creacion": proyecto.fecha_creacion,
+            "fecha_modificacion": proyecto.fecha_modificacion
+        }), 200
+    except NoResultFound:
+        return jsonify({"error": "Proyecto no encontrado"}), 404
+    except Exception as e:
+        return jsonify({"error": f"Error al obtener el proyecto: {str(e)}"}), 500

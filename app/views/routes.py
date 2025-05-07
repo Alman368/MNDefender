@@ -15,6 +15,7 @@ def chat():
     # Le pasamos los proyectos a la plantilla
     return render_template('chat.html', proyectos=proyectos)
 
+
 @views_bp.route("/proyecto/nuevo", methods=["GET", "POST"])
 def proyecto_nuevo():
     # Si el método es POST, significa que se envió el formulario
@@ -44,34 +45,3 @@ def proyecto_nuevo():
     # Si es GET, redirigir a la página de chat que ahora tiene el modal
     else:
         return redirect(url_for("views.chat"))
-
-@views_bp.route("/proyecto/editar/<int:id>", methods=["GET", "POST"])
-def proyecto_editar(id=None):
-    # Obtener el proyecto por ID o devolver un error 404 si no existe
-    try:
-        p = db.one_or_404(db.select(Proyecto).where(Proyecto.id == id))
-    except NoResultFound:
-        flash("Proyecto no encontrado.", "error")
-        return redirect(url_for("views.chat")), 404
-
-    if request.method == "POST":
-        # Actualizar los campos del proyecto con los datos del formulario
-        p.nombre = request.form['nombre']
-        p.descripcion = request.form['descripcion']
-
-        # Convertir la fecha del formulario a un objeto date
-        try:
-            p.fecha = datetime.strptime(request.form['fecha'], '%Y-%m-%d').date()
-        except ValueError:
-            flash("Formato de fecha inválido. Use YYYY-MM-DD.", "error")
-            return render_template("proyecto_editar.html", proyecto=p), 400
-
-        # Guardar los cambios en la base de datos
-        db.session.commit()
-
-        # Mostrar mensaje de éxito y redirigir a la lista de proyectos
-        flash(f"Proyecto <em>{p.nombre}</em> modificado con éxito", "exito")
-        return redirect(url_for("views.chat"))
-    else:
-        # Mostrar el formulario de edición con los datos actuales del proyecto
-        return render_template("chat.html", proyecto=p)

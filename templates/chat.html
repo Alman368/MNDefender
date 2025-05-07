@@ -58,6 +58,35 @@
 							</div>
 						</div>
 						<!-- Fin del modal -->
+						<!-- Modal para editar proyecto -->
+						<div class="modal fade" id="editProjectModal" tabindex="-1" aria-labelledby="editProjectModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header bg-primary text-white">
+										<h5 class="modal-title" id="editProjectModalLabel">Editar Proyecto</h5>
+										<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body">
+										<form action="{{ url_for('views.proyecto_nuevo') }}" method="POST" id="editProjectForm">
+											<div class="mb-3">
+												<label for="projectName" class="form-label">Nombre del Proyecto</label>
+												<input type="text" class="form-control" id="projectName" name="project_name" placeholder="Ingrese el nombre del proyecto" required>
+											</div>
+											<div class="mb-3">
+												<label for="projectDescription" class="form-label">Descripción</label>
+												<textarea class="form-control" id="projectDescription" name="project_description" rows="4" placeholder="Ingrese una descripción del proyecto" required></textarea>
+											</div>
+											<div class="d-grid">
+												<button type="submit" class="btn btn-success">Modificar Proyecto</button>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- Fin del modal -->
+
+						<!-- Fin del modal -->
 						<div class="card-header mb-2 d-flex justify-content-end"><svg xmlns="http://www.w3.org/2000/svg"
 								width="30" height="30" fill="var(--bs-teal)" class="bi bi-plus-square-fill float-right"
 								viewBox="0 0 16 16" data-bs-toggle="modal" data-bs-target="#createProjectModal" style="cursor: pointer;">
