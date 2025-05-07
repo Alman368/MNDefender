@@ -1,7 +1,7 @@
 from flask import jsonify, request
 from sqlalchemy.exc import NoResultFound
 from . import api_bp
-from app.models import db, Mensaje
+from app.models import db, Mensaje, Proyecto
 
 @api_bp.route("/mensaje", methods=["POST"])
 def guardar_mensaje():
@@ -16,7 +16,7 @@ def guardar_mensaje():
 
 	try:
 		# Obtener el último ID de la base de datos para ese proyecto específico y calcular el nuevo ID
-		ultimo_mensaje = db.session.query(Mensaje).filter_by(proyecto_id=proyecto_id).order_by(Mensaje.id.desc()).first()
+		ultimo_mensaje = db.session.query(Mensaje).order_by(Mensaje.id.desc()).first()
 		nuevo_id = (ultimo_mensaje.id + 1) if ultimo_mensaje else 1
 
 		nuevo_mensaje = Mensaje(
@@ -50,3 +50,24 @@ def proyecto_mensajes(id=None):
 		return jsonify(mensajes_data), 200
 	except NoResultFound:
 		return jsonify({"error": "No se encontraron mensajes para este proyecto."}), 404
+	
+@api_bp.route("/proyecto/eliminar/<int:id>", methods=["DELETE"])
+def proyecto_eliminar(id=None):
+    # Obtener el proyecto por ID o devolver un error 404 si no existe
+    try:
+        p = db.session.query(Proyecto).filter(Proyecto.id == id).one()
+        
+        # Primero eliminar todos los mensajes asociados al proyecto
+        db.session.query(Mensaje).filter(Mensaje.proyecto_id == id).delete()
+        
+        # Luego eliminar el proyecto de la base de datos
+        db.session.delete(p)
+        db.session.commit()
+        
+        # Devolver respuesta de éxito
+        return jsonify({"mensaje": f"Proyecto {p.nombre} eliminado con éxito", "id": id}), 200
+    except NoResultFound:
+        return jsonify({"error": "Proyecto no encontrado"}), 404
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": f"Error al eliminar el proyecto: {str(e)}"}), 500

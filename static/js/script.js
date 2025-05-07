@@ -4,15 +4,15 @@ function createChatMessage(messageText, isFromBot) {
         console.error("Se intentó crear un mensaje con texto vacío o inválido");
         messageText = isFromBot ? "Error al cargar el mensaje del bot" : "Error al cargar el mensaje";
     }
-    
+
     if (typeof messageText !== 'string') {
         messageText = JSON.stringify(messageText);
     }
-    
+
     const chatContainer = document.getElementById('chat-messages');
     const templateId = isFromBot ? 'templateBot' : 'templateUser';
     const messageTemplate = document.getElementById(templateId);
-    
+
     // Crear el mensaje usando plantillas o método manual
     if (messageTemplate) {
         try {
@@ -28,15 +28,20 @@ function createChatMessage(messageText, isFromBot) {
             console.error("Error con la plantilla:", error);
         }
     }
-    
+
     // Método alternativo si falló el uso de plantillas
     const messageDiv = document.createElement('div');
     messageDiv.className = isFromBot ? 'row p-3 pt-2 pb-0' : 'row p-3 pb-0';
-    
+
     if (isFromBot) {
         messageDiv.innerHTML = `
             <div class="col-2">
-                <i class="fas fa-robot"></i>
+                <!-- Icono del bot usando Bootstrap Icons -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-robot" viewBox="0 0 16 16">
+                    <path d="M6 12.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5M3 8.062C3 6.76 4.235 5.765 5.53 5.886a26.6 26.6 0 0 0 4.94 0C11.765 5.765 13 6.76 13 8.062v1.157a.93.93 0 0 1-.765.935c-.845.147-2.34.346-4.235.346s-3.39-.2-4.235-.346A.93.93 0 0 1 3 9.219zm4.542-.827a.25.25 0 0 0-.217.068l-.92.9a25 25 0 0 1-1.871-.183.25.25 0 0 0-.068.495c.55.076 1.232.149 2.02.193a.25.25 0 0 0 .189-.071l.754-.736.847 1.71a.25.25 0 0 0 .404.062l.932-.97a25 25 0 0 0 1.922-.188.25.25 0 0 0-.068-.495c-.538.074-1.207.145-1.98.189a.25.25 0 0 0-.166.076l-.754.785-.842-1.7a.25.25 0 0 0-.182-.135" />
+                    <path d="M8.5 1.866a1 1 0 1 0-1 0V3h-2A4.5 4.5 0 0 0 1 7.5V8a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1v1a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-1a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1v-.5A4.5 4.5 0 0 0 10.5 3h-2zM14 7.5V13a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7.5A3.5 3.5 0 0 1 5.5 4h5A3.5 3.5 0 0 1 14 7.5" />
+                </svg>
             </div>
             <div class="col-10 bg-secondary text-white justify-content-start rounded p-3">
                 <p class="m-0">${messageText}</p>
@@ -48,14 +53,19 @@ function createChatMessage(messageText, isFromBot) {
                 <p class="m-0">${messageText}</p>
             </div>
             <div class="col-2 d-flex justify-content-center p-2">
-                <i class="fas fa-user"></i>
+                <!-- Icono del usuario usando Bootstrap Icons -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-person-fill" viewBox="0 0 16 16">
+                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
+                </svg>
             </div>
         `;
     }
-    
+
     chatContainer.appendChild(messageDiv);
     chatContainer.scrollTop = chatContainer.scrollHeight;
 }
+
 
 // Función para manejar el envío de mensajes
 async function handleMessageSend(event = null) {
@@ -158,6 +168,16 @@ async function cargarMensajesProyecto(id) {
         
         if (!mensajes || mensajes.length === 0) {
             createChatMessage("Hola, soy un bot. ¿En qué puedo ayudarte con este proyecto?", true);
+            //mandar mensaje del bot a la base de datos
+            await fetch("/api/mensaje", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    contenido: "Hola, soy un bot. ¿En qué puedo ayudarte con este proyecto?",
+                    es_bot: true,
+                    proyecto_id: id
+                })
+            });
         } else {
             // Ordenar mensajes por fecha
             mensajes.sort((a, b) => new Date(a.fecha_creacion) - new Date(b.fecha_creacion));
@@ -196,8 +216,7 @@ async function deleteProject(projectId, projectElement) {
         console.log("Intentando eliminar proyecto con ID:", projectId);
         
         // Verificar si hay restricciones de eliminación (como mensajes asociados)
-        // Primero intentamos con DELETE estándar
-        const response = await fetch(`/api/proyecto/${projectId}`, {
+        const response = await fetch(`/api/proyecto/eliminar/${projectId}`, {
             method: 'DELETE',
             headers: { 
                 "Content-Type": "application/json",
@@ -208,51 +227,15 @@ async function deleteProject(projectId, projectElement) {
 
         console.log("Respuesta del servidor:", response.status, response.statusText);
         
-        // Si la respuesta no es exitosa, intentar leer el error
+        // Verificar si la respuesta fue exitosa (código 200-299)
         if (!response.ok) {
-            let errorMessage = `Error ${response.status}: ${response.statusText}`;
-            
-            try {
-                const errorData = await response.json();
-                console.error("Error detallado:", errorData);
-                if (errorData && errorData.message) {
-                    errorMessage = errorData.message;
-                }
-                
-                // Si hay restricciones por mensajes relacionados
-                if (response.status === 400 || response.status === 409) {
-                    // Preguntar si quiere borrar los mensajes primero
-                    const borrarMensajes = confirm("Este proyecto tiene mensajes asociados. ¿Deseas borrar los mensajes y el proyecto?");
-                    if (borrarMensajes) {
-                        // Solicitud para borrar mensajes y proyecto (ruta alternativa)
-                        const deleteAllResponse = await fetch(`/api/proyecto/${projectId}/forzar`, {
-                            method: 'DELETE',
-                            headers: { "Content-Type": "application/json" }
-                        });
-                        
-                        if (!deleteAllResponse.ok) {
-                            throw new Error("No se pudo forzar la eliminación del proyecto");
-                        }
-                        
-                        // Eliminación forzada exitosa
-                        projectElement.remove();
-                        if (projectElement.classList.contains('active')) {
-                            document.getElementById('chat-messages').innerHTML = '';
-                            createChatMessage("Selecciona un proyecto para comenzar.", true);
-                        }
-                        alert('Proyecto eliminado correctamente');
-                        return;
-                    }
-                    return;
-                }
-            } catch (jsonError) {
-                console.error("No se pudo leer el detalle del error como JSON", jsonError);
-            }
-            
-            throw new Error(errorMessage);
+            const errorData = await response.json();
+            throw new Error(errorData.error || `Error del servidor: ${response.status}`);
         }
-
-        console.log("Proyecto eliminado exitosamente");
+        
+        // Procesar la respuesta exitosa
+        const responseData = await response.json();
+        console.log("Proyecto eliminado exitosamente:", responseData);
         
         // Limpiar chat si era el proyecto activo
         if (projectElement.classList.contains('active')) {
@@ -332,11 +315,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Manejar eventos para eliminar proyectos
     document.addEventListener('click', function(e) {
-        const trashIcon = e.target.closest('.bi-trash');
+        // Verificar si el clic fue en el SVG o en alguno de sus elementos path
+        const trashIcon = e.target.closest('.bi-trash') || 
+                        (e.target.tagName === 'path' && e.target.parentNode.classList.contains('bi-trash'));
+        
         if (trashIcon) {
             e.preventDefault();
             e.stopPropagation();
-            const projectElement = trashIcon.closest('.item-proyecto');
+            
+            // Buscar el elemento padre del proyecto
+            const projectElement = e.target.closest('.item-proyecto');
             if (projectElement) {
                 deleteProject(projectElement.dataset.id, projectElement);
             }

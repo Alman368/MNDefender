@@ -75,20 +75,3 @@ def proyecto_editar(id=None):
     else:
         # Mostrar el formulario de edición con los datos actuales del proyecto
         return render_template("chat.html", proyecto=p)
-
-@views_bp.route("/proyecto/eliminar/<int:id>")
-def proyecto_eliminar(id=None):
-    # Obtener el proyecto por ID o devolver un error 404 si no existe
-    try:
-        p = db.one_or_404(db.select(Proyecto).where(Proyecto.id == id))
-    except NoResultFound:
-        flash("Proyecto no encontrado.", "error")
-        return redirect(url_for("views.chat")), 404
-
-    # Eliminar el proyecto de la base de datos
-    db.session.delete(p)
-    db.session.commit()
-
-    # Mostrar mensaje de éxito y redirigir a la lista de proyectos
-    flash(f"Proyecto <em>{p.nombre}</em> eliminado con éxito.", "exito")
-    return redirect(url_for("views.chat"))
