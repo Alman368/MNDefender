@@ -72,11 +72,11 @@
 
 .item-proyecto:hover .bi-trash {
 	opacity: 1;
-	background-color: rgba(231, 76, 60, 255);
 	padding: 3.2%;
 	border-radius: 10%;
 	position: absolute;
-	right: 6%;
+	right: 1%;
+	transition: 0.3s ease;
 }
 
 .item-proyecto:hover .bi-pencil-square {
@@ -84,7 +84,8 @@
 	padding: 3.2%;
 	border-radius: 10%;
 	position: absolute;
-	right: 16%;
+	right: 11%;
+	transition: 0.3s ease;
 }
 
 .list-group-item:hover {

@@ -1,7 +1,7 @@
 from flask import jsonify, request
 from sqlalchemy.exc import NoResultFound
 from . import api_bp
-from app.models import db, Mensaje, Proyecto
+from app.models import db, Mensaje, Proyecto, Usuario
 
 @api_bp.route("/mensaje", methods=["POST"])
 def guardar_mensaje():
@@ -109,3 +109,88 @@ def proyecto_obtener(id=None):
         return jsonify({"error": "Proyecto no encontrado"}), 404
     except Exception as e:
         return jsonify({"error": f"Error al obtener el proyecto: {str(e)}"}), 500
+
+# API para usuarios
+@api_bp.route("/usuario", methods=["POST"])
+def crear_usuario():
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "No se proporcionaron datos"}), 400
+
+    try:
+        # Obtener el último ID de la base de datos y calcular el nuevo ID
+        ultimo_usuario = db.session.query(Usuario).order_by(Usuario.id.desc()).first()
+        nuevo_id = (ultimo_usuario.id + 1) if ultimo_usuario else 1
+
+        nuevo_usuario = Usuario(
+            id=nuevo_id,
+            nombre=data.get("nombre"),
+            apellidos=data.get("apellidos"),
+            correo=data.get("correo"),
+            contrasena=data.get("contrasena")
+        )
+
+        db.session.add(nuevo_usuario)
+        db.session.commit()
+
+        return jsonify({
+            "mensaje": "Usuario creado con éxito",
+            "id": nuevo_usuario.id
+        }), 201
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": f"Error al crear el usuario: {str(e)}"}), 500
+
+@api_bp.route("/usuario/editar/<int:id>", methods=["PUT"])
+def usuario_editar(id=None):
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "No se proporcionaron datos"}), 400
+
+    try:
+        u = db.session.query(Usuario).filter(Usuario.id == id).one()
+        u.nombre = data.get("nombre", u.nombre)
+        u.apellidos = data.get("apellidos", u.apellidos)
+        u.correo = data.get("correo", u.correo)
+        if "contrasena" in data and data["contrasena"]:
+            u.contrasena = data.get("contrasena")
+
+        db.session.commit()
+
+        return jsonify({"mensaje": f"Usuario {u.nombre} {u.apellidos} editado con éxito", "id": id}), 200
+    except NoResultFound:
+        return jsonify({"error": "Usuario no encontrado"}), 404
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": f"Error al editar el usuario: {str(e)}"}), 500
+
+@api_bp.route("/usuario/eliminar/<int:id>", methods=["DELETE"])
+def usuario_eliminar(id=None):
+    try:
+        u = db.session.query(Usuario).filter(Usuario.id == id).one()
+        db.session.delete(u)
+        db.session.commit()
+
+        return jsonify({"mensaje": f"Usuario {u.nombre} {u.apellidos} eliminado con éxito", "id": id}), 200
+    except NoResultFound:
+        return jsonify({"error": "Usuario no encontrado"}), 404
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": f"Error al eliminar el usuario: {str(e)}"}), 500
+
+@api_bp.route("/usuario/<int:id>", methods=["GET"])
+def usuario_obtener(id=None):
+    try:
+        usuario = db.session.query(Usuario).filter(Usuario.id == id).one()
+        return jsonify({
+            "id": usuario.id,
+            "nombre": usuario.nombre,
+            "apellidos": usuario.apellidos,
+            "correo": usuario.correo,
+            "fecha_creacion": usuario.fecha_creacion,
+            "fecha_modificacion": usuario.fecha_modificacion
+        }), 200
+    except NoResultFound:
+        return jsonify({"error": "Usuario no encontrado"}), 404
+    except Exception as e:
+        return jsonify({"error": f"Error al obtener el usuario: {str(e)}"}), 500

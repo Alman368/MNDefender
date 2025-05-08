@@ -167,4 +167,5 @@ h4.border-footer {
 @media (min-width: 768px) {
     .custom-max-width {
         max-width: 20rem;
+	}
 }

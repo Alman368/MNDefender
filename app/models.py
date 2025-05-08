@@ -21,3 +21,12 @@ class Mensaje(db.Model):
 
     # Relación con el proyecto (puedes acceder a los mensajes desde el proyecto)
     proyecto = db.relationship('Proyecto', backref=db.backref('mensajes', lazy=True))
+
+class Usuario(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(100), nullable=False)
+    apellidos = db.Column(db.String(100), nullable=False)
+    correo = db.Column(db.String(100), nullable=False, unique=True)
+    contrasena = db.Column(db.String(100), nullable=False)
+    fecha_creacion = db.Column(db.DateTime, nullable=False, default=datetime.now)
+    fecha_modificacion = db.Column(db.DateTime, nullable=False, default=datetime.now, onupdate=datetime.now)
