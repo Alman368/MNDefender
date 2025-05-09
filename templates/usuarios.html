@@ -37,6 +37,10 @@
 								<div class="modal-body">
 									<form action="{{ url_for('views.usuario_nuevo') }}" method="POST" id="createUserForm">
 										<div class="mb-3">
+											<label for="user" class="form-label">User</label>
+											<input type="text" class="form-control" id="user" name="user" placeholder="Ingrese el usuario" required>
+										</div>
+										<div class="mb-3">
 											<label for="userName" class="form-label">Nombre</label>
 											<input type="text" class="form-control" id="userName" name="nombre" placeholder="Ingrese el nombre del usuario" required>
 										</div>
@@ -72,6 +76,10 @@
 								</div>
 								<div class="modal-body">
 									<form id="editUserForm">
+										<div class="mb-3">
+											<label for="editUserUsername" class="form-label">Usuario</label>
+											<input type="text" class="form-control" id="editUserUsername" name="user" placeholder="Ingrese el nombre de usuario" required>
+										</div>
 										<div class="mb-3">
 											<label for="editUserName" class="form-label">Nombre</label>
 											<input type="text" class="form-control" id="editUserName" name="nombre" placeholder="Ingrese el nombre del usuario" required>

@@ -51,7 +51,7 @@ async function deleteUser(userId, userElement) {
 }
 
 // Función para editar un usuario
-async function editUser(userId, userName, userLastName, userEmail, userPassword) {
+async function editUser(userId, userName, userLastName, userEmail, userPassword, username) {
     try {
         // Convertir a número para asegurar compatibilidad con la BD
         userId = parseInt(userId, 10);
@@ -64,7 +64,8 @@ async function editUser(userId, userName, userLastName, userEmail, userPassword)
         const userData = {
             nombre: userName,
             apellidos: userLastName,
-            correo: userEmail
+            correo: userEmail,
+            user: username  // Añadido el username
         };
 
         // Solo incluir contraseña si se proporcionó una nueva
@@ -170,11 +171,13 @@ document.addEventListener('DOMContentLoaded', function() {
                         const nameInput = modal.querySelector('input[name="nombre"]');
                         const lastNameInput = modal.querySelector('input[name="apellidos"]');
                         const emailInput = modal.querySelector('input[name="correo"]');
+                        const usernameInput = modal.querySelector('input[name="user"]');
 
-                        if (nameInput && lastNameInput && emailInput) {
+                        if (nameInput && lastNameInput && emailInput && usernameInput) {
                             nameInput.value = data.nombre || firstName;
                             lastNameInput.value = data.apellidos || lastName;
                             emailInput.value = data.correo || '';
+                            usernameInput.value = data.user || '';
 
                             // Añadir ID al formulario
                             const form = document.getElementById('editUserForm');
@@ -204,9 +207,10 @@ document.addEventListener('DOMContentLoaded', function() {
             const userLastName = this.querySelector('input[name="apellidos"]').value;
             const userEmail = this.querySelector('input[name="correo"]').value;
             const userPassword = this.querySelector('input[name="contrasena"]').value;
+            const username = this.querySelector('input[name="user"]').value;  // Añadido el username
 
-            if (userId && userName && userLastName && userEmail) {
-                editUser(userId, userName, userLastName, userEmail, userPassword);
+            if (userId && userName && userLastName && userEmail && username) {
+                editUser(userId, userName, userLastName, userEmail, userPassword, username);
             } else {
                 alert('Faltan datos para editar el usuario');
             }

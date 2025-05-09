@@ -162,6 +162,7 @@ def usuario_editar(id=None):
         u.nombre = data.get("nombre", u.nombre)
         u.apellidos = data.get("apellidos", u.apellidos)
         u.correo = data.get("correo", u.correo)
+        u.username = data.get("user", u.username)
         if "contrasena" in data and data["contrasena"]:
             u.set_password(data["contrasena"])
 

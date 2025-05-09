@@ -85,7 +85,7 @@ def usuario_nuevo():
             nombre=request.form["nombre"],
             apellidos=request.form["apellidos"],
             correo=request.form["correo"],
-            username=request.form["username"],
+            username=request.form["user"],
             password=request.form["contrasena"]
         )
 
