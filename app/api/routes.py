@@ -2,7 +2,7 @@ from flask import jsonify, request, Blueprint
 from sqlalchemy.exc import NoResultFound
 from flask_login import login_required, current_user
 from . import api_bp
-from app.models import db, Mensaje, Proyecto, Usuario
+from app.models import db, Mensaje, Proyecto, User
 
 api_bp = Blueprint('api', __name__)
 
@@ -128,15 +128,16 @@ def crear_usuario():
 
     try:
         # Obtener el último ID de la base de datos y calcular el nuevo ID
-        ultimo_usuario = db.session.query(Usuario).order_by(Usuario.id.desc()).first()
+        ultimo_usuario = db.session.query(User).order_by(User.id.desc()).first()
         nuevo_id = (ultimo_usuario.id + 1) if ultimo_usuario else 1
 
-        nuevo_usuario = Usuario(
+        nuevo_usuario = User(
             id=nuevo_id,
             nombre=data.get("nombre"),
             apellidos=data.get("apellidos"),
             correo=data.get("correo"),
-            contrasena=data.get("contrasena")
+            username=data.get("username"),
+            password=data.get("contrasena")
         )
 
         db.session.add(nuevo_usuario)
@@ -157,12 +158,12 @@ def usuario_editar(id=None):
         return jsonify({"error": "No se proporcionaron datos"}), 400
 
     try:
-        u = db.session.query(Usuario).filter(Usuario.id == id).one()
+        u = db.session.query(User).filter(User.id == id).one()
         u.nombre = data.get("nombre", u.nombre)
         u.apellidos = data.get("apellidos", u.apellidos)
         u.correo = data.get("correo", u.correo)
         if "contrasena" in data and data["contrasena"]:
-            u.contrasena = data.get("contrasena")
+            u.set_password(data["contrasena"])
 
         db.session.commit()
 
@@ -176,7 +177,7 @@ def usuario_editar(id=None):
 @api_bp.route("/usuario/eliminar/<int:id>", methods=["DELETE"])
 def usuario_eliminar(id=None):
     try:
-        u = db.session.query(Usuario).filter(Usuario.id == id).one()
+        u = db.session.query(User).filter(User.id == id).one()
         db.session.delete(u)
         db.session.commit()
 
@@ -190,12 +191,13 @@ def usuario_eliminar(id=None):
 @api_bp.route("/usuario/<int:id>", methods=["GET"])
 def usuario_obtener(id=None):
     try:
-        usuario = db.session.query(Usuario).filter(Usuario.id == id).one()
+        usuario = db.session.query(User).filter(User.id == id).one()
         return jsonify({
             "id": usuario.id,
             "nombre": usuario.nombre,
             "apellidos": usuario.apellidos,
             "correo": usuario.correo,
+            "username": usuario.username,
             "fecha_creacion": usuario.fecha_creacion,
             "fecha_modificacion": usuario.fecha_modificacion
         }), 200
@@ -229,12 +231,13 @@ def get_usuarios():
         return jsonify({'error': 'No autorizado'}), 403
 
     try:
-        usuarios = Usuario.query.all()
+        usuarios = User.query.all()
         return jsonify([{
             'id': u.id,
             'nombre': u.nombre,
             'apellidos': u.apellidos,
-            'correo': u.correo
+            'correo': u.correo,
+            'username': u.username
         } for u in usuarios])
     except Exception as e:
         return jsonify({"error": f"Error al obtener usuarios: {str(e)}"}), 500

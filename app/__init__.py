@@ -49,11 +49,25 @@ def create_app(config_class=Config):
         # Crear usuarios por defecto si no existen
         from app.models.user import User
         if not User.query.filter_by(username='admin').first():
-            admin = User(username='admin', password='admin', is_admin=True)
+            admin = User(
+                nombre='Administrador',
+                apellidos='Sistema',
+                correo='admin@example.com',
+                username='admin',
+                password='admin',
+                is_admin=True
+            )
             db.session.add(admin)
 
         if not User.query.filter_by(username='user').first():
-            user = User(username='user', password='user', is_admin=False)
+            user = User(
+                nombre='Usuario',
+                apellidos='Normal',
+                correo='user@example.com',
+                username='user',
+                password='user',
+                is_admin=False
+            )
             db.session.add(user)
 
         db.session.commit()

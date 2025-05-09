@@ -2,8 +2,7 @@ from flask import Blueprint, render_template, request, flash, redirect, url_for
 from datetime import datetime
 from flask_login import login_user, logout_user, login_required, current_user
 from . import views_bp
-from app.models import db, Proyecto, Usuario
-from app.models.user import User
+from app.models import db, Proyecto, User
 
 views_bp = Blueprint('views', __name__)
 
@@ -52,7 +51,7 @@ def usuarios():
     if not current_user.is_admin:
         flash('No tienes permisos para acceder a esta página', 'error')
         return redirect(url_for('views.index'))
-    usuarios = Usuario.query.all()
+    usuarios = User.query.all()
     return render_template('usuarios.html', usuarios=usuarios)
 
 @views_bp.route("/proyecto/nuevo", methods=["GET", "POST"])
@@ -82,11 +81,12 @@ def usuario_nuevo():
         return redirect(url_for('views.index'))
 
     if request.method == "POST":
-        usuario = Usuario(
+        usuario = User(
             nombre=request.form["nombre"],
             apellidos=request.form["apellidos"],
             correo=request.form["correo"],
-            contrasena=request.form["contrasena"]
+            username=request.form["username"],
+            password=request.form["contrasena"]
         )
 
         db.session.add(usuario)
