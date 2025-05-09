@@ -14,8 +14,8 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(80), unique=True, nullable=False)
     password_hash = db.Column(db.String(255), nullable=False)
     is_admin = db.Column(db.Boolean, default=False)
-    fecha_creacion = db.Column(db.DateTime, default=datetime.utcnow)
-    fecha_modificacion = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    fecha_creacion = db.Column(db.DateTime, default=datetime.now)
+    fecha_modificacion = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
     def __init__(self, nombre, apellidos, correo, username, password, is_admin=False):
         self.nombre = nombre
@@ -29,19 +29,20 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.password_hash, password)
 
     def set_password(self, password):
-        if not self._validate_password(password):
-            raise ValueError("La contraseña no cumple con los requisitos de seguridad")
+        #if not self._validate_password(password):
+        #    raise ValueError("La contraseña no cumple con los requisitos de seguridad")
         self.password_hash = generate_password_hash(password)
 
     def _validate_password(self, password):
         """
+		
         Valida que la contraseña cumpla con los requisitos mínimos:
         - Al menos 8 caracteres
         - Al menos una letra mayúscula
         - Al menos una letra minúscula
         - Al menos un número
         - Al menos un carácter especial
-        """
+
         if len(password) < 8:
             return False
         if not re.search(r'[A-Z]', password):
@@ -52,7 +53,7 @@ class User(UserMixin, db.Model):
             return False
         if not re.search(r'[!@#$%^&*(),.?":{}|<>]', password):
             return False
-        return True
+        return True """
 
     @staticmethod
     def get(user_id):
