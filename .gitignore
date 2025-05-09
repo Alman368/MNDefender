@@ -1,10 +1,35 @@
 # Entornos virtuales
 venv/
+env/
+ENV/
+.env/
+.venv/
 
-# Caché de Flask
+# Caché de Python
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
-*.pyw
-*.pyz
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# IDEs y editores
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
