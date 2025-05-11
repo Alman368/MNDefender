@@ -1,0 +1,111 @@
+#chat-container {
+	background-color: #fff;
+	max-width: 100%;
+	border: 1px solid rgb(178, 188, 198);
+	border-radius: 6px;
+	display: flex;
+	flex-direction: column;
+	min-height: 85vh;
+	overflow: hidden;
+	position: relative;
+}
+
+.chat-messages {
+	flex: 1;
+	padding: 10px;
+	background-color: #ffffff;
+}
+
+.chat-message {
+	margin-bottom: 10px;
+}
+
+.chat-message .user {
+	font-weight: bold;
+	margin-right: 5px;
+}
+
+.chat-form {
+	display: flex;
+}
+
+.chat-form input {
+	flex: 1;
+	border: none;
+	padding: 10px;
+}
+
+
+.bot-message {
+	background-color: #e2e3e5;
+	border-radius: 8px;
+	padding: 5px 10px;
+	display: inline-block;
+}
+
+.user-message {
+	background-color: #cfe2ff;
+	border-radius: 8px;
+	padding: 5px 10px;
+	display: inline-block;
+}
+.inicio_chat {
+	margin: 0% 6% 0 6%;
+}
+
+.proyectos {
+	border: 1px solid rgb(178, 188, 198);
+	border-radius: 6px;
+	padding: 7px;
+	background-color: #ffffff;
+	max-width: 100%;
+}
+
+
+.bi-trash, .bi-pencil-square {
+	opacity: 0;
+}
+
+.bi-plus-square-fill:hover {
+	cursor: pointer;
+}
+
+.item-proyecto:hover .bi-trash {
+	opacity: 1;
+	padding: 3.2%;
+	border-radius: 10%;
+	position: absolute;
+	right: 1%;
+	transition: 0.3s ease;
+}
+
+.item-proyecto:hover .bi-pencil-square {
+	opacity: 1;
+	padding: 3.2%;
+	border-radius: 10%;
+	position: absolute;
+	right: 11%;
+	transition: 0.3s ease;
+}
+
+.list-group-item:hover {
+	padding: 1.1rem 1rem;
+}
+
+.bloqueSuperior_chat {
+	background: linear-gradient(135deg, rgb(255, 255, 255), rgb(131, 133, 149));
+}
+.custom-button {
+	border-top-left-radius: 0 !important;  /* Elimina el redondeo en la parte superior izquierda */
+	border-bottom-left-radius: 0 !important;  /* Elimina el redondeo en la parte inferior izquierda */
+}
+.bg-custom {
+	background-color: #f8f8f8 !important;
+	border-top: 1px solid #e7e7e7 !important;
+}
+
+#input-messages{
+	position: absolute;
+	bottom:0;
+	width: 100%;
+}

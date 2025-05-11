@@ -1,0 +1,25 @@
+/* Estilos base para los iconos - esconderlos inicialmente */
+.bi-trash-usuario, .bi-pencil-square-usuario {
+    opacity: 0;
+}
+
+/* Añadir posición relativa al contenedor */
+.item-usuario {
+	position: relative;
+}
+
+.item-usuario:hover .bi-trash-usuario {
+	opacity: 1;
+	padding: 3.2%;
+	border-radius: 10%;
+	right: 6%;
+	transition: 0.4s ease;
+}
+
+.item-usuario:hover .bi-pencil-square-usuario {
+	opacity: 1;
+	padding: 3.2%;
+	border-radius: 10%;
+	right: 16%;
+	transition: 0.4s ease;
+}
