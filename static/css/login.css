@@ -1,0 +1,14 @@
+body {
+	background: linear-gradient(135deg, rgb(255, 255, 255), rgb(131, 133, 149));
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+}
+.login-container {
+	max-width: 450px;
+	margin: 0 auto;
+}
+.card {
+	border-radius: 6px;
+	box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}

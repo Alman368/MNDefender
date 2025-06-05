@@ -1,0 +1,53 @@
+/* Estilos base para los iconos - esconderlos inicialmente */
+.bi-trash-usuario, .bi-pencil-square-usuario {
+    opacity: 0;
+}
+
+/* Añadir posición relativa al contenedor */
+.item-usuario {
+	position: relative;
+}
+
+.item-usuario:hover .bi-trash-usuario {
+	opacity: 1;
+	padding: 3.2%;
+	border-radius: 10%;
+	right: 6%;
+	transition: 0.4s ease;
+}
+
+.item-usuario:hover .bi-pencil-square-usuario {
+	opacity: 1;
+	padding: 3.2%;
+	border-radius: 10%;
+	right: 16%;
+	transition: 0.4s ease;
+}
+
+/* Estilos para los botones de proyecto */
+.proyecto-acciones {
+    display: flex;
+    align-items: center;
+}
+
+.proyecto-acciones svg {
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.proyecto-acciones svg:hover {
+    transform: scale(1.1);
+    opacity: 0.8;
+}
+
+.btn-info-proyecto:hover {
+    fill: #0a58ca !important;
+}
+
+.btn-edit-proyecto:hover {
+    fill: #198754 !important;
+}
+
+.btn-delete-proyecto:hover {
+    fill: #dc3545 !important;
+}
