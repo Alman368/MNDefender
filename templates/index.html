@@ -1,0 +1,178 @@
+{% extends "layout.html" %}
+{% block content %}
+	<div class="bloqueSuperior pt-5 pb-5">
+		<div class="container alert alert-dismissible alert-warning">
+			<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+			<h4 class="alert-heading">Atención!</h4>
+			<p class="mb-0">Mensaje de alerta para indicar que se ha podido producir un error <a href="#"
+					class="alert-link">(ver detalles)</a>.</p>
+		</div>
+
+		<div class="container">
+			<div class="row logocentral">
+				<svg width="289.746" height="73.535" viewBox="0 0 289.746 73.535" xmlns="http://www.w3.org/2000/svg">
+					<g id="svgGroup" stroke-linecap="round" fill-rule="evenodd" font-size="9pt" stroke="#000"
+						stroke-width="0.25mm" fill="#000" style="stroke:#000;stroke-width:0.25mm;fill:#000">
+						<path
+							d="M 160.547 1.27 L 185.547 73.145 L 173.438 73.145 L 154.785 19.238 L 135.938 73.145 L 123.73 73.145 L 148.926 1.27 L 160.547 1.27 Z M 264.746 1.27 L 289.746 73.145 L 277.637 73.145 L 258.984 19.238 L 240.137 73.145 L 227.93 73.145 L 253.125 1.27 L 264.746 1.27 Z M 73.242 73.535 L 50.879 1.172 L 64.258 1.172 L 79.395 57.617 L 79.395 73.535 L 73.242 73.535 Z M 83.398 54.492 L 98.633 1.172 L 111.914 1.172 L 88.477 73.535 L 83.398 73.535 L 83.398 54.492 Z M 212.793 1.172 L 212.793 73.145 L 200.879 73.145 L 200.879 1.172 L 212.793 1.172 Z M 22.852 43.359 L 22.852 31.934 A 232.626 232.626 0 0 1 29.023 34.852 A 254.083 254.083 0 0 1 29.443 35.059 Q 32.813 36.719 35.547 39.111 A 19.378 19.378 0 0 1 39.928 44.709 A 21.97 21.97 0 0 1 40.039 44.922 A 14.888 14.888 0 0 1 41.33 48.623 Q 41.695 50.323 41.775 52.294 A 27.764 27.764 0 0 1 41.797 53.418 A 18.367 18.367 0 0 1 40.479 60.254 Q 39.16 63.574 36.768 66.26 A 20.121 20.121 0 0 1 32.369 69.933 A 23.913 23.913 0 0 1 30.859 70.801 A 22.111 22.111 0 0 1 25.58 72.748 A 27.333 27.333 0 0 1 22.852 73.242 L 22.852 63.867 A 11.995 11.995 0 0 0 26.767 62.205 Q 30.859 59.436 30.859 53.223 A 8.538 8.538 0 0 0 30.398 50.366 A 7.423 7.423 0 0 0 28.613 47.559 A 21.582 21.582 0 0 0 26.095 45.419 Q 24.637 44.351 22.852 43.359 Z M 18.848 0.293 L 18.848 10.547 A 10.816 10.816 0 0 0 13.672 14.307 A 11.279 11.279 0 0 0 12.383 16.412 A 7.838 7.838 0 0 0 11.621 19.727 A 11.529 11.529 0 0 0 11.909 22.377 A 8.018 8.018 0 0 0 13.672 25.879 Q 15.723 28.223 18.848 29.98 L 18.848 41.113 A 122.252 122.252 0 0 1 12.402 37.744 A 30.635 30.635 0 0 1 6.543 33.496 Q 3.906 31.055 2.197 27.832 A 14.194 14.194 0 0 1 0.815 23.805 Q 0.489 22.084 0.488 20.121 A 18.414 18.414 0 0 1 0.488 20.117 A 21.655 21.655 0 0 1 0.902 15.8 A 17.39 17.39 0 0 1 1.953 12.402 Q 3.418 8.984 5.908 6.396 A 18.652 18.652 0 0 1 11.768 2.295 A 25.204 25.204 0 0 1 18.848 0.293 Z M 0 68.359 L 2.051 59.961 A 15.125 15.125 0 0 0 3.179 60.54 Q 3.821 60.838 4.574 61.129 A 30.875 30.875 0 0 0 5.518 61.475 A 75.688 75.688 0 0 0 9.863 62.842 A 44.628 44.628 0 0 0 14.355 63.867 A 27.228 27.228 0 0 0 16.79 64.183 A 21.579 21.579 0 0 0 18.555 64.258 L 18.848 64.258 L 18.848 73.535 L 18.652 73.535 A 48.95 48.95 0 0 1 14.439 73.348 A 54.064 54.064 0 0 1 13.818 73.291 A 39.491 39.491 0 0 1 8.789 72.461 A 26.333 26.333 0 0 1 3.955 70.85 A 16.742 16.742 0 0 1 1.454 69.477 A 13.867 13.867 0 0 1 0 68.359 Z M 148.145 50.293 L 161.23 50.293 L 164.063 58.203 L 145.41 58.203 L 148.145 50.293 Z M 252.344 50.293 L 265.43 50.293 L 268.262 58.203 L 249.609 58.203 L 252.344 50.293 Z M 22.852 9.863 L 22.852 0 Q 27.148 0.098 31.592 0.928 A 27.576 27.576 0 0 1 34.684 1.681 Q 36.206 2.152 37.455 2.773 A 13.713 13.713 0 0 1 38.77 3.516 A 61.046 61.046 0 0 1 38.135 4.846 A 82.043 82.043 0 0 1 37.402 6.299 A 1879.078 1879.078 0 0 1 36.646 7.764 A 1530.309 1530.309 0 0 1 35.938 9.131 A 134.787 134.787 0 0 1 35.608 9.763 Q 35.139 10.655 34.777 11.307 A 46.756 46.756 0 0 1 34.766 11.328 Q 34.357 12.063 34.222 12.252 A 0.454 0.454 0 0 1 34.18 12.305 A 3.654 3.654 0 0 1 33.821 12.136 Q 33.639 12.039 33.435 11.91 A 9.26 9.26 0 0 1 33.008 11.621 A 4.862 4.862 0 0 0 32.469 11.291 Q 32.178 11.136 31.825 10.987 A 12.387 12.387 0 0 0 31.055 10.693 A 12.709 12.709 0 0 0 30.006 10.384 Q 29.053 10.144 27.832 9.961 A 14.731 14.731 0 0 0 26.733 9.841 Q 25.531 9.752 24.02 9.805 A 39.391 39.391 0 0 0 22.852 9.863 Z"
+							vector-effect="non-scaling-stroke"></path>
+					</g>
+				</svg>
+			</div>
+
+			<div class="row mt-2 text-center subtitulo">
+				<p class="degradado-texto">Sistema de soporte para Vulnerabilidades y Amenazas basado en Inteligencia
+					Artificial</p>
+			</div>
+
+			<div class="row mt-5 mx-auto">
+				<div class="col-md-6 d-flex justify-content-end" id="comienza_ya">
+					<div class="card text-white bg-secondary mb-3 shadow w-100 custom-max-width">
+						<div class="card-body text-center">
+							<a href="{{ url_for('chat') }}" class="card-title h4 text-decoration-none">¡Comienza ya!</a>
+							<p class="card-text">Describe tu proyecto y comienza a recibir sugerencias sobre seguridad
+								por parte de nuestra Inteligencia Artificial.</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-md-6 d-flex justify-content-start" id="vulnerabilidades">
+					<div class="card text-white bg-secondary mb-3 shadow w-100 custom-max-width">
+						<div class="card-body text-center">
+							<h4 class="card-title">Vulnerabilidades</h4>
+							<p class="card-text">Nuestro modelo se basa en miles de vulnerabilidades conocidas y en la
+								información más reciente de la industria.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="bloqueIntermedio mt-5 pt-5">
+		<div class="container ">
+			<div class="row">
+				<div class="col-md-6 d-flex justify-content-md-center justify-content-center  pb-5">
+					<img class="chatCaptura animated-zoom1" src="../static/imagenes/ChatCap.png" width="310" height="240">
+				</div>
+				<div class="col-md-6 d-flex justify-content-md-start justify-content-md-center  ">
+					<div class="container">
+						<div class="row animated-opacity1">
+							<div class="col-md-1 col-12 text-center ">
+								<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor"
+									class="bi bi-1-circle-fill" viewBox="0 0 16 16"
+									style="color: rgba(149,165,166,255);">
+									<path
+										d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M9.283 4.002H7.971L6.072 5.385v1.271l1.834-1.318h.065V12h1.312z">
+									</path>
+								</svg>
+							</div>
+							<div class="col-md-6 mx-md-3 justify-content-start">
+								<h4>Describe tu proyecto</h4>
+								<p>Describe tu proyecto usando nuestro chat.</p>
+							</div>
+						</div>
+						<div class="row animated-opacity2">
+							<div class="col-md-1 text-center ">
+								<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor"
+									class="bi bi-2-circle-fill" viewBox="0 0 16 16"
+									style="color: rgba(149,165,166,255);">
+									<path
+										d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M6.646 6.24c0-.691.493-1.306 1.336-1.306.756 0 1.313.492 1.313 1.236 0 .697-.469 1.23-.902 1.705l-2.971 3.293V12h5.344v-1.107H7.268v-.077l1.974-2.22.096-.107c.688-.763 1.287-1.428 1.287-2.43 0-1.266-1.031-2.215-2.613-2.215-1.758 0-2.637 1.19-2.637 2.402v.065h1.271v-.07Z">
+									</path>
+								</svg>
+							</div>
+							<div class="col-9 mx-md-3 justify-content-start">
+								<h4>Recibe sugerencias</h4>
+								<p>Nuestra IA buscará vulnerabilidades que puedan ser de tu interés.</p>
+							</div>
+						</div>
+						<div class="row animated-opacity3">
+							<div class="col-md-1 text-center ">
+								<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor"
+									class="bi bi-3-circle-fill" viewBox="0 0 16 16"
+									style="color: rgba(149,165,166,255);">
+									<path
+										d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-8.082.414c.92 0 1.535.54 1.541 1.318.012.791-.615 1.36-1.588 1.354-.861-.006-1.482-.469-1.54-1.066H5.104c.047 1.177 1.05 2.144 2.754 2.144 1.653 0 2.954-.937 2.93-2.396-.023-1.278-1.031-1.846-1.734-1.916v-.07c.597-.1 1.505-.739 1.482-1.876-.03-1.177-1.043-2.074-2.637-2.062-1.675.006-2.59.984-2.625 2.12h1.248c.036-.556.557-1.054 1.348-1.054.785 0 1.348.486 1.348 1.195.006.715-.563 1.237-1.342 1.237h-.838v1.072h.879Z">
+									</path>
+								</svg>
+							</div>
+							<div class="col-9 mx-md-3 ">
+								<h4>Más detalles</h4>
+								<p>Sigue hablando con la IA para obtener más información.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="bloqueInferior mt-5  pb-5">
+		<div class="container">
+			<div class="row text-center pt-5">
+				<h2>Tabla de precios</h2>
+				<p>Elige la modalidad que mejor se adapte a tus necesidades.</p>
+			</div>
+
+			<div class="row mt-4 d-flex justify-content-center animated-zoom2">
+				<div class="col-md-3 col-12 d-flex justify-content-md-end justify-content-center">
+					<div class="card w-100 w-md-50 mb-3 max-width-25rem bord-card">
+						<div class="card-header bg-primary text-white">
+							<h4>Básico</h4>
+						</div>
+						<div class="card-body">
+							<h3 class="card-title">0 €<span style="color: rgb(106, 118, 124);">/mes</span></h3>
+							<p class="card-text">
+							<p>
+								1 proyecto<br>
+								10 sugerencias<br>
+								Sin soporte
+							</p>
+							</p>
+							<button type="button" class="btn btn-outline-primary w-100 ">Comenzar</button>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3 col-12 d-flex justify-content-center">
+					<div class="card w-100 mb-3 max-width-25rem border-card">
+						<div class="card-header bg-primary text-white">
+							<h4>Profesional</h4>
+						</div>
+						<div class="card-body">
+							<h3 class="card-title">19,99 €<span style="color: rgb(106, 118, 124);">/mes</span></h3>
+							<p class="card-text">
+							<p>
+								10 proyecto<br>
+								100 sugerencias<br>
+								Soporte por chat<br>
+								Acceso a la API
+							</p>
+							</p>
+							<button type="button" class="btn btn-outline-primary w-100 ">Comenzar</button>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3 col-12 d-flex justify-content-md-start justify-content-center">
+					<div class="card w-100 mb-3 max-width-25rem bord-card height-auto">
+						<div class="card-header bg-primary text-white">
+							<h4>Empresarial</h4>
+						</div>
+						<div class="card-body ">
+							<h3 class="card-title">49,99 €<span style="color: rgb(106, 118, 124);">/mes</span></h3>
+							<p class="card-text">
+							<p>
+								100 proyecto<br>
+								Sugerencias ilimitadas<br>
+								Soporte por chat<br>
+								Soporte por teléfono<br>
+								Acceso a la API
+							</p>
+							</p>
+							<button type="button" class="btn btn-outline-primary w-100 ">Comenzar</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

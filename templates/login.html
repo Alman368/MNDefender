@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - MNDefender</title>
+    <!-- Bootstrap CSS -->
+    <link href="../static/css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+</head>
+<body>
+    <div class="container login-container">
+        <div class="card">
+            <div class="card-header bg-primary text-white text-center py-3">
+                <h4 class="mb-0">Iniciar Sesión</h4>
+            </div>
+            <div class="card-body p-4">
+                <!-- Flash Messages Section -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-dismissible alert-{{ 'success' if category == 'exito' else category }}">
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                {{ message|safe }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                <!-- End Flash Messages Section -->
+
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Nombre de usuario</label>
+                        <input type="text" class="form-control" id="username" name="username" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Contraseña</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+
+                    <div class="d-grid gap-2 mt-4">
+                        <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer text-center py-3">
+                <small>¿No tienes una cuenta? <a href="#">Registrarse</a></small>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

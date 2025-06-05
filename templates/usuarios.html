@@ -1,0 +1,141 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="bloqueSuperior_chat">
+	<div class="container">
+		<div class="inicio_chat">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="./">Inicio</a></li>
+				<li class="breadcrumb-item active">Usuarios</li>
+			</ol>
+		</div>
+
+		<!-- Flash Messages Section -->
+		{% with messages = get_flashed_messages(with_categories=true) %}
+			{% if messages %}
+				{% for category, message in messages %}
+					<div class="container alert alert-dismissible alert-{{ 'success' if category == 'exito' else category }}">
+						<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+						{{ message|safe }}
+					</div>
+				{% endfor %}
+			{% endif %}
+		{% endwith %}
+		<!-- End Flash Messages Section -->
+
+		<div class="row">
+			<div class="col">
+				<div class="proyectos mb-3 d-block">
+					<!-- Modal para crear usuario -->
+					<div class="modal fade" id="createUserModal" tabindex="-1" aria-labelledby="createUserModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header bg-primary text-white">
+									<h5 class="modal-title" id="createUserModalLabel">Crear Nuevo Usuario</h5>
+									<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									<form action="{{ url_for('usuario_nuevo') }}" method="POST" id="createUserForm">
+										<div class="mb-3">
+											<label for="user" class="form-label">User</label>
+											<input type="text" class="form-control" id="user" name="user" placeholder="Ingrese el usuario" required>
+										</div>
+										<div class="mb-3">
+											<label for="userName" class="form-label">Nombre</label>
+											<input type="text" class="form-control" id="userName" name="nombre" placeholder="Ingrese el nombre del usuario" required>
+										</div>
+										<div class="mb-3">
+											<label for="userLastName" class="form-label">Apellidos</label>
+											<input type="text" class="form-control" id="userLastName" name="apellidos" placeholder="Ingrese los apellidos del usuario" required>
+										</div>
+										<div class="mb-3">
+											<label for="userEmail" class="form-label">Correo Electrónico</label>
+											<input type="email" class="form-control" id="userEmail" name="correo" placeholder="Ingrese el correo electrónico" required>
+										</div>
+										<div class="mb-3">
+											<label for="userPassword" class="form-label">Contraseña</label>
+											<input type="password" class="form-control" id="userPassword" name="contrasena" placeholder="Ingrese la contraseña" required>
+										</div>
+										<div class="d-grid">
+											<button type="submit" class="btn btn-success">Crear Usuario</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Fin del modal -->
+
+					<!-- Modal para editar usuario -->
+					<div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header bg-primary text-white">
+									<h5 class="modal-title" id="editUserModalLabel">Editar Usuario</h5>
+									<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									<form id="editUserForm">
+										<div class="mb-3">
+											<label for="editUserUsername" class="form-label">Usuario</label>
+											<input type="text" class="form-control" id="editUserUsername" name="user" placeholder="Ingrese el nombre de usuario" required>
+										</div>
+										<div class="mb-3">
+											<label for="editUserName" class="form-label">Nombre</label>
+											<input type="text" class="form-control" id="editUserName" name="nombre" placeholder="Ingrese el nombre del usuario" required>
+										</div>
+										<div class="mb-3">
+											<label for="editUserLastName" class="form-label">Apellidos</label>
+											<input type="text" class="form-control" id="editUserLastName" name="apellidos" placeholder="Ingrese los apellidos del usuario" required>
+										</div>
+										<div class="mb-3">
+											<label for="editUserEmail" class="form-label">Correo Electrónico</label>
+											<input type="email" class="form-control" id="editUserEmail" name="correo" placeholder="Ingrese el correo electrónico" required>
+										</div>
+										<div class="mb-3">
+											<label for="editUserPassword" class="form-label">Contraseña (dejar en blanco para mantener actual)</label>
+											<input type="password" class="form-control" id="editUserPassword" name="contrasena" placeholder="Ingrese nueva contraseña o deje en blanco">
+										</div>
+										<div class="d-grid">
+											<button type="submit" class="btn btn-success">Guardar Cambios</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Fin del modal -->
+
+					<div class="card-header mb-2 d-flex justify-content-end">
+						<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="var(--bs-teal)" class="bi bi-plus-square-fill float-right"
+							viewBox="0 0 16 16" data-bs-toggle="modal" data-bs-target="#createUserModal" style="cursor: pointer;">
+							<path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0" />
+						</svg>
+					</div>
+					<!-- Listado de usuarios -->
+					<div class="list-group text-start">
+						{% for usuario in users %}
+							<a href="#" data-id="{{ usuario.id }}" class="item-usuario list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+								{{ usuario.nombre }} {{ usuario.apellidos }}
+								<div class="usuario-acciones">
+									<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="var(--bs-teal)" class="bi bi-pencil-square-usuario me-2" viewBox="0 0 16 16">
+										<path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+										<path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+									</svg>
+									<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="rgb(231, 76, 60)" class="bi bi-trash-usuario" viewBox="0 0 16 16">
+										<path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+										<path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+									</svg>
+								</div>
+							</a>
+						{% endfor %}
+					</div>
+					<!-- Fin del listado de usuarios -->
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="{{ url_for('static', filename='js/usuarios.js') }}"></script>
+{% endblock %}

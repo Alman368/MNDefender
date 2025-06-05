@@ -1,0 +1,101 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="bloqueSuperior_chat">
+    <div class="container">
+        <div class="inicio_chat">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="./">Inicio</a></li>
+                <li class="breadcrumb-item active">Comentarios</li>
+            </ol>
+        </div>
+
+        <!-- Flash Messages Section -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="container alert alert-dismissible alert-{{ 'success' if category == 'exito' else category }}">
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        {{ message|safe }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <!-- End Flash Messages Section -->
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0">💬 Sistema de Comentarios</h4>
+                        <small>Comparte tus comentarios sobre los proyectos</small>
+                    </div>
+                    <div class="card-body">
+                        <!-- Form to add new comment -->
+                        <form action="{{ url_for('add_comment') }}" method="POST" class="mb-4">
+                            <div class="mb-3">
+                                <label for="comment" class="form-label">Nuevo Comentario:</label>
+                                <textarea class="form-control" id="comment" name="comment" rows="3"
+                                         placeholder="Escribe tu comentario aquí..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-success">Agregar Comentario</button>
+                        </form>
+
+                        <hr>
+
+                        <!-- Display comments -->
+                        <h5>📝 Comentarios Recientes:</h5>
+                        {% if comments %}
+                            <div class="comments-list">
+                                {% for comment in comments %}
+                                    <div class="card mb-3">
+                                        <div class="card-header d-flex justify-content-between align-items-center">
+                                            <strong>👤 {{ comment.username }}</strong>
+                                            <small class="text-muted">{{ comment.timestamp }}</small>
+                                        </div>
+                                        <div class="card-body">
+                                            <!-- VULNERABLE: Using |safe filter - allows HTML execution -->
+                                            <p class="card-text">{{ comment.comment|safe }}</p>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="alert alert-info">
+                                <i class="bi bi-info-circle"></i> No hay comentarios aún. ¡Sé el primero en comentar!
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Información sobre la vulnerabilidad (solo para propósitos educativos) -->
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class="alert alert-warning">
+                    <h6><i class="bi bi-exclamation-triangle"></i> ⚠️ AVISO EDUCATIVO</h6>
+                    <p class="mb-0">Esta página es <strong>intencionalmente vulnerable</strong> a ataques de <strong>Stored XSS</strong> para propósitos educativos.</p>
+                    <small>Los comentarios se almacenan y muestran sin sanitización de HTML.</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.comments-list {
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.card-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.alert-warning {
+    border-left: 4px solid #ffc107;
+}
+</style>
+{% endblock %}

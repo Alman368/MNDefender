@@ -1,0 +1,4 @@
+microservicios:
+alman.pythonanywhere.com  --> web
+alman777.pythonanywhere.com  --> api bd
+alman3891.pythonanywhere.com  --> api chat
