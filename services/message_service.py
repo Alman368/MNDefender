@@ -61,7 +61,7 @@ class AnimalFactsService:
     def __init__(self):
         # IMPORTANTE: Esta clave API no es válida. Necesitas obtener una clave real de OpenRouter.ai
         # Visita https://openrouter.ai/ para obtener tu clave API
-        self.api_key = "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"  # Reemplaza con tu clave real
+        self.api_key = "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"  # API key actualizada
         self.api_url = "https://openrouter.ai/api/v1/chat/completions"
 
         # Mensaje de error cuando la API no está configurada correctamente
@@ -82,7 +82,7 @@ Mientras tanto, la IA no estará disponible."""
         import json
 
         # Verificar si la API está configurada
-        if self.api_key == "TU_CLAVE_API_AQUI":
+        if self.api_key == "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":
             return self.api_error_message
 
         try:

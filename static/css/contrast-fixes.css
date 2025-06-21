@@ -1,0 +1,707 @@
+/* === CORRECCIONES DE CONTRASTE Y VISIBILIDAD === */
+/* Este archivo corrige específicamente problemas de texto blanco sobre blanco, etc. */
+
+/* Asegurar que todos los textos tengan buen contraste */
+body, .container, .row, .col, main {
+    color: #374151 !important;
+    background-color: transparent;
+}
+
+/* Corregir texto en elementos específicos */
+.card-body, .modal-body, .alert, .form-control, .form-select {
+    color: #374151 !important;
+}
+
+/* Asegurar contraste en elementos de navegación */
+.navbar-nav .nav-link {
+    color: white !important;
+}
+
+.navbar-nav .nav-link:hover {
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+/* Corregir dropdown items */
+.dropdown-item {
+    color: #374151 !important;
+    background-color: white;
+}
+
+.dropdown-item:hover, .dropdown-item:focus {
+    color: #1f2937 !important;
+    background-color: #f9fafb !important;
+}
+
+.dropdown-item.text-danger {
+    color: #dc2626 !important;
+}
+
+.dropdown-item.text-danger:hover {
+    color: #dc2626 !important;
+    background-color: #fef2f2 !important;
+}
+
+/* Corregir elementos de lista */
+.list-group-item {
+    color: #374151 !important;
+    background-color: white !important;
+}
+
+.list-group-item:hover {
+    color: #1f2937 !important;
+    background-color: #f9fafb !important;
+}
+
+.list-group-item.active {
+    color: white !important;
+    background-color: #4f46e5 !important;
+}
+
+/* Corregir mensajes del chat */
+.bot-message {
+    color: #1f2937 !important;
+    background-color: #f3f4f6 !important;
+    border: 1px solid #e5e7eb;
+}
+
+.user-message {
+    color: white !important;
+    background-color: #4f46e5 !important;
+}
+
+/* Corregir texto en modales */
+.modal-header, .modal-body, .modal-footer {
+    color: #374151 !important;
+}
+
+.modal-title {
+    color: #1f2937 !important;
+}
+
+/* Corregir alertas */
+.alert-success {
+    color: #065f46 !important;
+    background-color: #f0fdf4 !important;
+    border-color: #bbf7d0 !important;
+}
+
+.alert-danger {
+    color: #991b1b !important;
+    background-color: #fef2f2 !important;
+    border-color: #fecaca !important;
+}
+
+.alert-warning {
+    color: #92400e !important;
+    background-color: #fffbeb !important;
+    border-color: #fed7aa !important;
+}
+
+.alert-info {
+    color: #1e40af !important;
+    background-color: #eff6ff !important;
+    border-color: #bfdbfe !important;
+}
+
+/* Corregir formularios */
+.form-label {
+    color: #374151 !important;
+}
+
+.form-control, .form-select {
+    color: #1f2937 !important;
+    background-color: white !important;
+}
+
+.form-control::placeholder {
+    color: #9ca3af !important;
+}
+
+/* Corregir tablas */
+.table th {
+    color: #1f2937 !important;
+    background-color: #f9fafb !important;
+}
+
+.table td {
+    color: #374151 !important;
+}
+
+/* Corregir badges */
+.badge {
+    color: white !important;
+}
+
+/* Corregir botones para asegurar contraste */
+.btn-primary {
+    color: white !important;
+    background-color: #4f46e5 !important;
+}
+
+.btn-success {
+    color: white !important;
+    background-color: #059669 !important;
+}
+
+.btn-warning {
+    color: white !important;
+    background-color: #d97706 !important;
+}
+
+.btn-danger {
+    color: white !important;
+    background-color: #dc2626 !important;
+}
+
+.btn-secondary {
+    color: white !important;
+    background-color: #6b7280 !important;
+}
+
+/* Corregir texto en footer */
+.extraDatos {
+    color: white !important;
+}
+
+.extraDatos h4 {
+    color: white !important;
+}
+
+.extraDatos .nav-link {
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.extraDatos .nav-link:hover {
+    color: white !important;
+}
+
+/* Corregir elementos específicos del chat */
+#chat-messages {
+    background-color: white !important;
+}
+
+.chat-message .user {
+    color: #1f2937 !important;
+}
+
+/* Corregir elementos de proyecto */
+.proyectos {
+    background-color: white !important;
+}
+
+/* Asegurar que los iconos tengan buen contraste */
+svg {
+    fill: currentColor;
+}
+
+/* CRUCES Y PAPELERAS EN ROJO COMO SOLICITADO */
+.bi-trash, .bi-trash:hover, .btn-delete-proyecto:hover {
+    color: #ef4444 !important;
+}
+
+.bi-x, .bi-x:hover {
+    color: #ef4444 !important;
+}
+
+/* Asegurar que las cruces de eliminar criterios sean rojas */
+svg[onclick*="eliminarCriterio"] {
+    fill: #ef4444 !important;
+}
+
+/* Iconos de eliminar en general */
+.delete-icon, .remove-icon {
+    color: #ef4444 !important;
+    fill: #ef4444 !important;
+}
+
+/* Corregir elementos de input específicos */
+input[type="text"], input[type="email"], input[type="password"], textarea {
+    color: #1f2937 !important;
+    background-color: white !important;
+}
+
+/* Corregir elementos de selección */
+select {
+    color: #1f2937 !important;
+    background-color: white !important;
+}
+
+
+.breadcrumb-item {
+    color: #374151 !important;
+}
+
+.breadcrumb-item.active {
+    color: #6b7280 !important;
+}
+
+/* Corregir cualquier elemento con clase text-* que pueda tener problemas */
+.text-dark {
+    color: #1f2937 !important;
+}
+
+.text-light {
+    color: #f9fafb !important;
+}
+
+/* Asegurar que los elementos disabled tengan buen contraste */
+.btn:disabled, .btn.disabled {
+    color: #9ca3af !important;
+    background-color: #f3f4f6 !important;
+    border-color: #e5e7eb !important;
+}
+
+.form-control:disabled, .form-select:disabled {
+    color: #6b7280 !important;
+    background-color: #f9fafb !important;
+}
+
+/* Corregir tooltips si existen */
+.tooltip-inner {
+    color: white !important;
+    background-color: #1f2937 !important;
+}
+
+/* Corregir popover si existen */
+.popover-body {
+    color: #374151 !important;
+}
+
+.popover-header {
+    color: #1f2937 !important;
+    background-color: #f9fafb !important;
+}
+
+/* Estados de error específicos */
+.is-invalid {
+    border-color: #dc2626 !important;
+}
+
+.invalid-feedback {
+    color: #dc2626 !important;
+}
+
+.is-valid {
+    border-color: #059669 !important;
+}
+
+.valid-feedback {
+    color: #059669 !important;
+}
+
+/* Asegurar que los elementos de carga tengan buen contraste */
+.spinner-border {
+    color: #4f46e5 !important;
+}
+
+/* Corregir cualquier elemento que pueda tener problemas de visibilidad */
+.visually-hidden-focusable:focus {
+    color: #1f2937 !important;
+    background-color: white !important;
+}
+
+/* === CORRECCIONES CRÍTICAS DE CONTRASTE === */
+/* Este archivo fuerza colores legibles y evita problemas de contraste */
+
+/* CORRECCIÓN CRÍTICA: Evitar texto blanco sobre blanco */
+.text-white, .navbar-nav .nav-link, .navbar-brand {
+    color: white !important;
+}
+
+/* CORRECCIÓN CRÍTICA: Texto en modales debe ser legible */
+.modal-body, .modal-header, .modal-footer {
+    color: rgb(62, 63, 91) !important;
+    background-color: white !important;
+}
+
+.modal-title {
+    color: rgb(62, 63, 91) !important;
+    font-weight: 600;
+}
+
+/* CORRECCIÓN CRÍTICA: Formularios siempre legibles */
+.form-control, .form-select, .form-label {
+    color: rgb(62, 63, 91) !important;
+    background-color: white !important;
+}
+
+.form-control:focus, .form-select:focus {
+    color: rgb(62, 63, 91) !important;
+    background-color: white !important;
+    border-color: rgb(138, 178, 166) !important;
+}
+
+/* CORRECCIÓN CRÍTICA: Botones siempre visibles */
+.btn-primary {
+    background-color: rgb(62, 63, 91) !important;
+    border-color: rgb(62, 63, 91) !important;
+    color: white !important;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+    background-color: rgb(45, 46, 68) !important;
+    border-color: rgb(45, 46, 68) !important;
+    color: white !important;
+}
+
+.btn-success {
+    background-color: rgb(172, 211, 168) !important;
+    border-color: rgb(172, 211, 168) !important;
+    color: rgb(62, 63, 91) !important;
+    font-weight: 600 !important;
+}
+
+.btn-success:hover, .btn-success:focus, .btn-success:active {
+    background-color: rgb(138, 178, 166) !important;
+    border-color: rgb(138, 178, 166) !important;
+    color: rgb(45, 46, 68) !important;
+}
+
+.btn-secondary {
+    background-color: rgb(138, 178, 166) !important;
+    border-color: rgb(138, 178, 166) !important;
+    color: rgb(62, 63, 91) !important;
+    font-weight: 600 !important;
+}
+
+.btn-secondary:hover, .btn-secondary:focus, .btn-secondary:active {
+    background-color: rgb(172, 211, 168) !important;
+    border-color: rgb(172, 211, 168) !important;
+    color: rgb(45, 46, 68) !important;
+}
+
+/* SIN AMARILLO - Botones warning en verde */
+.btn-warning {
+    background-color: rgb(138, 178, 166) !important;
+    border-color: rgb(138, 178, 166) !important;
+    color: rgb(62, 63, 91) !important;
+    font-weight: 600 !important;
+}
+
+.btn-warning:hover, .btn-warning:focus, .btn-warning:active {
+    background-color: rgb(172, 211, 168) !important;
+    border-color: rgb(172, 211, 168) !important;
+    color: rgb(45, 46, 68) !important;
+}
+
+.btn-danger {
+    background-color: #ef4444 !important;
+    border-color: #ef4444 !important;
+    color: white !important;
+}
+
+.btn-danger:hover, .btn-danger:focus, .btn-danger:active {
+    background-color: #dc2626 !important;
+    border-color: #dc2626 !important;
+    color: white !important;
+}
+
+/* CORRECCIÓN CRÍTICA: Alertas legibles */
+.alert {
+    color: rgb(62, 63, 91) !important;
+    border-width: 1px !important;
+}
+
+.alert-success {
+    background-color: rgba(248, 249, 250, 0.6) !important;
+    border-color: rgb(172, 211, 168) !important;
+    color: rgb(45, 46, 68) !important;
+}
+
+.alert-danger {
+    background-color: #fef2f2 !important;
+    border-color: #fecaca !important;
+    color: #991b1b !important;
+}
+
+/* SIN AMARILLO - Alertas warning en verde */
+.alert-warning {
+    background-color: rgba(248, 249, 250, 0.8) !important;
+    border-color: rgb(138, 178, 166) !important;
+    color: rgb(45, 46, 68) !important;
+}
+
+.alert-info {
+    background-color: rgba(248, 249, 250, 0.8) !important;
+    border-color: rgb(138, 178, 166) !important;
+    color: rgb(45, 46, 68) !important;
+}
+
+/* CORRECCIÓN CRÍTICA: Tablas siempre legibles */
+.table th {
+    background-color: rgb(248, 249, 250) !important;
+    color: rgb(62, 63, 91) !important;
+    border-color: rgba(138, 178, 166, 0.4) !important;
+}
+
+.table td {
+    color: rgb(62, 63, 91) !important;
+    border-color: rgba(138, 178, 166, 0.2) !important;
+}
+
+.table tbody tr:hover {
+    background-color: rgba(248, 249, 250, 0.7) !important;
+}
+
+/* CORRECCIÓN CRÍTICA: List groups legibles */
+.list-group-item {
+    color: rgb(62, 63, 91) !important;
+    background-color: white !important;
+    border-color: rgba(138, 178, 166, 0.4) !important;
+}
+
+.list-group-item:hover {
+    background-color: rgba(248, 249, 250, 0.7) !important;
+    color: rgb(45, 46, 68) !important;
+}
+
+.list-group-item.active {
+    background-color: rgb(62, 63, 91) !important;
+    border-color: rgb(62, 63, 91) !important;
+    color: white !important;
+}
+
+/* CORRECCIÓN CRÍTICA: Cards siempre legibles */
+.card {
+    background-color: white !important;
+    color: rgb(62, 63, 91) !important;
+    border-color: rgba(138, 178, 166, 0.4) !important;
+}
+
+.card-header {
+    background-color: rgb(248, 249, 250) !important;
+    color: rgb(62, 63, 91) !important;
+    border-color: rgba(138, 178, 166, 0.4) !important;
+}
+
+.card-footer {
+    background-color: rgb(248, 249, 250) !important;
+    color: rgb(62, 63, 91) !important;
+    border-color: rgba(138, 178, 166, 0.4) !important;
+}
+
+/* CORRECCIÓN CRÍTICA: Navegación siempre visible */
+.navbar {
+    background: linear-gradient(135deg, rgba(62, 63, 91, 0.9) 0%, rgba(138, 178, 166, 0.8) 100%) !important;
+    backdrop-filter: blur(10px) !important;
+}
+
+.navbar .navbar-brand, .navbar .nav-link {
+    color: white !important;
+}
+
+.navbar .nav-link:hover, .navbar .nav-link:focus {
+    color: rgb(248, 249, 250) !important;
+}
+
+.dropdown-menu {
+    background-color: white !important;
+    border-color: rgba(138, 178, 166, 0.4) !important;
+}
+
+.dropdown-item {
+    color: rgb(62, 63, 91) !important;
+}
+
+.dropdown-item:hover, .dropdown-item:focus {
+    background-color: rgba(248, 249, 250, 0.7) !important;
+    color: rgb(45, 46, 68) !important;
+}
+
+/* ICONOS ESPECÍFICOS - COLORES FORZADOS */
+
+/* PAPELERAS - TODAS EN ROJO FORZADO */
+.bi-trash, .bi-trash-usuario, .btn-delete-proyecto {
+    color: #ef4444 !important;
+    fill: #ef4444 !important;
+}
+
+.bi-trash:hover, .bi-trash-usuario:hover, .btn-delete-proyecto:hover {
+    color: #dc2626 !important;
+    fill: #dc2626 !important;
+}
+
+/* INFORMACIÓN - TODAS EN AZUL FORZADO */
+.bi-info-circle, .btn-info-proyecto {
+    color: rgb(58, 110, 183) !important;
+    fill: rgb(58, 110, 183) !important;
+}
+
+.bi-info-circle:hover, .btn-info-proyecto:hover {
+    color: rgb(45, 46, 68) !important;
+    fill: rgb(45, 46, 68) !important;
+}
+
+/* EDITAR - EN VERDE FORZADO */
+.bi-pencil-square, .bi-pencil-square-usuario {
+    color: rgb(138, 178, 166) !important;
+    fill: rgb(138, 178, 166) !important;
+}
+
+.bi-pencil-square:hover, .bi-pencil-square-usuario:hover {
+    color: rgb(172, 211, 168) !important;
+    fill: rgb(172, 211, 168) !important;
+}
+
+/* CRUCES - EN ROJO FORZADO */
+.bi-x, .btn-close {
+    color: #ef4444 !important;
+    fill: #ef4444 !important;
+}
+
+.bi-x:hover, .btn-close:hover {
+    color: #dc2626 !important;
+    fill: #dc2626 !important;
+}
+
+/* PLUS - EN VERDE FORZADO */
+.bi-plus-square-fill {
+    color: rgb(138, 178, 166) !important;
+    fill: rgb(138, 178, 166) !important;
+}
+
+.bi-plus-square-fill:hover {
+    color: rgb(172, 211, 168) !important;
+    fill: rgb(172, 211, 168) !important;
+}
+
+/* CORRECCIÓN CRÍTICA: SVGs con fill específico */
+svg[fill="#0dcaf0"] {
+    fill: rgb(62, 63, 91) !important;
+}
+
+svg[fill="var(--bs-teal)"] {
+    fill: rgb(138, 178, 166) !important;
+}
+
+svg[fill="rgb(231, 76, 60)"] {
+    fill: #ef4444 !important;
+}
+
+/* CORRECCIÓN CRÍTICA: Texto en general */
+.text-primary {
+    color: rgb(62, 63, 91) !important;
+}
+
+.text-success {
+    color: rgb(172, 211, 168) !important;
+}
+
+/* SIN AMARILLO - Warning en verde */
+.text-warning {
+    color: rgb(138, 178, 166) !important;
+}
+
+.text-danger {
+    color: #ef4444 !important;
+}
+
+.text-info {
+    color: rgb(62, 63, 91) !important;
+}
+
+.text-muted {
+    color: rgba(62, 63, 91, 0.6) !important;
+}
+
+/* CORRECCIÓN CRÍTICA: Backgrounds */
+.bg-primary {
+    background-color: rgb(62, 63, 91) !important;
+    color: white !important;
+}
+
+.bg-success {
+    background-color: rgb(172, 211, 168) !important;
+    color: rgb(62, 63, 91) !important;
+}
+
+/* SIN AMARILLO - Warning en verde */
+.bg-warning {
+    background-color: rgb(138, 178, 166) !important;
+    color: rgb(62, 63, 91) !important;
+}
+
+.bg-danger {
+    background-color: #ef4444 !important;
+    color: white !important;
+}
+
+.bg-secondary {
+    background-color: rgb(138, 178, 166) !important;
+    color: rgb(62, 63, 91) !important;
+}
+
+/* CORRECCIÓN CRÍTICA: Enlaces */
+a {
+    color: rgb(62, 63, 91) !important;
+}
+
+a:hover, a:focus {
+    color: rgb(45, 46, 68) !important;
+}
+
+/* CORRECCIÓN CRÍTICA: Badges */
+.badge {
+    color: white !important;
+    font-weight: 600 !important;
+}
+
+.badge.bg-secondary {
+    background-color: rgb(138, 178, 166) !important;
+    color: rgb(62, 63, 91) !important;
+}
+
+/* CORRECCIÓN CRÍTICA: Chat específico */
+.bot-message {
+    background-color: rgba(248, 249, 250, 0.7) !important;
+    color: rgb(45, 46, 68) !important;
+    border-color: rgba(138, 178, 166, 0.4) !important;
+}
+
+.user-message {
+    background-color: rgb(62, 63, 91) !important;
+    color: white !important;
+}
+
+/* CORRECCIÓN CRÍTICA: Elementos de carga */
+.spinner-border {
+    color: rgb(62, 63, 91) !important;
+}
+
+/* CORRECCIÓN CRÍTICA: Focus states */
+*:focus {
+    outline: 2px solid rgba(138, 178, 166, 0.5) !important;
+    outline-offset: 2px !important;
+}
+
+/* CORRECCIÓN CRÍTICA: Placeholders */
+::placeholder {
+    color: rgba(62, 63, 91, 0.5) !important;
+}
+
+/* CORRECCIÓN CRÍTICA: Scrollbars */
+::-webkit-scrollbar-thumb {
+    background-color: rgba(62, 63, 91, 0.4) !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(62, 63, 91, 0.6) !important;
+}
+
+/* CORRECCIÓN CRÍTICA: Elementos específicos del footer */
+.extraDatos {
+    background: linear-gradient(135deg, rgba(62, 63, 91, 0.9) 0%, rgba(45, 46, 68, 0.95) 100%) !important;
+    backdrop-filter: blur(5px) !important;
+    color: white !important;
+}
+
+/* CORRECCIÓN CRÍTICA: Elementos específicos de la aplicación */
+.bloqueSuperior {
+    background: linear-gradient(135deg, white 0%, rgba(248, 249, 250, 0.8) 100%) !important;
+    color: rgb(62, 63, 91) !important;
+}
+
+.bloqueInferior {
+    background-color: rgba(248, 249, 250, 0.7) !important;
+    color: rgb(62, 63, 91) !important;
+} 

@@ -1,0 +1,107 @@
+/* === LAYOUT ESPECÍFICO PARA TABLA DE PRECIOS === */
+
+/* Asegurar que todas las columnas tengan la misma altura */
+.pricing-row {
+    display: flex;
+    align-items: stretch;
+}
+
+/* Hacer que todas las cards de precios tengan la misma altura */
+.pricing-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.pricing-card .card-body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+/* El contenido del texto debe crecer para ocupar el espacio disponible */
+.pricing-card .card-text {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+/* Los botones siempre van al final */
+.pricing-card .btn {
+    margin-top: auto;
+}
+
+/* Asegurar altura mínima consistente */
+.pricing-card {
+    min-height: 350px;
+}
+
+/* En pantallas medianas y grandes, asegurar que las columnas tengan la misma altura */
+@media (min-width: 768px) {
+    .pricing-row {
+        display: flex;
+        align-items: stretch;
+    }
+    
+    .pricing-row > [class*="col-"] {
+        display: flex;
+        align-items: stretch;
+    }
+    
+    .pricing-card {
+        width: 100%;
+    }
+}
+
+/* Espaciado consistente para el contenido de las cards */
+.pricing-card .card-title {
+    margin-bottom: 1rem;
+}
+
+.pricing-card .card-text p {
+    margin-bottom: 0;
+    line-height: 1.8;
+}
+
+/* Asegurar que los botones tengan el mismo estilo */
+.pricing-card .btn {
+    font-weight: 500;
+    padding: 0.75rem 1rem;
+    border-width: 2px;
+}
+
+/* Mejora visual para los precios */
+.pricing-card .card-title span {
+    font-size: 0.75em;
+    font-weight: normal;
+    opacity: 0.8;
+}
+
+/* Hover effect para las cards de precios */
+.pricing-card:hover {
+    transform: translateY(-2px);
+    transition: transform 0.2s ease-in-out;
+}
+
+/* Destacar la card del medio (Profesional) */
+.pricing-card:nth-child(2) {
+    position: relative;
+    z-index: 1;
+}
+
+.pricing-card:nth-child(2):hover {
+    transform: translateY(-4px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 767px) {
+    .pricing-card {
+        min-height: auto;
+        margin-bottom: 2rem;
+    }
+    
+    .pricing-card:last-child {
+        margin-bottom: 0;
+    }
+} 

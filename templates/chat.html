@@ -28,7 +28,7 @@
 			{% endwith %}
 			<!-- End Flash Messages Section -->
 			<!--
-				<div class="container alert alert-dismissible alert-warning">
+				<div class="container alert alert-dismissible alert-info">
 				<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
 				<h4 class="alert-heading">Atención!</h4>
 				<p class="mb-0">Mensaje de alerta para indicar que se ha podido producir un error <a href="#"
@@ -43,7 +43,7 @@
 						<div class="modal fade" id="createProjectModal" tabindex="-1" aria-labelledby="createProjectModalLabel" aria-hidden="true">
 							<div class="modal-dialog">
 								<div class="modal-content">
-									<div class="modal-header bg-primary text-white">
+									<div class="modal-header text-white" style="background: linear-gradient(135deg, rgba(62, 63, 91, 0.85) 0%, rgba(138, 178, 166, 0.75) 100%);">
 										<h5 class="modal-title" id="createProjectModalLabel">Crear Nuevo Proyecto</h5>
 										<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 									</div>
@@ -86,7 +86,7 @@
 						<div class="modal fade" id="editProjectModal" tabindex="-1" aria-labelledby="editProjectModalLabel" aria-hidden="true">
 							<div class="modal-dialog">
 								<div class="modal-content">
-									<div class="modal-header bg-primary text-white">
+									<div class="modal-header text-white" style="background: linear-gradient(135deg, rgba(62, 63, 91, 0.85) 0%, rgba(138, 178, 166, 0.75) 100%);">
 										<h5 class="modal-title" id="editProjectModalLabel">Editar Proyecto</h5>
 										<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 									</div>
@@ -129,7 +129,7 @@
 						<div class="modal fade" id="criteriosModal" tabindex="-1" aria-labelledby="criteriosModalLabel" aria-hidden="true">
 							<div class="modal-dialog modal-lg">
 								<div class="modal-content">
-									<div class="modal-header bg-info text-white">
+									<div class="modal-header text-white" style="background: linear-gradient(135deg, rgba(62, 63, 91, 0.85) 0%, rgba(138, 178, 166, 0.75) 100%);">
 										<h5 class="modal-title" id="criteriosModalLabel">Criterios de Aceptabilidad</h5>
 										<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 									</div>
@@ -174,7 +174,7 @@
 
 						<!-- Fin del modal -->
 						<div class="card-header mb-2 d-flex justify-content-end"><svg xmlns="http://www.w3.org/2000/svg"
-								width="30" height="30" fill="var(--bs-teal)" class="bi bi-plus-square-fill float-right"
+								width="30" height="30" fill="rgb(138, 178, 166)" class="bi bi-plus-square-fill float-right"
 								viewBox="0 0 16 16" data-bs-toggle="modal" data-bs-target="#createProjectModal" style="cursor: pointer;">
 								<path
 									d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0" />
@@ -188,16 +188,16 @@
 									</div>
 									<div class="proyecto-acciones">
 										<!-- Icono de información -->
-										<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#0dcaf0" 
-											class="bi bi-info-circle btn-info-proyecto me-2" viewBox="0 0 16 16" 
+										                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="rgb(62, 63, 91)"
+                        class="bi bi-info-circle btn-info-proyecto me-2" viewBox="0 0 16 16" 
 											data-proyecto-id="{{ proyecto.id }}">
 											<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
 											<path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
 										</svg>
 										
 										<!-- Icono de editar -->
-										<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="var(--bs-teal)" 
-											class="bi bi-pencil-square btn-edit-proyecto me-2" viewBox="0 0 16 16" 
+										                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="rgb(138, 178, 166)"
+                        class="bi bi-pencil-square btn-edit-proyecto me-2" viewBox="0 0 16 16" 
 											data-proyecto-id="{{ proyecto.id }}">
 											<path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
 											<path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
@@ -220,7 +220,7 @@
 						<div class="modal fade" id="infoProjectModal" tabindex="-1" aria-labelledby="infoProjectModalLabel" aria-hidden="true">
 							<div class="modal-dialog">
 								<div class="modal-content">
-									<div class="modal-header bg-info text-white">
+									<div class="modal-header text-white" style="background: linear-gradient(135deg, rgba(62, 63, 91, 0.85) 0%, rgba(138, 178, 166, 0.75) 100%);">
 										<h5 class="modal-title" id="infoProjectModalLabel">Información del Proyecto</h5>
 										<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 									</div>
@@ -248,7 +248,7 @@
 					<div class="d-block d-md-none mb-3">
 						<div
 							class="card-header mb-0 d-flex justify-content-end white-background pt-2 pb-3 pe-2 rounded border">
-							<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="var(--bs-teal)"
+							<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="rgb(138, 178, 166)"
 								class="bi bi-plus-square-fill float-right" viewBox="0 0 16 16"
                                 data-bs-toggle="modal" data-bs-target="#createProjectModal" style="cursor: pointer;">
 								<path

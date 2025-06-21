@@ -1,0 +1,583 @@
+/* === MEJORAS MODERNAS CONSERVADORAS === */
+/* Este archivo mejora el diseño sin romper la funcionalidad existente */
+
+/* Variables CSS para la nueva paleta de colores personalizada */
+:root {
+    /* Nueva paleta personalizada */
+    --primary-modern: rgb(62, 63, 91);     /* Azul grisáceo oscuro */
+    --primary-light: rgb(138, 178, 166);   /* Verde grisáceo suave */
+    --primary-dark: rgb(45, 46, 68);       /* Azul grisáceo más oscuro */
+    --success-modern: rgb(172, 211, 168);  /* Verde claro natural */
+    --warning-modern: rgb(138, 178, 166);  /* Verde grisáceo suave - SIN AMARILLO */
+    --danger-modern: #ef4444;              /* Rojo para cruces y papeleras */
+    --info-modern: rgb(62, 63, 91);        /* Azul para información */
+    --background-neutral: rgb(248, 249, 250); /* Gris muy claro neutro */
+    --accent-green: rgb(138, 178, 166);    /* Verde grisáceo suave */
+    --accent-light: rgb(172, 211, 168);    /* Verde claro natural */
+    
+    /* Variaciones de la paleta principal */
+    --primary-50: rgba(248, 249, 250, 0.3);
+    --primary-100: rgba(248, 249, 250, 0.6);
+    --primary-200: rgba(248, 249, 250, 0.8);
+    --primary-300: rgb(248, 249, 250);
+    --primary-400: rgba(138, 178, 166, 0.3);
+    --primary-500: rgba(138, 178, 166, 0.6);
+    --primary-600: rgb(138, 178, 166);
+    --primary-700: rgb(62, 63, 91);
+    --primary-800: rgba(62, 63, 91, 0.8);
+    --primary-900: rgba(62, 63, 91, 0.9);
+    
+    /* Sombras con los nuevos colores */
+    --shadow-sm: 0 1px 2px 0 rgba(62, 63, 91, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(62, 63, 91, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(62, 63, 91, 0.1);
+    
+    /* Colores neutros complementarios */
+    --neutral-50: rgb(248, 249, 250);
+    --neutral-100: rgba(248, 249, 250, 0.7);
+    --neutral-200: rgba(138, 178, 166, 0.2);
+    --neutral-300: rgba(138, 178, 166, 0.4);
+    --neutral-400: rgba(62, 63, 91, 0.4);
+    --neutral-500: rgba(62, 63, 91, 0.6);
+    --neutral-600: rgba(62, 63, 91, 0.8);
+    --neutral-700: rgb(62, 63, 91);
+    --neutral-800: rgba(45, 46, 68, 0.9);
+    --neutral-900: rgb(45, 46, 68);
+}
+
+/* Mejoras generales del body */
+body {
+    background-color: var(--background-neutral);
+    color: var(--neutral-700);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+}
+
+/* Mejoras de botones - conservando clases Bootstrap */
+.btn {
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.15s ease-in-out;
+    border: 1px solid transparent;
+}
+
+.btn-primary {
+    background-color: var(--primary-modern);
+    border-color: var(--primary-modern);
+    color: white;
+}
+
+.btn-primary:hover, .btn-primary:focus {
+    background-color: var(--primary-dark);
+    border-color: var(--primary-dark);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+    color: white;
+}
+
+.btn-outline-primary {
+    color: var(--primary-modern);
+    border-color: var(--primary-modern);
+    background-color: transparent;
+}
+
+.btn-outline-primary:hover, .btn-outline-primary:focus {
+    background-color: var(--primary-modern);
+    border-color: var(--primary-modern);
+    color: white;
+}
+
+.btn-success {
+    background-color: var(--success-modern);
+    border-color: var(--success-modern);
+    color: var(--primary-modern);
+    font-weight: 600;
+}
+
+.btn-success:hover, .btn-success:focus {
+    background-color: var(--accent-green);
+    border-color: var(--accent-green);
+    color: var(--primary-dark);
+}
+
+.btn-warning {
+    background-color: var(--warning-modern);
+    border-color: var(--warning-modern);
+    color: var(--primary-modern);
+    font-weight: 600;
+}
+
+.btn-warning:hover, .btn-warning:focus {
+    background-color: var(--primary-light);
+    border-color: var(--primary-light);
+    color: var(--primary-dark);
+}
+
+.btn-danger {
+    background-color: var(--danger-modern);
+    border-color: var(--danger-modern);
+    color: white;
+}
+
+.btn-secondary {
+    background-color: var(--accent-green);
+    border-color: rgb(53, 185, 160);
+    color: var(--primary-modern);
+    font-weight: 600;
+}
+
+.btn-secondary:hover, .btn-secondary:focus {
+    background-color: var(--primary-light);
+    border-color: var(--primary-light);
+    color: var(--primary-dark);
+}
+
+/* Mejoras de cards - manteniendo funcionalidad */
+.card {
+    border: 1px solid var(--neutral-300);
+    border-radius: 8px;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.15s ease-in-out;
+    background-color: white;
+}
+
+.card:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.card-header {
+    background-color: var(--neutral-50);
+    border-bottom: 1px solid var(--neutral-300);
+    border-radius: 8px 8px 0 0;
+    color: var(--primary-modern);
+}
+
+/* Mejoras específicas para la tabla de precios */
+.tablaPrecios {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.card-body .card-text {
+    flex-grow: 1;
+    margin-bottom: 1rem;
+}
+
+.card-body .btn {
+    margin-top: auto;
+}
+
+/* Asegurar que todas las cards de precios tengan la misma altura */
+.pricing-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.pricing-card .card-body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.pricing-card .card-body .btn {
+    margin-top: auto;
+}
+
+/* Mejoras de formularios */
+.form-control, .form-select {
+    border: 1px solid var(--neutral-400);
+    border-radius: 6px;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    background-color: white;
+    color: var(--neutral-700);
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--primary-light);
+    box-shadow: 0 0 0 3px var(--primary-400);
+}
+
+/* Mejoras de modales - SIN ROMPER FUNCIONALIDAD */
+.modal-content {
+    border: none;
+    border-radius: 12px;
+    box-shadow: var(--shadow-lg);
+    background-color: white;
+}
+
+.modal-header {
+    border-bottom: 1px solid var(--neutral-300);
+    background-color: var(--neutral-50);
+    border-radius: 12px 12px 0 0;
+    color: var(--primary-modern);
+}
+
+.modal-footer {
+    border-top: 1px solid var(--neutral-300);
+    background-color: var(--neutral-50);
+    border-radius: 0 0 12px 12px;
+}
+
+/* Mejoras de alertas */
+.alert {
+    border-radius: 8px;
+    border: 1px solid transparent;
+}
+
+.alert-success {
+    background-color: var(--primary-100);
+    border-color: var(--success-modern);
+    color: var(--primary-dark);
+}
+
+.alert-danger {
+    background-color: #fef2f2;
+    border-color: #fecaca;
+    color: #991b1b;
+}
+
+.alert-warning {
+    background-color: var(--primary-200);
+    border-color: var(--warning-modern);
+    color: var(--primary-dark);
+}
+
+.alert-info {
+    background-color: var(--primary-200);
+    border-color: var(--accent-green);
+    color: var(--primary-dark);
+}
+
+/* Mejoras específicas para el navbar - conservando funcionalidad */
+.navbar.bg-primary {
+    background: linear-gradient(135deg, rgba(62, 63, 91, 0.9) 0%, rgba(138, 178, 166, 0.8) 100%) !important;
+    box-shadow: var(--shadow-sm);
+    backdrop-filter: blur(10px);
+    z-index: 1050 !important; /* Asegurar que esté por encima del chat */
+    position: relative !important;
+}
+
+.navbar-brand, .navbar-nav .nav-link {
+    color: white !important;
+}
+
+.navbar-nav .nav-link:hover, .navbar-nav .nav-link:focus {
+    color: var(--background-neutral) !important;
+}
+
+/* Botón "Comenzar" con borde fino */
+.navbar .btn-outline-light {
+    border: 1px solid rgba(255, 255, 255, 0.6) !important;
+    border-radius: 6px !important;
+    padding: 6px 16px !important;
+    font-weight: 500 !important;
+    transition: all 0.15s ease-in-out !important;
+}
+
+.navbar .btn-outline-light:hover, .navbar .btn-outline-light:focus {
+    background-color: rgba(255, 255, 255, 0.15) !important;
+    border-color: rgba(255, 255, 255, 0.8) !important;
+    color: white !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Mejoras del dropdown del navbar - Z-INDEX CRÍTICO */
+.navbar .dropdown-menu {
+    border: 1px solid var(--neutral-300);
+    border-radius: 8px;
+    box-shadow: var(--shadow-lg);
+    background-color: white;
+    z-index: 1060 !important; /* Por encima del navbar y chat */
+    position: absolute !important;
+}
+
+.navbar .dropdown-item {
+    color: var(--neutral-700);
+    transition: background-color 0.15s ease-in-out;
+}
+
+.navbar .dropdown-item:hover, .navbar .dropdown-item:focus {
+    background-color: var(--neutral-100);
+    color: var(--primary-dark);
+}
+
+/* CORRECCIÓN CRÍTICA: Dropdown toggle del navbar */
+.navbar .dropdown-toggle {
+    z-index: 1055 !important;
+    position: relative !important;
+}
+
+/* CORRECCIÓN CRÍTICA: Todo el contenedor de navbar */
+.navbar-nav {
+    z-index: 1055 !important;
+    position: relative !important;
+}
+
+/* Mejoras específicas para tablas */
+.table {
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+.table th {
+    background-color: var(--neutral-50);
+    border-bottom: 2px solid var(--neutral-300);
+    color: var(--primary-modern);
+    font-weight: 600;
+}
+
+.table td {
+    border-bottom: 1px solid var(--neutral-200);
+    color: var(--neutral-600);
+}
+
+.table tbody tr:hover {
+    background-color: var(--neutral-100);
+}
+
+/* Mejoras para list-group - IMPORTANTE PARA EL CHAT */
+.list-group-item {
+    border: 1px solid var(--neutral-300);
+    background-color: white;
+    color: var(--neutral-700);
+    transition: all 0.15s ease-in-out;
+}
+
+.list-group-item:hover {
+    background-color: var(--neutral-100);
+}
+
+.list-group-item.active {
+    background-color: var(--primary-modern);
+    border-color: var(--primary-modern);
+    color: white;
+}
+
+/* Mejoras para badges */
+.badge {
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.bg-primary {
+    background-color: var(--primary-modern) !important;
+}
+
+.bg-success {
+    background-color: var(--success-modern) !important;
+}
+
+.bg-warning {
+    background-color: var(--warning-modern) !important;
+}
+
+.bg-danger {
+    background-color: var(--danger-modern) !important;
+}
+
+.bg-secondary {
+    background-color: var(--accent-green) !important;
+}
+
+/* Mejoras para el footer */
+.extraDatos {
+    background: linear-gradient(135deg, rgba(62, 63, 91, 0.9) 0%, rgba(45, 46, 68, 0.95) 100%);
+    backdrop-filter: blur(5px);
+}
+
+/* Mejoras para scrollbars */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--neutral-100);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--neutral-400);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--neutral-500);
+}
+
+/* Mejoras específicas para elementos del chat - SIN ROMPER FUNCIONALIDAD */
+#chat-container {
+    border: 1px solid var(--neutral-300);
+    border-radius: 12px;
+    box-shadow: var(--shadow-md);
+    background-color: white;
+    z-index: 1000; /* Menor que el navbar */
+    position: relative;
+}
+
+#chat-messages {
+    background-color: white;
+}
+
+.bot-message {
+    background-color: var(--neutral-100);
+    border: 1px solid var(--neutral-300);
+    border-radius: 12px 12px 12px 4px;
+    color: var(--primary-dark);
+}
+
+.user-message {
+    background-color: var(--primary-modern);
+    border-radius: 12px 12px 4px 12px;
+    color: white;
+}
+
+/* Mejoras para proyectos sidebar */
+.proyectos {
+    border: 1px solid var(--neutral-300);
+    border-radius: 8px;
+    background-color: white;
+    box-shadow: var(--shadow-sm);
+    z-index: 1000; /* Menor que el navbar */
+    position: relative;
+}
+
+/* Efectos hover mejorados pero conservadores */
+.item-proyecto:hover {
+    background-color: var(--neutral-100);
+    transition: background-color 0.15s ease-in-out;
+}
+
+/* ICONOS ESPECÍFICOS - COLORES CORRECTOS */
+
+/* PAPELERAS - TODAS EN ROJO */
+.bi-trash, .bi-trash-usuario, .btn-delete-proyecto {
+    color: var(--danger-modern) !important;
+}
+
+.bi-trash:hover, .bi-trash-usuario:hover, .btn-delete-proyecto:hover {
+    color: #dc2626 !important; /* Rojo más oscuro en hover */
+    transform: scale(1.1);
+}
+
+/* INFORMACIÓN - TODAS EN AZUL */
+.bi-info-circle, .btn-info-proyecto {
+    color: var(--info-modern) !important;
+}
+
+.bi-info-circle:hover, .btn-info-proyecto:hover {
+    color: var(--primary-dark) !important;
+    transform: scale(1.1);
+}
+
+/* EDITAR - EN VERDE */
+.bi-pencil-square, .bi-pencil-square-usuario {
+    color: var(--accent-green) !important;
+}
+
+.bi-pencil-square:hover, .bi-pencil-square-usuario:hover {
+    color: var(--primary-light) !important;
+    transform: scale(1.1);
+}
+
+/* CRUCES - EN ROJO */
+.bi-x, .btn-close {
+    color: var(--danger-modern) !important;
+}
+
+.bi-x:hover, .btn-close:hover {
+    color: #dc2626 !important;
+    transform: scale(1.1);
+}
+
+/* PLUS - EN VERDE */
+.bi-plus-square-fill {
+    color: var(--accent-green) !important;
+}
+
+.bi-plus-square-fill:hover {
+    color: var(--primary-light) !important;
+    transform: scale(1.1);
+}
+
+/* Mejoras responsive */
+@media (max-width: 768px) {
+    .card {
+        margin: 8px;
+        border-radius: 6px;
+    }
+    
+    .modal-content {
+        margin: 8px;
+        border-radius: 8px;
+    }
+}
+
+/* Estados de focus mejorados para accesibilidad */
+.btn:focus, .form-control:focus, .form-select:focus {
+    outline: none;
+}
+
+/* Animaciones suaves y conservadoras */
+* {
+    transition-duration: 0.15s;
+    transition-timing-function: ease-in-out;
+}
+
+/* Mejoras para elementos de texto */
+.text-primary {
+    color: var(--primary-modern) !important;
+}
+
+.text-success {
+    color: var(--success-modern) !important;
+}
+
+.text-warning {
+    color: var(--warning-modern) !important;
+}
+
+.text-danger {
+    color: var(--danger-modern) !important;
+}
+
+.text-info {
+    color: var(--info-modern) !important;
+}
+
+.text-muted {
+    color: var(--neutral-500) !important;
+}
+
+/* Asegurar que los elementos críticos mantengan buen contraste */
+.navbar .dropdown-item.text-danger {
+    color: var(--danger-modern) !important;
+}
+
+.navbar .dropdown-item.text-danger:hover {
+    background-color: #fef2f2;
+}
+
+/* Mejoras para elementos de loading */
+.btn.disabled, .btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Mejoras conservadoras para el bloque superior */
+.bloqueSuperior {
+    background: linear-gradient(135deg, white 0%, rgba(248, 249, 250, 0.8) 100%);
+}
+
+.bloqueInferior {
+    background-color: var(--neutral-100);
+} 
