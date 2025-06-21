@@ -29,25 +29,24 @@ class CriterioAceptabilidad(db.Model):
 
 # Definir los tipos de criterios disponibles
 TIPOS_CRITERIOS = {
-    'max_criticidad': {
-        'nombre': 'Máximo nivel de criticidad',
-        'opciones': ['alto', 'medio', 'bajo'],
-        'tipo_valor': 'select'
-    },
-    'max_vulnerabilidades_total': {
-        'nombre': 'Máximo número total de vulnerabilidades',
+    'max_calculo_combinado': {
+        'nombre': 'Máximo Cálculo combinado',
         'tipo_valor': 'number',
         'min': 0
     },
     'max_vulnerabilidades_no_solucionables': {
-        'nombre': 'Máximo número de vulnerabilidades no solucionables',
+        'nombre': 'Solucionabilidad vulnerabilidades (máximo nº de vulnerabilidades no solucionables)',
         'tipo_valor': 'number',
         'min': 0
     },
-    'max_score_vulnerabilidades': {
-        'nombre': 'Máximo puntaje (score) de las vulnerabilidades',
+    'nivel_max_vulnerabilidades': {
+        'nombre': 'Nivel máximo de vulnerabilidades',
+        'opciones': ['bajo', 'medio', 'alto', 'crítico'],
+        'tipo_valor': 'select'
+    },
+    'max_numero_vulnerabilidades': {
+        'nombre': 'Máximo número de vulnerabilidades',
         'tipo_valor': 'number',
-        'min': 0,
-        'max': 1000
+        'min': 0
     }
 } 

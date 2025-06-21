@@ -9,6 +9,9 @@ class CriteriosAceptabilidad {
         this.tiposCriterios = {};
         this.modoActual = 'create'; // 'create' o 'edit'
         this.proyectoActualId = null;
+        this.guardandoCriterios = false; // Flag para evitar conflictos entre eventos
+        this.eventListenerConfigured = false; // Flag para evitar duplicación de event listeners
+        this.eliminandoProyecto = false; // Flag para evitar eliminación múltiple
         this.init();
     }
 
@@ -72,7 +75,12 @@ class CriteriosAceptabilidad {
         // Configurar botones para abrir modal
         const btnAddCreate = document.getElementById('btnAddCriteriosCreate');
         if (btnAddCreate) {
-            btnAddCreate.addEventListener('click', () => {
+            // Quitar atributos de Bootstrap para manejar manualmente
+            btnAddCreate.removeAttribute('data-bs-toggle');
+            btnAddCreate.removeAttribute('data-bs-target');
+            
+            btnAddCreate.addEventListener('click', (e) => {
+                e.preventDefault();
                 this.modoActual = 'create';
                 this.proyectoActualId = null;
                 this.abrirModalCriterios();
@@ -81,18 +89,40 @@ class CriteriosAceptabilidad {
 
         const btnAddEdit = document.getElementById('btnAddCriteriosEdit');
         if (btnAddEdit) {
-            btnAddEdit.addEventListener('click', () => {
+            // Quitar atributos de Bootstrap para manejar manualmente
+            btnAddEdit.removeAttribute('data-bs-toggle');
+            btnAddEdit.removeAttribute('data-bs-target');
+            
+            btnAddEdit.addEventListener('click', (e) => {
+                e.preventDefault();
                 this.modoActual = 'edit';
                 this.proyectoActualId = this.obtenerProyectoActualId();
                 this.abrirModalCriterios();
             });
         }
 
-        // Al cerrar el modal, limpiar datos
+        // Al cerrar el modal de criterios, limpiar datos y volver al modal principal
         const modal = document.getElementById('criteriosModal');
         if (modal) {
             modal.addEventListener('hidden.bs.modal', () => {
                 this.limpiarModalCriterios();
+                
+                // Solo volver al modal principal si no se está guardando criterios
+                // (para evitar conflicto con la función guardarCriterios)
+                if (!this.guardandoCriterios) {
+                    setTimeout(() => {
+                        const modalId = this.modoActual === 'create' ? 'createProjectModal' : 'editProjectModal';
+                        const mainModal = document.getElementById(modalId);
+                        
+                        if (mainModal) {
+                            let mainModalInstance = bootstrap.Modal.getInstance(mainModal);
+                            if (!mainModalInstance) {
+                                mainModalInstance = new bootstrap.Modal(mainModal);
+                            }
+                            mainModalInstance.show();
+                        }
+                    }, 100);
+                }
             });
         }
 
@@ -134,8 +164,13 @@ class CriteriosAceptabilidad {
     }
 
     configurarEventosBotones() {
-        // Botones de información
-        document.addEventListener('click', (e) => {
+        // Solo configurar el listener una vez - verificar si ya existe
+        if (this.eventListenerConfigured) {
+            return;
+        }
+        
+        // Crear función de manejo de eventos como método de la clase para poder referenciarla
+        this.handleProjectButtonClick = (e) => {
             // Verificar si el clic fue en el SVG de información o en alguno de sus elementos path
             const infoIcon = e.target.closest('.btn-info-proyecto') ||
                            (e.target.tagName === 'path' && e.target.parentNode.classList.contains('btn-info-proyecto'));
@@ -147,6 +182,7 @@ class CriteriosAceptabilidad {
                 const proyectoId = infoIcon.dataset ? infoIcon.dataset.proyectoId : 
                                   infoIcon.parentNode.dataset.proyectoId;
                 this.mostrarInfoProyecto(proyectoId);
+                return;
             }
             
             // Botones de editar
@@ -160,6 +196,7 @@ class CriteriosAceptabilidad {
                 const proyectoId = editIcon.dataset ? editIcon.dataset.proyectoId : 
                                   editIcon.parentNode.dataset.proyectoId;
                 this.editarProyecto(proyectoId);
+                return;
             }
             
             // Botones de eliminar
@@ -173,8 +210,13 @@ class CriteriosAceptabilidad {
                 const proyectoId = deleteIcon.dataset ? deleteIcon.dataset.proyectoId : 
                                   deleteIcon.parentNode.dataset.proyectoId;
                 this.eliminarProyecto(proyectoId);
+                return;
             }
-        });
+        };
+        
+        // Añadir el listener solo una vez
+        document.addEventListener('click', this.handleProjectButtonClick);
+        this.eventListenerConfigured = true;
     }
 
     obtenerProyectoActualId() {
@@ -266,7 +308,9 @@ class CriteriosAceptabilidad {
                         <span class="badge bg-primary">${criterio.valor}</span>
                     </div>
                     <button type="button" class="btn btn-sm btn-outline-danger" onclick="window.criteriosManager.eliminarCriterio(${index})" title="Eliminar criterio">
-                        <i class="bi bi-x text-danger" style="font-size: 1.2em; font-weight: bold;"></i>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+                        </svg>
                     </button>
                 </div>
             `;
@@ -282,6 +326,17 @@ class CriteriosAceptabilidad {
     }
 
     abrirModalCriterios() {
+        // Primero ocultar el modal principal
+        const modalId = this.modoActual === 'create' ? 'createProjectModal' : 'editProjectModal';
+        const mainModal = document.getElementById(modalId);
+        
+        if (mainModal) {
+            const mainModalInstance = bootstrap.Modal.getInstance(mainModal);
+            if (mainModalInstance) {
+                mainModalInstance.hide();
+            }
+        }
+        
         // Cargar criterios existentes si estamos en modo edición
         if (this.modoActual === 'edit' && this.proyectoActualId) {
             this.cargarCriteriosExistentes(this.proyectoActualId);
@@ -289,6 +344,18 @@ class CriteriosAceptabilidad {
             this.criteriosTemporales = [];
             this.actualizarListaCriterios();
         }
+        
+        // Abrir el modal de criterios después de un pequeño delay
+        setTimeout(() => {
+            const criteriosModal = document.getElementById('criteriosModal');
+            if (criteriosModal) {
+                let modalInstance = bootstrap.Modal.getInstance(criteriosModal);
+                if (!modalInstance) {
+                    modalInstance = new bootstrap.Modal(criteriosModal);
+                }
+                modalInstance.show();
+            }
+        }, 300);
     }
 
     async cargarCriteriosExistentes(proyectoId) {
@@ -311,6 +378,8 @@ class CriteriosAceptabilidad {
     }
 
     guardarCriterios() {
+        this.guardandoCriterios = true; // Activar flag para evitar conflictos
+        
         // Actualizar la interfaz principal con los criterios
         const suffix = this.modoActual === 'create' ? 'Create' : 'Edit';
         const countElement = document.getElementById(`criteriosCount${suffix}`);
@@ -332,13 +401,34 @@ class CriteriosAceptabilidad {
             listElement.innerHTML = html;
         }
 
-        // SOLO cerrar el modal de criterios, NO el modal principal
-        const modal = bootstrap.Modal.getInstance(document.getElementById('criteriosModal'));
-        if (modal) {
-            modal.hide();
+        // Cerrar el modal de criterios
+        const criteriosModal = document.getElementById('criteriosModal');
+        const criteriosModalInstance = bootstrap.Modal.getInstance(criteriosModal);
+        
+        if (criteriosModalInstance) {
+            criteriosModalInstance.hide();
         }
 
-        // NO mostrar alerta aquí para evitar confusión
+        // Volver a mostrar el modal principal después de cerrar criterios
+        setTimeout(() => {
+            const modalId = this.modoActual === 'create' ? 'createProjectModal' : 'editProjectModal';
+            const mainModal = document.getElementById(modalId);
+            
+            if (mainModal) {
+                let mainModalInstance = bootstrap.Modal.getInstance(mainModal);
+                if (!mainModalInstance) {
+                    mainModalInstance = new bootstrap.Modal(mainModal);
+                }
+                mainModalInstance.show();
+                
+                // Mostrar confirmación de criterios guardados en el modal principal
+                setTimeout(() => {
+                    this.mostrarAlerta(`${this.criteriosTemporales.length} criterios configurados correctamente`, 'success');
+                    this.guardandoCriterios = false; // Desactivar flag
+                }, 200);
+            }
+        }, 300);
+        
         console.log('Criterios configurados:', this.criteriosTemporales);
     }
 
@@ -501,29 +591,63 @@ class CriteriosAceptabilidad {
                 }
             }
             
-            // Mostrar mensaje de éxito y dar tiempo para verlo
-            this.mostrarAlerta('Operación completada exitosamente. Recargando...', 'success');
-            
             // Limpiar criterios temporales
             this.criteriosTemporales = [];
             this.actualizarInterfazPrincipal();
             
-            // Cerrar modal y recargar página después de dar tiempo a leer el mensaje
-            setTimeout(() => {
-                // Cerrar todos los modales abiertos
-                const modals = document.querySelectorAll('.modal.show');
-                modals.forEach(modal => {
-                    const modalInstance = bootstrap.Modal.getInstance(modal);
-                    if (modalInstance) {
-                        modalInstance.hide();
-                    }
+            // Si estamos creando un proyecto nuevo, añadirlo directamente a la lista para mayor velocidad
+            if (modo === 'create' && proyectoId) {
+                this.agregarProyectoALista({
+                    id: proyectoId,
+                    nombre: formData.get('project_name'),
+                    descripcion: formData.get('project_description')
                 });
+            } else {
+                // Para edición, actualizar la lista completa y mantener el proyecto activo
+                await this.actualizarListaProyectos();
                 
-                // Recargar después de un delay más largo
+                // Asegurar que el proyecto editado esté seleccionado y cargar sus mensajes
                 setTimeout(() => {
-                    window.location.reload();
-                }, 500);
-            }, 2000);
+                    const proyectoElement = document.querySelector(`.item-proyecto[data-id="${proyectoId}"]`);
+                    if (proyectoElement) {
+                        // Remover active de otros proyectos
+                        document.querySelectorAll('.item-proyecto').forEach(p => p.classList.remove('active'));
+                        // Activar el proyecto editado
+                        proyectoElement.classList.add('active');
+                        
+                        // Cargar mensajes del proyecto editado
+                        if (window.cargarMensajesProyecto) {
+                            window.cargarMensajesProyecto(proyectoId);
+                        }
+                    }
+                }, 300);
+            }
+            
+            // Mostrar mensaje de éxito
+            this.mostrarAlerta('¡Proyecto guardado exitosamente!', 'success');
+            
+            // Cerrar el modal principal inmediatamente
+            const modalId = modo === 'create' ? 'createProjectModal' : 'editProjectModal';
+            const mainModal = document.getElementById(modalId);
+            
+            if (mainModal) {
+                const modalInstance = bootstrap.Modal.getInstance(mainModal);
+                if (modalInstance) {
+                    modalInstance.hide();
+                }
+                
+                // Asegurar que no quede backdrop gris
+                setTimeout(() => {
+                    const backdrop = document.querySelector('.modal-backdrop');
+                    if (backdrop) {
+                        backdrop.remove();
+                    }
+                    // Restaurar scroll del body
+                    document.body.classList.remove('modal-open');
+                    document.body.style.overflow = '';
+                    document.body.style.paddingRight = '';
+                }, 300);
+            }
             
         } catch (error) {
             console.error('Error al enviar formulario:', error);
@@ -541,7 +665,10 @@ class CriteriosAceptabilidad {
             </div>
         `;
         
-        const target = document.querySelector('.modal-body') || document.querySelector('.container');
+        // Buscar el modal activo específico para mostrar la alerta
+        const activeModal = document.querySelector('.modal.show .modal-body');
+        const target = activeModal || document.querySelector('.container');
+        
         if (target) {
             target.insertBefore(alertContainer, target.firstChild);
             
@@ -620,8 +747,18 @@ class CriteriosAceptabilidad {
                 criteriosElement.innerHTML = '<span class="text-danger">Error al cargar criterios</span>';
             }
             
-            // Mostrar modal
-            const modal = new bootstrap.Modal(document.getElementById('infoProjectModal'));
+            // Mostrar modal con manejo mejorado
+            const modalElement = document.getElementById('infoProjectModal');
+            let modal = bootstrap.Modal.getInstance(modalElement);
+            
+            if (!modal) {
+                modal = new bootstrap.Modal(modalElement, {
+                    keyboard: true,
+                    backdrop: true,
+                    focus: true
+                });
+            }
+            
             modal.show();
             
         } catch (error) {
@@ -673,10 +810,18 @@ class CriteriosAceptabilidad {
     }
 
     async eliminarProyecto(proyectoId) {
+        // Evitar ejecución múltiple
+        if (this.eliminandoProyecto) {
+            console.log('Ya se está eliminando un proyecto, ignorando clic adicional');
+            return;
+        }
+        
         // Confirmar eliminación
         if (!confirm('¿Estás seguro de que quieres eliminar este proyecto? Esta acción no se puede deshacer.')) {
             return;
         }
+        
+        this.eliminandoProyecto = true;
         
         try {
             const response = await fetch(`/api/proyecto/eliminar/${proyectoId}`, {
@@ -691,22 +836,19 @@ class CriteriosAceptabilidad {
                 throw new Error(error.error || 'Error al eliminar el proyecto');
             }
             
-            // Remover el elemento del DOM
-            const projectElement = document.querySelector(`.item-proyecto[data-id="${proyectoId}"]`);
-            if (projectElement) {
-                projectElement.remove();
-            }
+            // Actualizar la lista de proyectos inmediatamente
+            await this.actualizarListaProyectos();
             
             this.mostrarAlerta('Proyecto eliminado exitosamente', 'success');
-            
-            // Recargar la página después de un breve delay
-            setTimeout(() => {
-                window.location.reload();
-            }, 1500);
             
         } catch (error) {
             console.error('Error al eliminar proyecto:', error);
             this.mostrarAlerta('Error al eliminar el proyecto: ' + error.message, 'danger');
+        } finally {
+            // Resetear el flag después de un pequeño delay para evitar clics rápidos
+            setTimeout(() => {
+                this.eliminandoProyecto = false;
+            }, 1000);
         }
     }
 
@@ -728,6 +870,180 @@ class CriteriosAceptabilidad {
                 html += '</div>';
             }
             listElement.innerHTML = html;
+        }
+    }
+
+    async actualizarListaProyectos() {
+        try {
+            // Guardar el proyecto activo actual para mantenerlo seleccionado
+            const proyectoActivoId = document.querySelector('.item-proyecto.active')?.getAttribute('data-id');
+            
+            // Buscar el contenedor específico de proyectos
+            const contenedorProyectos = document.querySelector('.list-group.text-start');
+            if (!contenedorProyectos) {
+                console.error('No se encontró el contenedor de proyectos');
+                return;
+            }
+            
+            // Mostrar indicador de carga
+            contenedorProyectos.style.opacity = '0.7';
+            
+            // Cargar lista actualizada de proyectos
+            const response = await fetch('/api/proyectos');
+            if (!response.ok) {
+                throw new Error('Error al cargar proyectos');
+            }
+            
+            const proyectos = await response.json();
+            console.log('Proyectos recibidos:', proyectos);
+            
+            // Actualizar el contenedor de proyectos en el DOM (estructura idéntica al template)
+                let html = '';
+                proyectos.forEach(proyecto => {
+                    const isActive = proyecto.id.toString() === proyectoActivoId ? 'active' : '';
+                    html += `
+                        <div class="item-proyecto list-group-item list-group-item-action d-flex justify-content-between align-items-center ${isActive} proyecto" data-id="${proyecto.id}">
+                            <div class="flex-grow-1 me-2">
+                                ${proyecto.nombre}
+                            </div>
+                            <div class="proyecto-acciones">
+                                <!-- Icono de información -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#0dcaf0" 
+                                    class="bi bi-info-circle btn-info-proyecto me-2" viewBox="0 0 16 16" 
+                                    data-proyecto-id="${proyecto.id}">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                    <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+                                </svg>
+                                
+                                <!-- Icono de editar -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="var(--bs-teal)" 
+                                    class="bi bi-pencil-square btn-edit-proyecto me-2" viewBox="0 0 16 16" 
+                                    data-proyecto-id="${proyecto.id}">
+                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                                </svg>
+                                
+                                <!-- Icono de eliminar -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="rgb(231, 76, 60)" 
+                                    class="bi bi-trash btn-delete-proyecto" viewBox="0 0 16 16" 
+                                    data-proyecto-id="${proyecto.id}">
+                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                                    <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                                </svg>
+                            </div>
+                        </div>
+                    `;
+                });
+                contenedorProyectos.innerHTML = html;
+                
+                // Restaurar opacidad con animación suave
+                contenedorProyectos.style.opacity = '1';
+                
+                // Reconfigurar eventos para los nuevos elementos (solo proyectos, no botones)
+                this.configurarEventosProyectos();
+                
+                // Limpiar instancias de modales Bootstrap para evitar conflictos
+                const modalElement = document.getElementById('infoProjectModal');
+                const existingModal = bootstrap.Modal.getInstance(modalElement);
+                if (existingModal) {
+                    existingModal.dispose();
+                }
+            
+            console.log('Lista de proyectos actualizada exitosamente via Ajax');
+            
+        } catch (error) {
+            console.error('Error al actualizar lista de proyectos:', error);
+            this.mostrarAlerta('Error al actualizar la lista de proyectos', 'warning');
+            
+            // Restaurar opacidad en caso de error
+            const contenedorProyectos = document.querySelector('.list-group.text-start');
+            if (contenedorProyectos) {
+                contenedorProyectos.style.opacity = '1';
+            }
+        }
+    }
+
+    agregarProyectoALista(proyecto) {
+        try {
+            const contenedorProyectos = document.querySelector('.list-group.text-start');
+            if (!contenedorProyectos) {
+                console.error('No se encontró el contenedor de proyectos');
+                return;
+            }
+
+            // Crear el HTML del nuevo proyecto
+            const nuevoProyectoHTML = `
+                <div class="item-proyecto list-group-item list-group-item-action d-flex justify-content-between align-items-center proyecto" data-id="${proyecto.id}">
+                    <div class="flex-grow-1 me-2">
+                        ${proyecto.nombre}
+                    </div>
+                    <div class="proyecto-acciones">
+                        <!-- Icono de información -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#0dcaf0" 
+                            class="bi bi-info-circle btn-info-proyecto me-2" viewBox="0 0 16 16" 
+                            data-proyecto-id="${proyecto.id}">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                            <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+                        </svg>
+                        
+                        <!-- Icono de editar -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="var(--bs-teal)" 
+                            class="bi bi-pencil-square btn-edit-proyecto me-2" viewBox="0 0 16 16" 
+                            data-proyecto-id="${proyecto.id}">
+                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                        </svg>
+                        
+                        <!-- Icono de eliminar -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="rgb(231, 76, 60)" 
+                            class="bi bi-trash btn-delete-proyecto" viewBox="0 0 16 16" 
+                            data-proyecto-id="${proyecto.id}">
+                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                            <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                        </svg>
+                    </div>
+                </div>
+            `;
+
+            // Quitar la clase active de otros proyectos
+            const proyectosActivos = contenedorProyectos.querySelectorAll('.item-proyecto.active');
+            proyectosActivos.forEach(p => p.classList.remove('active'));
+
+            // Insertar el nuevo proyecto al final de la lista
+            contenedorProyectos.insertAdjacentHTML('beforeend', nuevoProyectoHTML);
+
+            // Hacer que el nuevo proyecto sea el activo
+            const nuevoElemento = contenedorProyectos.querySelector(`.item-proyecto[data-id="${proyecto.id}"]`);
+            if (nuevoElemento) {
+                nuevoElemento.classList.add('active');
+                
+                // Añadir efecto visual de nuevo elemento
+                nuevoElemento.style.opacity = '0';
+                nuevoElemento.style.transform = 'translateX(-20px)';
+                
+                setTimeout(() => {
+                    nuevoElemento.style.transition = 'all 0.3s ease';
+                    nuevoElemento.style.opacity = '1';
+                    nuevoElemento.style.transform = 'translateX(0)';
+                }, 50);
+            }
+
+            // Reconfigurar eventos para el nuevo elemento (solo proyectos, no botones)
+            this.configurarEventosProyectos();
+            
+            // Limpiar instancias de modales Bootstrap para evitar conflictos
+            const modalElement = document.getElementById('infoProjectModal');
+            const existingModal = bootstrap.Modal.getInstance(modalElement);
+            if (existingModal) {
+                existingModal.dispose();
+            }
+
+            console.log('Proyecto agregado directamente a la lista:', proyecto);
+
+        } catch (error) {
+            console.error('Error al agregar proyecto a la lista:', error);
+            // Si hay error, hacer actualización completa como fallback
+            this.actualizarListaProyectos();
         }
     }
 }
