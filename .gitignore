@@ -48,7 +48,7 @@ coverage.xml
 
 # Entornos virtuales
 .env
-.venv
+.venv/
 env/
 venv/
 ENV/
@@ -78,3 +78,24 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Archivos de análisis temporal
+uploads/
+test_*.py
+debug_*.py
+
+# Archivos de sistema macOS
+.DS_Store
+.DS_Store?
+._*
+
+# Archivos de respaldo
+*.bak
+*.backup
+*.tmp
+
+# Archivos de prueba temporal
+test_reevaluation.py
+
+# Scripts de distribución (opcionales)
+scripts/

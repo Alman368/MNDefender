@@ -143,6 +143,27 @@ python run.py
 
 ---
 
+## 📦 Distribución del Proyecto
+
+### **Crear ZIP Limpio para Distribución**
+```bash
+# Ejecutar el script de distribución
+chmod +x scripts/create_distribution.sh
+./scripts/create_distribution.sh
+```
+
+El script automáticamente excluye:
+- **Entornos virtuales** (`venv/`, `.venv/`)
+- **Historial de Git** (`.git/`)
+- **Cache de Python** (`__pycache__/`, `*.pyc`)
+- **Archivos temporales** (`uploads/`, `*.log`, `*.tmp`)
+- **Configuración privada** (`config.env`)
+- **Archivos de prueba** (`test_*.py`, `debug_*.py`)
+
+**Resultado:** ZIP de ~270KB en lugar de 260MB
+
+---
+
 ## 🔧 Configuración
 
 ### **Archivo `config.env`**
