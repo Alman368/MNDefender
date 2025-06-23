@@ -452,19 +452,19 @@
     .upload-zone {
         padding: 2rem 1rem;
     }
-    
+
     .stats-grid {
         grid-template-columns: repeat(2, 1fr);
     }
-    
+
     .stat-number {
         font-size: 2rem;
     }
-    
+
     .vulnerability-item {
         padding: 1rem;
     }
-    
+
     .analysis-header {
         padding: 1.5rem;
     }
@@ -474,14 +474,158 @@
     .stats-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .vulnerability-header {
         flex-direction: column;
         gap: 0.5rem;
     }
-    
+
     .vulnerability-meta {
         flex-direction: column;
         gap: 0.25rem;
     }
-} 
+}
+
+/* Estilos para las nuevas tarjetas de vulnerabilidades mejoradas */
+.vulnerability-card {
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.vulnerability-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.vulnerability-card .card-header {
+    border: none;
+    font-weight: 600;
+}
+
+.vulnerability-card .card-header i {
+    font-size: 1.2rem;
+}
+
+.vulnerability-card .card-body {
+    padding: 1.5rem;
+}
+
+.vulnerability-info {
+    background: rgba(248, 249, 250, 0.7);
+    border-radius: 8px;
+    padding: 1rem;
+    border-left: 3px solid var(--primary-modern);
+}
+
+.vulnerability-info ul li {
+    margin-bottom: 0.5rem;
+    padding: 0.2rem 0;
+}
+
+.vulnerability-card pre {
+    border-left: 3px solid var(--accent-green);
+    font-size: 0.85rem;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.vulnerability-card pre code {
+    color: var(--primary-dark);
+    font-family: 'Fira Code', 'Monaco', 'Cascadia Code', monospace;
+}
+
+.vulnerability-card .alert-info {
+    border-left: 4px solid var(--accent-light);
+    background: linear-gradient(135deg, rgba(154, 207, 234, 0.1) 0%, rgba(255, 255, 255, 0.8) 100%);
+}
+
+.vulnerability-card .btn-outline-primary {
+    border-color: var(--primary-modern);
+    color: var(--primary-modern);
+    font-size: 0.85rem;
+    padding: 0.4rem 0.8rem;
+}
+
+.vulnerability-card .btn-outline-primary:hover {
+    background: var(--primary-modern);
+    border-color: var(--primary-modern);
+    transform: translateY(-1px);
+}
+
+.vulnerability-card .badge {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.8rem;
+}
+
+/* Mejoras para diferentes tipos de severidad */
+.vulnerability-card.critico .card-header {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+}
+
+.vulnerability-card.alto .card-header {
+    background: linear-gradient(135deg, #fd7e14 0%, #e55a00 100%);
+}
+
+.vulnerability-card.medio .card-header {
+    background: linear-gradient(135deg, #17a2b8 0%, #117a8b 100%);
+}
+
+.vulnerability-card.bajo .card-header {
+    background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+}
+
+/* Iconos y estados específicos */
+.bi-shield-exclamation {
+    color: #ffc107;
+}
+
+.bi-code-slash {
+    color: var(--primary-modern);
+}
+
+.bi-info-circle {
+    color: var(--accent-light);
+}
+
+.bi-lightbulb {
+    color: #ffc107;
+}
+
+.bi-box-arrow-up-right {
+    font-size: 0.8rem;
+}
+
+/* Responsive para tarjetas de vulnerabilidades */
+@media (max-width: 768px) {
+    .vulnerability-card .row {
+        flex-direction: column;
+    }
+
+    .vulnerability-card .col-md-4 {
+        margin-top: 1rem;
+    }
+
+    .vulnerability-info {
+        margin-top: 1rem;
+    }
+
+    .vulnerability-card pre {
+        font-size: 0.8rem;
+        max-height: 150px;
+    }
+}
+
+@media (max-width: 480px) {
+    .vulnerability-card .card-header {
+        flex-direction: column;
+        align-items: flex-start !important;
+    }
+
+    .vulnerability-card .card-header .d-flex:last-child {
+        margin-top: 0.5rem;
+    }
+
+    .vulnerability-card .card-body {
+        padding: 1rem;
+    }
+}

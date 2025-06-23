@@ -1,5 +1,4 @@
 # Archivos de configuración con información sensible
-config.env
 .env
 *.env
 
@@ -70,6 +69,7 @@ venv.bak/
 .Trashes
 ehthumbs.db
 Thumbs.db
+*:Zone.Identifier
 
 # Bases de datos
 *.db
@@ -79,23 +79,32 @@ Thumbs.db
 # Logs
 *.log
 
-# Archivos de análisis temporal
-uploads/
+# Archivos de análisis temporal - mantener estructura pero ignorar contenido específico
+uploads/*.py
+uploads/test_*
+uploads/debug_*
+
+# Archivos de prueba y debug
 test_*.py
 debug_*.py
-
-# Archivos de sistema macOS
-.DS_Store
-.DS_Store?
-._*
+*_demo.py
+*_test.py
+sast_demo.py
+acceso_confidencial.py
+migrate_*.py
 
 # Archivos de respaldo
 *.bak
 *.backup
 *.tmp
 
-# Archivos de prueba temporal
-test_reevaluation.py
+# Archivos de migración temporal
+migrate_vulnerability_model.py
 
-# Scripts de distribución (opcionales)
+# Archivos de distribución (opcionales)
 scripts/
+
+# Archivos de análisis temporal específicos
+test_criterios_fix.py
+test_vulnerabilities.py
+test_updated_frontend.py

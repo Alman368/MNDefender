@@ -107,7 +107,7 @@ def code_analysis():
     return code_analysis_controller.index()
 
 @views_bp.route('/code-analysis/upload', methods=['POST'])
-@login_required  
+@login_required
 def code_analysis_upload():
     """Subir archivo y realizar análisis"""
     return code_analysis_controller.upload_and_analyze()

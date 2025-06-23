@@ -23,7 +23,6 @@ itsdangerous==2.2.0
 Jinja2==3.1.6
 markdown2==2.5.3
 MarkupSafe==3.0.2
-nvdlib==0.8.1
 proto-plus==1.26.1
 protobuf==4.25.8
 pyasn1==0.6.1

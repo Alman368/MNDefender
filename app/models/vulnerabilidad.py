@@ -7,12 +7,16 @@ class Vulnerabilidad(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     proyecto_id = db.Column(db.Integer, db.ForeignKey('proyectos.id'), nullable=False)
     cve_id = db.Column(db.String(20), nullable=False)  # CVE-2023-12345
+    cwe_id = db.Column(db.String(20))  # CWE-89 (nuevo campo)
+    vulnerability_type = db.Column(db.String(100))  # sql_injection, xss, etc. (nuevo campo)
     descripcion = db.Column(db.Text)
     severidad = db.Column(db.String(20))  # LOW, MEDIUM, HIGH, CRITICAL
     puntuacion_cvss = db.Column(db.Float)  # 0.0 - 10.0
     vector_cvss = db.Column(db.String(100))
     archivo_afectado = db.Column(db.String(255))  # Archivo donde se detectó
     linea_codigo = db.Column(db.Integer)  # Línea específica
+    codigo_afectado = db.Column(db.Text)  # Código específico que tiene la vulnerabilidad (nuevo campo)
+    pattern_matched = db.Column(db.String(500))  # Patrón regex que coincidió (nuevo campo)
     estado = db.Column(db.String(20), default='pendiente')  # pendiente, revisado, solucionado
     fecha_deteccion = db.Column(db.DateTime, default=datetime.utcnow)
     fecha_modificacion = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
@@ -28,12 +32,16 @@ class Vulnerabilidad(db.Model):
             'id': self.id,
             'proyecto_id': self.proyecto_id,
             'cve_id': self.cve_id,
+            'cwe_id': self.cwe_id,
+            'vulnerability_type': self.vulnerability_type,
             'descripcion': self.descripcion,
             'severidad': self.severidad,
             'puntuacion_cvss': self.puntuacion_cvss,
             'vector_cvss': self.vector_cvss,
             'archivo_afectado': self.archivo_afectado,
             'linea_codigo': self.linea_codigo,
+            'codigo_afectado': self.codigo_afectado,
+            'pattern_matched': self.pattern_matched,
             'estado': self.estado,
             'fecha_deteccion': self.fecha_deteccion.isoformat() if self.fecha_deteccion else None,
             'fecha_modificacion': self.fecha_modificacion.isoformat() if self.fecha_modificacion else None
@@ -71,14 +79,14 @@ class AnalisisEstatico(db.Model):
             'MEDIUM': 4,
             'LOW': 1
         }
-        
+
         puntuacion = (
             self.vulnerabilidades_criticas * pesos['CRITICAL'] +
             self.vulnerabilidades_altas * pesos['HIGH'] +
             self.vulnerabilidades_medias * pesos['MEDIUM'] +
             self.vulnerabilidades_bajas * pesos['LOW']
         )
-        
+
         self.calculo_combinado = puntuacion
         return puntuacion
 
@@ -97,4 +105,4 @@ class AnalisisEstatico(db.Model):
             'cumple_criterios': self.cumple_criterios,
             'criterios_incumplidos': self.criterios_incumplidos,
             'fecha_analisis': self.fecha_analisis.isoformat() if self.fecha_analisis else None
-        } 
+        }

@@ -27,47 +27,62 @@ class CriterioAceptabilidad(db.Model):
             'fecha_modificacion': self.fecha_modificacion.isoformat() if self.fecha_modificacion else None
         }
 
-# Event listeners para reevaluación automática
-from sqlalchemy import event
+    def trigger_reevaluation(self):
+        """Método manual para disparar la reevaluación de análisis"""
+        try:
+            # Importar aquí para evitar circular imports
+            from services.code_analysis_service import CodeAnalysisService
 
-@event.listens_for(CriterioAceptabilidad, 'after_update')
-def reevaluate_after_criteria_update(mapper, connection, target):
-    """Trigger automático para reevaluar análisis cuando se actualiza un criterio"""
-    # Importar aquí para evitar circular imports
-    from services.code_analysis_service import CodeAnalysisService
-    
-    try:
-        service = CodeAnalysisService()
-        service.reevaluate_project_analysis(target.proyecto_id)
-        print(f"Reevaluación automática completada para proyecto {target.proyecto_id}")
-    except Exception as e:
-        print(f"Error en reevaluación automática: {str(e)}")
+            service = CodeAnalysisService()
+            result = service.reevaluate_project_analysis(self.proyecto_id)
+            print(f"Reevaluación manual completada para proyecto {self.proyecto_id}: {result}")
+            return result
+        except Exception as e:
+            print(f"Error en reevaluación manual: {str(e)}")
+            return {'success': False, 'error': str(e)}
 
-@event.listens_for(CriterioAceptabilidad, 'after_insert')
-def reevaluate_after_criteria_insert(mapper, connection, target):
-    """Trigger automático para reevaluar análisis cuando se crea un criterio"""
-    # Importar aquí para evitar circular imports
-    from services.code_analysis_service import CodeAnalysisService
-    
-    try:
-        service = CodeAnalysisService()
-        service.reevaluate_project_analysis(target.proyecto_id)
-        print(f"Reevaluación automática completada para proyecto {target.proyecto_id}")
-    except Exception as e:
-        print(f"Error en reevaluación automática: {str(e)}")
+# COMENTAMOS LOS EVENT LISTENERS QUE CAUSABAN CONFLICTOS DE TRANSACCIONES
+# Event listeners para reevaluación automática - DESHABILITADO TEMPORALMENTE
+# from sqlalchemy import event
 
-@event.listens_for(CriterioAceptabilidad, 'after_delete')
-def reevaluate_after_criteria_delete(mapper, connection, target):
-    """Trigger automático para reevaluar análisis cuando se elimina un criterio"""
-    # Importar aquí para evitar circular imports
-    from services.code_analysis_service import CodeAnalysisService
-    
-    try:
-        service = CodeAnalysisService()
-        service.reevaluate_project_analysis(target.proyecto_id)
-        print(f"Reevaluación automática completada para proyecto {target.proyecto_id}")
-    except Exception as e:
-        print(f"Error en reevaluación automática: {str(e)}")
+# @event.listens_for(CriterioAceptabilidad, 'after_update')
+# def reevaluate_after_criteria_update(mapper, connection, target):
+#     """Trigger automático para reevaluar análisis cuando se actualiza un criterio"""
+#     # Importar aquí para evitar circular imports
+#     from services.code_analysis_service import CodeAnalysisService
+#
+#     try:
+#         service = CodeAnalysisService()
+#         service.reevaluate_project_analysis(target.proyecto_id)
+#         print(f"Reevaluación automática completada para proyecto {target.proyecto_id}")
+#     except Exception as e:
+#         print(f"Error en reevaluación automática: {str(e)}")
+
+# @event.listens_for(CriterioAceptabilidad, 'after_insert')
+# def reevaluate_after_criteria_insert(mapper, connection, target):
+#     """Trigger automático para reevaluar análisis cuando se crea un criterio"""
+#     # Importar aquí para evitar circular imports
+#     from services.code_analysis_service import CodeAnalysisService
+#
+#     try:
+#         service = CodeAnalysisService()
+#         service.reevaluate_project_analysis(target.proyecto_id)
+#         print(f"Reevaluación automática completada para proyecto {target.proyecto_id}")
+#     except Exception as e:
+#         print(f"Error en reevaluación automática: {str(e)}")
+
+# @event.listens_for(CriterioAceptabilidad, 'after_delete')
+# def reevaluate_after_criteria_delete(mapper, connection, target):
+#     """Trigger automático para reevaluar análisis cuando se elimina un criterio"""
+#     # Importar aquí para evitar circular imports
+#     from services.code_analysis_service import CodeAnalysisService
+#
+#     try:
+#         service = CodeAnalysisService()
+#         service.reevaluate_project_analysis(target.proyecto_id)
+#         print(f"Reevaluación automática completada para proyecto {target.proyecto_id}")
+#     except Exception as e:
+#         print(f"Error en reevaluación automática: {str(e)}")
 
 # Definir los tipos de criterios disponibles
 TIPOS_CRITERIOS = {
@@ -91,4 +106,4 @@ TIPOS_CRITERIOS = {
         'tipo_valor': 'number',
         'min': 0
     }
-} 
+}

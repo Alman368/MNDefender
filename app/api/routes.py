@@ -300,18 +300,18 @@ def get_criterios_proyecto(proyecto_id):
     """Obtener criterios de un proyecto específico"""
     try:
         from app.models.criterio_aceptabilidad import CriterioAceptabilidad
-        
+
         # Verificar que el proyecto existe y el usuario tiene permisos
         proyecto = Proyecto.query.get(proyecto_id)
         if not proyecto:
             return jsonify({"error": "Proyecto no encontrado"}), 404
-            
+
         if not current_user.is_admin and proyecto.usuario_id != current_user.id:
             return jsonify({"error": "No tienes permisos para ver este proyecto"}), 403
-        
+
         criterios = CriterioAceptabilidad.query.filter_by(proyecto_id=proyecto_id).all()
         return jsonify([criterio.to_dict() for criterio in criterios]), 200
-        
+
     except Exception as e:
         return jsonify({"error": f"Error al obtener criterios: {str(e)}"}), 500
 
@@ -321,32 +321,32 @@ def create_criterios_proyecto(proyecto_id):
     """Crear múltiples criterios para un proyecto"""
     try:
         from app.models.criterio_aceptabilidad import CriterioAceptabilidad, TIPOS_CRITERIOS
-        
+
         data = request.get_json()
         if not data or 'criterios' not in data:
             return jsonify({"error": "No se proporcionaron criterios"}), 400
-        
+
         # Verificar que el proyecto existe y el usuario tiene permisos
         proyecto = Proyecto.query.get(proyecto_id)
         if not proyecto:
             return jsonify({"error": "Proyecto no encontrado"}), 404
-            
+
         if not current_user.is_admin and proyecto.usuario_id != current_user.id:
             return jsonify({"error": "No tienes permisos para modificar este proyecto"}), 403
-        
+
         # Eliminar criterios existentes del proyecto
         CriterioAceptabilidad.query.filter_by(proyecto_id=proyecto_id).delete()
-        
+
         # Crear nuevos criterios
         criterios_creados = []
         for criterio_data in data['criterios']:
             if 'tipo_criterio' not in criterio_data or 'valor' not in criterio_data:
                 continue
-                
+
             # Validar que el tipo de criterio existe
             if criterio_data['tipo_criterio'] not in TIPOS_CRITERIOS:
                 continue
-                
+
             criterio = CriterioAceptabilidad(
                 proyecto_id=proyecto_id,
                 tipo_criterio=criterio_data['tipo_criterio'],
@@ -354,13 +354,25 @@ def create_criterios_proyecto(proyecto_id):
             )
             db.session.add(criterio)
             criterios_creados.append(criterio)
-        
+
+        # Hacer commit primero para completar la transacción
         db.session.commit()
+
+        # Ahora hacer la reevaluación manual fuera de la transacción anterior
+        try:
+            if criterios_creados:
+                # Usar el primer criterio para disparar la reevaluación
+                resultado_reevaluacion = criterios_creados[0].trigger_reevaluation()
+                print(f"Reevaluación después de crear criterios: {resultado_reevaluacion}")
+        except Exception as e:
+            print(f"Error en reevaluación manual tras crear criterios: {str(e)}")
+            # No fallar por esto, los criterios ya se guardaron correctamente
+
         return jsonify({
             "mensaje": "Criterios guardados exitosamente",
             "criterios": [c.to_dict() for c in criterios_creados]
         }), 201
-        
+
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": f"Error al crear criterios: {str(e)}"}), 500
@@ -371,19 +383,19 @@ def delete_criterio(criterio_id):
     """Eliminar un criterio específico"""
     try:
         from app.models.criterio_aceptabilidad import CriterioAceptabilidad
-        
+
         criterio = CriterioAceptabilidad.query.get(criterio_id)
         if not criterio:
             return jsonify({"error": "Criterio no encontrado"}), 404
-        
+
         # Verificar permisos sobre el proyecto
         if not current_user.is_admin and criterio.proyecto.usuario_id != current_user.id:
             return jsonify({"error": "No tienes permisos para eliminar este criterio"}), 403
-        
+
         db.session.delete(criterio)
         db.session.commit()
         return jsonify({"mensaje": "Criterio eliminado exitosamente"}), 200
-        
+
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": f"Error al eliminar criterio: {str(e)}"}), 500
@@ -394,11 +406,11 @@ def proyecto_crear():
     """Crear un nuevo proyecto mediante API"""
     try:
         data = request.get_json() or {}
-        
+
         # Obtener datos del formulario o JSON
         nombre = data.get('nombre') or request.form.get('project_name')
         descripcion = data.get('descripcion') or request.form.get('project_description')
-        
+
         if not nombre or not descripcion:
             return jsonify({"error": "Nombre y descripción son requeridos"}), 400
 
@@ -410,7 +422,7 @@ def proyecto_crear():
 
         db.session.add(proyecto)
         db.session.commit()
-        
+
         return jsonify({
             "mensaje": f"Proyecto {nombre} creado con éxito",
             "proyecto": {
@@ -420,7 +432,7 @@ def proyecto_crear():
                 "usuario_id": proyecto.usuario_id
             }
         }), 201
-        
+
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": f"Error al crear el proyecto: {str(e)}"}), 500
