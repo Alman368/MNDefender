@@ -469,10 +469,11 @@ select {
 }
 
 .card-header {
-    background-color: rgb(248, 249, 250) !important;
+    background: transparent;
     color: rgb(62, 63, 91) !important;
     border-color: rgba(138, 178, 166, 0.4) !important;
 }
+
 
 .card-footer {
     background-color: rgb(248, 249, 250) !important;

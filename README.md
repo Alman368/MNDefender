@@ -1,591 +1,366 @@
-# 🛡️ SVAIA - Sistema de Soporte para Vulnerabilidades y Amenazas basado en Inteligencia Artificial
+# SVAIA 🛡️
+## Sistema de Soporte para Vulnerabilidades y Amenazas basado en Inteligencia Artificial
+
+<div align="center">
+
+![SVAIA Logo](static/imagenes/logo.svg)
+
+[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://python.org)
+[![Flask](https://img.shields.io/badge/Flask-3.0.0-green.svg)](https://flask.palletsprojects.com)
+[![MySQL](https://img.shields.io/badge/MySQL-8.0+-orange.svg)](https://mysql.com)
+[![Gemini AI](https://img.shields.io/badge/Gemini-AI%20Powered-purple.svg)](https://ai.google.dev)
+
+**Una plataforma avanzada para la gestión de vulnerabilidades de ciberseguridad con asistencia de IA**
+
+</div>
+
+---
 
 ## 📋 Tabla de Contenidos
-1. [Descripción del Proyecto](#descripción-del-proyecto)
-2. [Características Principales](#características-principales)
-3. [Arquitectura del Sistema](#arquitectura-del-sistema)
-4. [Tecnologías Utilizadas](#tecnologías-utilizadas)
-5. [Instalación y Configuración](#instalación-y-configuración)
-6. [Uso del Sistema](#uso-del-sistema)
-7. [Estructura del Proyecto](#estructura-del-proyecto)
-8. [Funcionalidades Implementadas](#funcionalidades-implementadas)
-9. [Usuarios por Defecto](#usuarios-por-defecto)
-10. [Base de Datos](#base-de-datos)
-11. [API Endpoints](#api-endpoints)
-12. [Demostración](#demostración)
-13. [Roadmap](#roadmap)
-14. [Contribuir](#contribuir)
+
+- [🎯 Características](#-características)
+- [🏗️ Arquitectura](#️-arquitectura)
+- [⚡ Instalación Rápida](#-instalación-rápida)
+- [🔧 Configuración](#-configuración)
+- [🚀 Uso](#-uso)
+- [📁 Estructura del Proyecto](#-estructura-del-proyecto)
+- [🔒 Seguridad](#-seguridad)
+- [🤝 Contribución](#-contribución)
+- [📄 Licencia](#-licencia)
 
 ---
 
-## 🎯 Descripción del Proyecto
+## 🎯 Características
 
-**SVAIA** es un sistema innovador diseñado para proporcionar soporte automatizado en la identificación y análisis de vulnerabilidades y amenazas de seguridad utilizando inteligencia artificial. El proyecto está desarrollado como una aplicación web que permite a los usuarios describir sus proyectos y recibir sugerencias personalizadas sobre seguridad.
+### 🤖 **Asistente IA Especializado**
+- **Chat inteligente** con Gemini AI especializado en ciberseguridad
+- **Respuestas en Markdown** convertidas a HTML con formato profesional
+- **Conocimiento especializado** en vulnerabilidades, ataques y mejores prácticas
+- **Soporte para tablas, listas, código** y formato rico
 
-### 🚀 Propósito
+### 📊 **Gestión de Proyectos**
+- **Crear, editar y eliminar** proyectos de seguridad
+- **Criterios de aceptabilidad** personalizables para cada proyecto
+- **Historial de conversaciones** por proyecto
+- **Información detallada** de cada proyecto con criterios asociados
 
-El objetivo principal de SVAIA es democratizar el acceso a conocimientos especializados en ciberseguridad, proporcionando una herramienta accesible que ayude a desarrolladores y organizaciones a:
+### 👥 **Sistema de Usuarios**
+- **Autenticación segura** con roles de usuario y administrador
+- **Sesiones protegidas** con expiración automática
+- **Gestión de usuarios** para administradores
+- **Protección CSRF** y medidas de seguridad avanzadas
 
-- Identificar potenciales vulnerabilidades en sus proyectos
-- Recibir recomendaciones de seguridad específicas
-- Acceder a información actualizada sobre amenazas
-- Implementar mejores prácticas de seguridad
+### 🔍 **Análisis Estático de Código**
+- **Detección automática** de vulnerabilidades en múltiples lenguajes
+- **Integración con CVE** para información detallada de vulnerabilidades
+- **Criterios de aceptabilidad** con reevaluación automática
+- **Separación completa** por proyecto con carpetas individuales
+- **Historial de análisis** y estadísticas por proyecto
 
----
-
-## ✨ Características Principales
-
-### 🤖 Inteligencia Artificial Integrada
-- **Chat interactivo** con modelo DeepSeek via OpenRouter API
-- **Análisis automático** de descripciones de proyectos de seguridad
-- **Sugerencias personalizadas** generadas por IA en tiempo real
-- **Respuestas especializadas** en ciberseguridad y vulnerabilidades
-
-### 👥 Sistema de Usuarios
-- **Autenticación segura** con hash de contraseñas
-- **Roles diferenciados** (usuarios normales y administradores)
-- **Gestión de sesiones** con protección CSRF
-- **Panel de administración** para gestión de usuarios
-
-### 💬 Sistema de Chat Avanzado
-- **Interfaz moderna** y responsive
-- **Múltiples servicios de IA** (hechos de animales, saludos, mensajes aleatorios)
-- **Historial de conversaciones**
-- **Respuestas en tiempo real**
-
-### 🎨 Interfaz de Usuario
-- **Diseño moderno** con Bootstrap
-- **Responsive design** para móviles y escritorio
-- **Animaciones CSS** para mejor experiencia de usuario
-- **Tema profesional** con degradados y efectos visuales
+### 🎨 **Interfaz Moderna**
+- **Diseño responsive** con Bootstrap 5
+- **Ventanas modales** para gestión de proyectos
+- **Chat en tiempo real** con interfaz intuitiva
+- **Efectos visuales** y animaciones suaves
 
 ---
 
-## 🏗️ Arquitectura del Sistema
-
-SVAIA sigue una arquitectura **MVC (Modelo-Vista-Controlador)** con separación clara de responsabilidades:
+## 🏗️ Arquitectura
 
 ```
-📁 SVAIA/
-├── 🎮 controllers/     # Lógica de controladores
-├── 🧠 services/        # Servicios de IA y lógica de negocio
-├── 📊 models/          # Modelos de datos (SQLAlchemy)
-├── 🎨 templates/       # Plantillas HTML (Jinja2)
-├── 🎯 static/          # Archivos estáticos (CSS, JS, imágenes)
-├── 🌐 api/             # Endpoints de API REST
-└── ⚙️ config/          # Configuraciones del sistema
+┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
+│   Frontend      │    │    Backend       │    │   External      │
+│                 │    │                  │    │                 │
+│ • Bootstrap 5   │◄──►│ • Flask 3.0      │◄──►│ • Gemini AI     │
+│ • JavaScript    │    │ • SQLAlchemy     │    │ • MySQL DB      │
+│ • CSS3/HTML5    │    │ • Flask-Login    │    │                 │
+└─────────────────┘    └──────────────────┘    └─────────────────┘
 ```
 
-### Patrones de Diseño Implementados
-- **Factory Pattern**: Para la creación de la aplicación Flask
-- **Service Layer**: Separación de lógica de negocio
-- **Repository Pattern**: Acceso a datos a través de modelos SQLAlchemy
-- **Dependency Injection**: Inyección de servicios en controladores
+### **Stack Tecnológico**
+- **Backend:** Python 3.8+ con Flask
+- **Base de Datos:** MySQL 8.0+ con SQLAlchemy ORM
+- **Frontend:** HTML5, CSS3, JavaScript ES6+, Bootstrap 5
+- **IA:** Google Gemini API
+- **Autenticación:** Flask-Login con sesiones seguras
+- **Deployment:** Docker (MySQL), Python virtual environment
 
 ---
 
-## 🛠️ Tecnologías Utilizadas
+## ⚡ Instalación Rápida
 
-### Backend
-- ![Flask](https://img.shields.io/badge/Flask-3.0.0-green) - Framework web principal
-- ![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-2.0.40-blue) - ORM para base de datos
-- ![Flask-Login](https://img.shields.io/badge/Flask--Login-0.6.3-orange) - Gestión de autenticación
-- ![PyMySQL](https://img.shields.io/badge/PyMySQL-1.1.1-red) - Conector MySQL
-- ![Werkzeug](https://img.shields.io/badge/Werkzeug-3.0.1-purple) - Utilidades WSGI
-
-### Frontend
-- ![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)
-- ![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)
-- ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)
-- ![Bootstrap](https://img.shields.io/badge/Bootstrap-7952B3?logo=bootstrap&logoColor=white)
-
-### Base de Datos
-- ![MySQL](https://img.shields.io/badge/MySQL-4479A1?logo=mysql&logoColor=white)
-
-### Herramientas de Desarrollo
-- ![Python](https://img.shields.io/badge/Python-3.x-blue?logo=python&logoColor=white)
-- ![Flask-CORS](https://img.shields.io/badge/Flask--CORS-4.0.0-lightblue) - Soporte CORS
-- ![python-dotenv](https://img.shields.io/badge/python--dotenv-1.0.0-yellow) - Gestión de variables de entorno
-- ![Requests](https://img.shields.io/badge/Requests-2.31.0-orange) - Cliente HTTP para APIs
-
-### APIs Externas
-- ![OpenRouter](https://img.shields.io/badge/OpenRouter-API-purple) - Gateway para modelos de IA
-- ![DeepSeek](https://img.shields.io/badge/DeepSeek-v2-green) - Modelo de IA especializado
-
----
-
-## 🚀 Instalación y Configuración
-
-### Prerrequisitos
-```bash
-- Python 3.8+
-- MySQL 8.0+
+### **Prerrequisitos**
+- Python 3.8 o superior
+- MySQL 8.0 o superior
 - Git
-```
 
-### 1. Clonar el repositorio
+### **1. Clonar el Repositorio**
 ```bash
-git clone <url-del-repositorio>
-cd practica4
+git clone https://github.com/tu-usuario/gitmndefender.git
+cd gitmndefender
 ```
 
-### 2. Crear entorno virtual
+### **2. Crear Entorno Virtual**
 ```bash
 python -m venv venv
-
-# En Linux/Mac:
-source venv/bin/activate
-
-# En Windows:
-venv\Scripts\activate
+source venv/bin/activate  # Linux/macOS
+# o
+venv\Scripts\activate  # Windows
 ```
 
-### 3. Instalar dependencias
+### **3. Instalar Dependencias**
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Configurar Base de Datos MySQL
-```sql
--- Conectar a MySQL como root
+### **4. Configurar Base de Datos**
+```bash
+# Opción A: Docker (Recomendado)
+cd mysql
+docker-compose up -d
+
+# Opción B: MySQL Local
 mysql -u root -p
-
--- Crear base de datos
-CREATE DATABASE svaia;
-
--- Crear usuario
-CREATE USER 'alberto'@'localhost' IDENTIFIED BY 'svaia';
-GRANT ALL PRIVILEGES ON svaia.* TO 'alberto'@'localhost';
-FLUSH PRIVILEGES;
+CREATE DATABASE gitmndefender;
 ```
 
-### 5. Configurar Variables de Entorno (Opcional)
-Crear archivo `.env`:
-```env
-SECRET_KEY=tu-clave-secreta-super-segura
-MYSQL_HOST=localhost
-MYSQL_USER=alberto
-MYSQL_PASSWORD=svaia
-MYSQL_DB=svaia
+### **5. Configurar Variables de Entorno**
+```bash
+# Crear archivo de configuración
+cp config.env.example config.env
+
+# Editar config.env con tus valores
+GEMINI_API_KEY=tu_clave_api_gemini
+GEMINI_MODEL=gemini-1.5-flash
 ```
 
-### 6. Ejecutar la aplicación
+### **6. Ejecutar la Aplicación**
 ```bash
 python run.py
 ```
 
-La aplicación estará disponible en: `http://localhost:5000`
+🎉 **¡Aplicación disponible en http://localhost:5003!**
 
 ---
 
-## 🎮 Uso del Sistema
+## 🔧 Configuración
 
-### 1. Acceso Inicial
-- Navega a `http://localhost:5000`
-- La página principal muestra el logo de SVAIA y las opciones disponibles
+### **Archivo `config.env`**
+```env
+# API de Gemini (Obligatorio)
+GEMINI_API_KEY=tu_clave_api_gemini
 
-### 2. Inicio de Sesión
-- Haz clic en "Login" o accede a `/login`
-- Usa las credenciales por defecto (ver sección de usuarios)
+# Modelo de IA (Opcional)
+GEMINI_MODEL=gemini-1.5-flash
 
-### 3. Chat con IA
-- Accede a `/chat` después de iniciar sesión
-- Describe tu proyecto en el chat
-- Recibe sugerencias automáticas sobre seguridad
+# Base de Datos (Opcional)
+DATABASE_URL=mysql+pymysql://usuario:password@localhost/gitmndefender
 
-### 4. Gestión de Usuarios (Solo Administradores)
-- Accede a `/usuarios`
-- Visualiza y gestiona todos los usuarios del sistema
+# Flask (Opcional)
+SECRET_KEY=clave_secreta_segura
+FLASK_ENV=development
+```
+
+### **Obtener API Key de Gemini**
+1. Visita [Google AI Studio](https://ai.google.dev)
+2. Crea una cuenta y genera una API key
+3. Añade la clave a tu archivo `config.env`
+
+### **Usuarios por Defecto**
+```
+Administrador:
+- Usuario: admin
+- Contraseña: Admin123!
+
+Usuario Normal:
+- Usuario: user
+- Contraseña: User123!
+```
+
+---
+
+## 🚀 Uso
+
+### **1. Inicio de Sesión**
+- Accede a `/login` con las credenciales por defecto
+- Los administradores pueden gestionar usuarios en `/usuarios`
+
+### **2. Gestión de Proyectos**
+- **Crear:** Clic en el icono ➕ en la barra lateral
+- **Editar:** Clic en el icono ✏️ sobre un proyecto
+- **Ver Info:** Clic en el icono ℹ️ para detalles
+- **Eliminar:** Clic en el icono 🗑️ (con confirmación)
+
+### **3. Criterios de Aceptabilidad**
+- Añade criterios personalizados desde el modal de proyecto
+- Define tipos de criterio y valores específicos
+- Los criterios se asocian automáticamente al proyecto
+
+### **4. Chat con IA**
+- Selecciona un proyecto activo
+- Escribe tu consulta sobre ciberseguridad
+- SVAIA responderá con información especializada
+- Las respuestas incluyen formato rico (tablas, listas, etc.)
+
+### **5. Análisis Estático de Código**
+- **Acceder:** Navega a `/code-analysis`
+- **Seleccionar proyecto:** Elige el proyecto donde realizar el análisis
+- **Subir archivo:** Arrastra o selecciona un archivo de código
+- **Revisar resultados:** Analiza vulnerabilidades, severidades y criterios
+- **Ver historial:** Consulta análisis previos del proyecto
+
+#### **Lenguajes Soportados**
+- **Python** (.py) - SQL Injection, Command Injection, eval() usage
+- **JavaScript/TypeScript** (.js, .ts) - XSS, eval() usage, innerHTML
+- **Java** (.java) - SQL Injection en executeQuery
+- **PHP** (.php) - SQL Injection, File Inclusion
+- **C/C++** (.c, .cpp) - Buffer overflow patterns
+- **C#** (.cs) - Patrones de vulnerabilidades .NET
+- **Ruby** (.rb) - Patrones específicos de Ruby
+- **Go** (.go) - Patrones específicos de Go
+
+#### **Tipos de Vulnerabilidades Detectadas**
+- **CRÍTICO:** Command Injection, SQL Injection avanzado
+- **ALTO:** SQL Injection básico, XSS, eval() usage, File Inclusion
+- **MEDIO:** Credenciales hardcodeadas, configuraciones inseguras
+- **BAJO:** Patrones de código sospechoso
+
+#### **Reevaluación Automática de Criterios**
+- **Automática:** Al modificar criterios de aceptabilidad del proyecto
+- **Manual:** Botón "Reevaluar Criterios" en el historial de análisis
+- **Notificaciones:** Cambios de estado detallados (Aprobado ↔ Rechazado)
+- **Historial:** Registro completo de cambios de estado por archivo
+- **Separación:** Cada proyecto mantiene sus análisis completamente separados
+
+#### **Gestión de Archivos por Proyecto**
+- **Carpetas separadas:** `uploads/proyecto_{id}/` para cada proyecto
+- **Nombres únicos:** Timestamp + UUID + nombre original
+- **Limpieza automática:** Archivos antiguos se eliminan después de 7 días
+- **Seguridad:** Solo puedes acceder a archivos de tus propios proyectos
+
+### **6. Ejemplos de Consultas**
+```
+• "Explica las vulnerabilidades más comunes en aplicaciones web"
+• "Dame una tabla comparando XSS y SQL Injection"
+• "¿Cómo proteger mi aplicación Flask contra CSRF?"
+• "Lista las mejores prácticas para autenticación segura"
+```
 
 ---
 
 ## 📁 Estructura del Proyecto
 
 ```
-practica4/
-│
-├── 📁 app/
-│   ├── 📁 api/                 # API REST endpoints
-│   ├── 📁 models/              # Modelos de datos
-│   │   ├── __init__.py         # Configuración SQLAlchemy
-│   │   ├── user.py             # Modelo de Usuario
-│   │   ├── mensaje.py          # Modelo de Mensaje
-│   │   └── proyecto.py         # Modelo de Proyecto
-│   ├── 📁 views/               # Vistas principales
-│   ├── __init__.py             # Factory de aplicación Flask
-│   └── config.py               # Configuración de la aplicación
-│
-├── 📁 controllers/
-│   └── message_controller.py   # Controlador de mensajes
-│
-├── 📁 services/
-│   └── message_service.py      # Servicios de IA
-│
-├── 📁 templates/               # Plantillas HTML
-│   ├── layout.html             # Layout base
-│   ├── index.html              # Página principal
-│   ├── login.html              # Página de login
-│   ├── chat.html               # Interfaz de chat
-│   └── usuarios.html           # Gestión de usuarios
-│
-├── 📁 static/                  # Archivos estáticos
-│   ├── 📁 css/                 # Estilos CSS
-│   ├── 📁 js/                  # JavaScript
-│   └── 📁 imagenes/            # Imágenes
-│
-├── 📁 mysql/                   # Scripts de base de datos
-├── requirements.txt            # Dependencias Python
-└── run.py                      # Punto de entrada de la aplicación
+gitmndefender/
+├── 📁 app/                    # Aplicación Flask principal
+│   ├── 📁 api/               # API endpoints
+│   ├── 📁 models/            # Modelos de base de datos
+│   ├── 📁 views/             # Vistas y rutas web
+│   ├── __init__.py           # Factory de la aplicación
+│   └── config.py             # Configuración Flask
+├── 📁 controllers/           # Controladores de lógica
+│   ├── message_controller.py # Controlador de mensajes
+│   └── code_analysis_controller.py # Controlador de análisis de código
+├── 📁 services/              # Servicios y lógica de negocio
+│   ├── message_service.py    # Servicio de IA (Gemini)
+│   └── code_analysis_service.py # Servicio de análisis estático
+├── 📁 static/                # Recursos estáticos
+│   ├── 📁 css/              # Hojas de estilo
+│   ├── 📁 js/               # JavaScript
+│   └── 📁 imagenes/         # Recursos gráficos
+├── 📁 templates/             # Plantillas HTML
+│   ├── chat.html            # Interfaz principal de chat
+│   ├── code_analysis.html   # Interfaz de análisis de código
+│   ├── login.html           # Página de inicio de sesión
+│   └── usuarios.html        # Gestión de usuarios
+├── 📁 uploads/               # Archivos de análisis por proyecto
+│   ├── proyecto_1/          # Archivos del proyecto 1
+│   └── proyecto_2/          # Archivos del proyecto 2
+├── 📁 mysql/                # Configuración Docker MySQL
+├── config.env               # Variables de entorno (PRIVADO)
+├── requirements.txt         # Dependencias Python
+└── run.py                   # Punto de entrada de la aplicación
 ```
 
 ---
 
-## ⚙️ Funcionalidades Implementadas
+## 🔒 Seguridad
 
-### 🔐 Sistema de Autenticación
-- **Login/Logout** con sesiones seguras
-- **Hash de contraseñas** con Werkzeug
-- **Protección CSRF** habilitada
-- **Validación de contraseñas** (implementación flexible)
+### **Características de Seguridad Implementadas**
 
-### 🤖 Servicios de Inteligencia Artificial
+✅ **Autenticación y Autorización**
+- Contraseñas hasheadas con Werkzeug
+- Sesiones seguras con Flask-Login
+- Protección contra sesiones concurrentes
+- Roles de usuario (admin/normal)
 
-#### 1. AnimalFactsService (DeepSeek Integration)
-```python
-# Servicio principal que utiliza OpenRouter API con modelo DeepSeek
-# Especializado en consultas de ciberseguridad y análisis de vulnerabilidades
-# Incluye system prompt personalizado para respuestas especializadas
-# Manejo robusto de errores con fallback messages
-```
+✅ **Protección Web**
+- Protección CSRF integrada
+- Cookies HTTPOnly y Secure
+- Validación de entrada de datos
+- Escape automático en plantillas
 
-#### 2. RandomMessageService
-```python
-# Mensajes aleatorios de respuesta (servicio auxiliar)
-```
+✅ **Base de Datos**
+- SQLAlchemy ORM (previene SQL injection)
+- Validación de tipos de datos
+- Transacciones seguras
 
-#### 3. GreetingMessageService
-```python
-# Saludos automáticos (servicio auxiliar)
-```
+✅ **Configuración**
+- API keys en archivos externos
+- Variables de entorno protegidas
+- `.gitignore` para archivos sensibles
 
-### 💬 Sistema de Chat
-- **Interfaz moderna** con burbujas de conversación
-- **Envío asíncrono** de mensajes
-- **Respuestas automáticas** de la IA
-- **Historial persistente** en sesión
-
-### 👥 Gestión de Usuarios
-- **CRUD completo** de usuarios
-- **Roles y permisos** diferenciados
-- **Panel de administración** intuitivo
+### **Recomendaciones de Producción**
+- Usar HTTPS en producción
+- Configurar proxy reverso (nginx)
+- Implementar rate limiting
+- Monitoreo de logs de seguridad
+- Actualizaciones regulares de dependencias
 
 ---
 
-## 👤 Usuarios por Defecto
+## 🤝 Contribución
 
-El sistema crea automáticamente dos usuarios al iniciar:
+### **Cómo Contribuir**
+1. **Fork** el repositorio
+2. **Crea** una rama para tu feature (`git checkout -b feature/nueva-funcionalidad`)
+3. **Commit** tus cambios (`git commit -am 'Añadir nueva funcionalidad'`)
+4. **Push** a la rama (`git push origin feature/nueva-funcionalidad`)
+5. **Abre** un Pull Request
 
-### 👑 Administrador
-```
-Usuario: admin
-Contraseña: Admin123!
-Rol: Administrador
-Permisos: Acceso completo al sistema
-```
+### **Estándares de Código**
+- Seguir PEP 8 para Python
+- Comentar código complejo
+- Escribir tests para nuevas funcionalidades
+- Actualizar documentación cuando sea necesario
 
-### 👤 Usuario Normal
-```
-Usuario: user
-Contraseña: User123!
-Rol: Usuario estándar
-Permisos: Acceso al chat y funcionalidades básicas
-```
-
----
-
-## 🗄️ Base de Datos
-
-### Modelo de Datos
-
-#### Tabla: users
-```sql
-- id (INT, PRIMARY KEY, AUTO_INCREMENT)
-- nombre (VARCHAR(50), NOT NULL)
-- apellidos (VARCHAR(100), NOT NULL)
-- correo (VARCHAR(120), UNIQUE, NOT NULL)
-- username (VARCHAR(80), UNIQUE, NOT NULL)
-- password_hash (VARCHAR(255), NOT NULL)
-- is_admin (BOOLEAN, DEFAULT FALSE)
-- fecha_creacion (DATETIME, DEFAULT NOW())
-- fecha_modificacion (DATETIME, DEFAULT NOW())
-```
-
-#### Tabla: mensajes
-```sql
-- id (INT, PRIMARY KEY, AUTO_INCREMENT)
-- contenido (TEXT, NOT NULL)
-- usuario_id (INT, FOREIGN KEY)
-- fecha_creacion (DATETIME, DEFAULT NOW())
-```
-
-#### Tabla: proyectos
-```sql
-- id (INT, PRIMARY KEY, AUTO_INCREMENT)
-- nombre (VARCHAR(100), NOT NULL)
-- descripcion (TEXT)
-- usuario_id (INT, FOREIGN KEY)
-- fecha_creacion (DATETIME, DEFAULT NOW())
-```
-
----
-
-## 🌐 API Endpoints
-
-### Autenticación
-```http
-POST /login              # Iniciar sesión
-POST /logout             # Cerrar sesión
-```
-
-### Chat y Mensajes
-```http
-POST /send-message       # Enviar mensaje al chat
-GET  /api/messages       # Obtener historial de mensajes
-```
-
-### Usuarios (Solo Administradores)
-```http
-GET  /usuarios           # Listar todos los usuarios
-POST /api/users          # Crear nuevo usuario
-PUT  /api/users/:id      # Actualizar usuario
-DELETE /api/users/:id    # Eliminar usuario
-```
-
-### Páginas Principales
-```http
-GET  /                   # Página principal
-GET  /chat               # Interfaz de chat
-GET  /usuarios           # Gestión de usuarios
-```
-
----
-
-## 🎥 Demostración
-
-### Para la Presentación en Clase
-
-#### 1. Introducción (2 minutos)
-- **Mostrar página principal** con logo y descripción
-- **Explicar el propósito** del sistema SVAIA
-- **Destacar las tecnologías** utilizadas
-
-#### 2. Demostración de Funcionalidades (5 minutos)
-
-##### Login y Autenticación
-```bash
-# Mostrar pantalla de login
-# Iniciar sesión con usuario admin
-Usuario: admin
-Contraseña: Admin123!
-```
-
-##### Chat con IA
-```bash
-# Navegar a /chat
-# Escribir: "Tengo un proyecto web en Flask, ¿qué vulnerabilidades debería considerar?"
-# Mostrar respuesta automática de la IA
-```
-
-##### Panel de Administración
-```bash
-# Acceder a /usuarios
-# Mostrar lista de usuarios
-# Demostrar funcionalidades CRUD
-```
-
-#### 3. Código Destacado (3 minutos)
-
-##### Servicio de IA
-```python
-# Mostrar services/message_service.py
-class AnimalFactsService:
-    def get_response(self, input_text):
-        # Lógica de respuesta inteligente
-```
-
-##### Seguridad
-```python
-# Mostrar models/user.py
-def set_password(self, password):
-    self.password_hash = generate_password_hash(password)
-```
-
-##### Arquitectura Flask
-```python
-# Mostrar app/__init__.py
-def create_app():
-    # Factory pattern implementation
-```
-
----
-
-## 🗺️ Roadmap
-
-### 🎯 Próximas Funcionalidades
-
-#### Fase 1: Mejoras de IA
-- [ ] Integración con APIs reales de vulnerabilidades (CVE)
-- [ ] Análisis de código fuente automático
-- [ ] Base de conocimiento ampliada
-
-#### Fase 2: Funcionalidades Avanzadas
-- [ ] Sistema de reportes PDF
-- [ ] Notificaciones en tiempo real
-- [ ] Dashboard de métricas de seguridad
-
-#### Fase 3: Escalabilidad
-- [ ] API REST completa
-- [ ] Integración con CI/CD
-- [ ] Microservicios
-
-### 🔧 Mejoras Técnicas
-- [ ] Tests unitarios y de integración
-- [ ] Containerización con Docker
-- [ ] Despliegue en cloud (AWS/Azure)
-- [ ] Monitoreo y logging avanzado
-
----
-
-## 🤝 Contribuir
-
-### Cómo Contribuir
-1. Fork el repositorio
-2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
-
-### Estándares de Código
-- Sigue PEP 8 para Python
-- Documenta las funciones importantes
-- Incluye tests para nuevas funcionalidades
-- Mantén el código limpio y legible
-
----
-
-## 📞 Contacto y Soporte
-
-### Equipo de Desarrollo
-- **Desarrollador Principal**: Alberto
-- **Email**: admin@svaia.com
-- **Versión**: 1.0.0
-
-### Reportar Problemas
-- Usa el sistema de issues de GitHub
-- Incluye detalles de reproducción
-- Especifica versión y entorno
+### **Reportar Bugs**
+- Usar el sistema de issues de GitHub
+- Incluir pasos para reproducir el error
+- Especificar versión de Python y SO
+- Adjuntar logs relevantes
 
 ---
 
 ## 📄 Licencia
 
-Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
+Este proyecto está licenciado bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
 
 ---
 
 ## 🙏 Agradecimientos
 
+- **Google Gemini** por proporcionar la API de IA
 - **Flask Community** por el excelente framework
-- **Bootstrap** por los componentes UI
-- **SQLAlchemy** por el ORM robusto
-- **Profesores y compañeros** por el feedback y apoyo
+- **Bootstrap Team** por los componentes UI
+- **Todos los contribuidores** que hacen posible este proyecto
 
 ---
 
-## 🔬 Pruebas del Sistema
+<div align="center">
 
-### Scripts de Prueba de IA
-```bash
-# Ejecutar pruebas de integración con OpenRouter
-python3 test_ai.py
+**Desarrollado con ❤️ para la comunidad de ciberseguridad**
 
-# Debug directo del servicio
-python3 debug_service.py
+[🌟 Star este proyecto](https://github.com/tu-usuario/gitmndefender) | [🐛 Reportar Bug](https://github.com/tu-usuario/gitmndefender/issues) | [💡 Solicitar Feature](https://github.com/tu-usuario/gitmndefender/issues)
 
-# Probar respuestas conversacionales (verificar que no devuelve código)
-python3 test_conversacion.py
-```
-
-### Ejemplos de Interacción
-- **Pregunta**: "Tengo una aplicación web en Flask. ¿Qué vulnerabilidades debería considerar?"
-- **Respuesta IA**: Análisis detallado de vulnerabilidades específicas de Flask (XSS, CSRF, SQLi, etc.)
-
-- **Pregunta**: "¿Cuáles son las mejores prácticas de seguridad para MySQL?"
-- **Respuesta IA**: Guía completa de hardening de bases de datos MySQL
-
----
-
-## 🚨 Solución de Problemas
-
-### Error: "Hubo un problema al procesar tu mensaje"
-
-**Causa**: Problema de autenticación o sesión expirada
-
-**Solución**:
-1. Asegúrate de estar logueado en el sistema
-2. Ve a `/login` e inicia sesión con:
-   - **Admin**: `admin` / `Admin123!`
-   - **Usuario**: `user` / `User123!`
-3. Selecciona un proyecto antes de enviar mensajes
-4. Si persiste, recarga la página
-
-### Error: "Sesión expirada"
-
-**Causa**: La sesión ha caducado (1 hora de inactividad)
-
-**Solución**:
-- El sistema te redirigirá automáticamente al login
-- Inicia sesión nuevamente
-
-### Error de Conexión IA
-
-**Causa**: Problema con OpenRouter API
-
-**Solución**:
-```bash
-# Verificar conectividad
-python3 debug_service.py
-
-# Verificar endpoint directo
-curl -X POST http://localhost:5000/send-message \
-  -H "Content-Type: application/json" \
-  -d '{"message": "test"}'
-```
-
-### Proyecto no seleccionado
-
-**Error**: "Por favor, selecciona un proyecto primero"
-
-**Solución**:
-1. Haz clic en uno de los proyectos de la barra lateral
-2. El proyecto activo se resalta en azul
-3. Luego puedes enviar mensajes
-
----
-
-## 📊 Estadísticas del Proyecto
-
-```
-📈 Líneas de código: ~2500+
-🗂️  Archivos: 22+ archivos
-🛠️  Tecnologías: 12+ tecnologías
-⏱️  Tiempo de desarrollo: 4 semanas
-🎯 Funcionalidades: 18+ características
-🤖 Integración IA: OpenRouter + DeepSeek
-```
-
----
-
-**¡Gracias por tu interés en SVAIA! 🛡️✨**
-
-*Sistema de Soporte para Vulnerabilidades y Amenazas basado en Inteligencia Artificial*
+</div>

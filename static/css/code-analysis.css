@@ -1,0 +1,487 @@
+/* Estilos para la página de análisis de código - Paleta SVAIA Consistente */
+
+.code-analysis-container {
+    background: var(--background-neutral);
+    min-height: 100vh;
+    padding: 2rem 0;
+}
+
+.analysis-header {
+    background: linear-gradient(135deg, var(--primary-modern) 0%, var(--primary-dark) 100%);
+    border-radius: 12px;
+    padding: 2rem;
+    color: white;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow-lg);
+}
+
+.upload-zone {
+    border: 3px dashed var(--neutral-300);
+    border-radius: 12px;
+    padding: 3rem;
+    text-align: center;
+    background: white;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.upload-zone::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, var(--primary-400), transparent);
+    transition: left 0.5s;
+}
+
+.upload-zone:hover::before {
+    left: 100%;
+}
+
+.upload-zone:hover {
+    border-color: var(--primary-modern);
+    background: linear-gradient(135deg, var(--primary-100) 0%, var(--primary-200) 100%);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.upload-zone.dragover {
+    border-color: var(--accent-green);
+    background: linear-gradient(135deg, var(--primary-400) 0%, var(--primary-500) 100%);
+    transform: scale(1.02);
+}
+
+.upload-icon {
+    font-size: 3rem;
+    color: var(--neutral-500);
+    margin-bottom: 1rem;
+    transition: color 0.3s ease;
+}
+
+.upload-zone:hover .upload-icon {
+    color: var(--primary-modern);
+}
+
+.file-preview {
+    background: var(--neutral-200);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-top: 1rem;
+    border-left: 4px solid var(--primary-modern);
+}
+
+.vulnerability-item {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow-sm);
+    border-left: 4px solid var(--neutral-300);
+    transition: transform 0.2s ease;
+}
+
+.vulnerability-item:hover {
+    transform: translateX(5px);
+    box-shadow: var(--shadow-md);
+}
+
+.vulnerability-item.critico {
+    border-left-color: var(--danger-modern);
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.05) 0%, #ffffff 100%);
+}
+
+.vulnerability-item.alto {
+    border-left-color: var(--warning-modern);
+    background: linear-gradient(135deg, var(--primary-400) 0%, #ffffff 100%);
+}
+
+.vulnerability-item.medio {
+    border-left-color: var(--accent-light);
+    background: linear-gradient(135deg, var(--primary-200) 0%, #ffffff 100%);
+}
+
+.vulnerability-item.bajo {
+    border-left-color: var(--success-modern);
+    background: linear-gradient(135deg, rgba(172, 211, 168, 0.1) 0%, #ffffff 100%);
+}
+
+.severity-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.severity-critico {
+    background: var(--danger-modern);
+    color: white;
+}
+
+.severity-alto {
+    background: var(--warning-modern);
+    color: var(--primary-modern);
+}
+
+.severity-medio {
+    background: var(--accent-light);
+    color: var(--primary-modern);
+}
+
+.severity-bajo {
+    background: var(--success-modern);
+    color: var(--primary-modern);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--neutral-300);
+}
+
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-modern), var(--accent-green));
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, var(--primary-modern) 0%, var(--accent-green) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.stat-label {
+    color: var(--neutral-600);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.9rem;
+}
+
+.criteria-alert {
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid;
+}
+
+.criteria-success {
+    background: rgba(172, 211, 168, 0.1);
+    border-color: var(--success-modern);
+    color: var(--primary-modern);
+}
+
+.criteria-danger {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: var(--danger-modern);
+    color: var(--primary-dark);
+}
+
+.analysis-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--neutral-200);
+    z-index: 9999;
+}
+
+.analysis-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-modern), var(--accent-green));
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+.history-table {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--neutral-300);
+}
+
+.history-table th {
+    background: var(--neutral-50);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.8rem;
+    padding: 1rem;
+    color: var(--primary-modern);
+    border-bottom: 1px solid var(--neutral-300);
+}
+
+.history-table td {
+    padding: 1rem;
+    vertical-align: middle;
+    border-bottom: 1px solid var(--neutral-200);
+    color: var(--neutral-700);
+}
+
+.history-table tr:hover {
+    background: var(--neutral-100);
+}
+
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(248, 249, 250, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.loading-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.loading-spinner {
+    width: 60px;
+    height: 60px;
+    border: 3px solid var(--neutral-300);
+    border-top: 3px solid var(--primary-modern);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.code-snippet {
+    background: var(--neutral-50);
+    border: 1px solid var(--neutral-300);
+    border-radius: 4px;
+    padding: 0.5rem;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    word-break: break-all;
+    color: var(--primary-modern);
+}
+
+.vulnerability-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.vulnerability-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--primary-modern);
+    margin-bottom: 0.5rem;
+}
+
+.vulnerability-description {
+    color: var(--neutral-600);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.vulnerability-meta {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.9rem;
+    color: var(--neutral-600);
+}
+
+.cve-link {
+    color: var(--primary-modern);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.cve-link:hover {
+    text-decoration: underline;
+    color: var(--accent-green);
+}
+
+/* Estilos específicos para badges de Bootstrap con la paleta SVAIA */
+.badge.bg-danger {
+    background-color: var(--danger-modern) !important;
+}
+
+.badge.bg-warning {
+    background-color: var(--warning-modern) !important;
+    color: var(--primary-modern) !important;
+}
+
+.badge.bg-info {
+    background-color: var(--accent-light) !important;
+    color: var(--primary-modern) !important;
+}
+
+.badge.bg-success {
+    background-color: var(--success-modern) !important;
+    color: var(--primary-modern) !important;
+}
+
+/* Estilos para botones específicos de análisis */
+.btn-analyze {
+    background: linear-gradient(135deg, var(--primary-modern) 0%, var(--accent-green) 100%);
+    border: none;
+    color: white;
+    font-weight: 600;
+    padding: 0.75rem 2rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.btn-analyze:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    color: white;
+}
+
+.btn-analyze:disabled {
+    background: var(--neutral-400);
+    transform: none;
+    box-shadow: none;
+}
+
+/* Mejoras para cards específicas de análisis */
+.analysis-card {
+    border: 1px solid var(--neutral-300);
+    border-radius: 12px;
+    background: white;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s ease;
+}
+
+.analysis-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.analysis-card .card-header {
+    background: linear-gradient(135deg, var(--primary-modern) 0%, var(--accent-green) 100%);
+    color: white;
+    border-bottom: none;
+    font-weight: 600;
+}
+
+/* Estilos específicos para stats cards */
+.stats-card {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--neutral-300);
+    transition: all 0.15s ease-in-out;
+}
+
+.stats-card:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.stats-number {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+/* Colores específicos para cada tipo de vulnerabilidad */
+.text-danger .stats-number {
+    color: var(--danger-modern);
+}
+
+.text-warning .stats-number {
+    color: var(--warning-modern);
+}
+
+.text-info .stats-number {
+    color: var(--accent-light);
+}
+
+.text-success .stats-number {
+    color: var(--success-modern);
+}
+
+.text-primary .stats-number {
+    color: var(--primary-modern);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .upload-zone {
+        padding: 2rem 1rem;
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .stat-number {
+        font-size: 2rem;
+    }
+    
+    .vulnerability-item {
+        padding: 1rem;
+    }
+    
+    .analysis-header {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .vulnerability-header {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .vulnerability-meta {
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+} 

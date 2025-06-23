@@ -3,8 +3,12 @@ from datetime import datetime
 from flask_login import login_user, logout_user, login_required, current_user
 from . import views_bp
 from app.models import db, Proyecto, User
+from controllers.code_analysis_controller import CodeAnalysisController
 
 views_bp = Blueprint('views', __name__)
+
+# Instanciar el controlador de análisis de código
+code_analysis_controller = CodeAnalysisController()
 
 @views_bp.route('/login', methods=['GET', 'POST'])
 def login():
@@ -94,3 +98,40 @@ def usuario_nuevo():
         flash(f"Usuario <em>{usuario.nombre} {usuario.apellidos}</em> añadido con éxito.", "exito")
         return redirect(url_for("views.usuarios"))
     return redirect(url_for("views.usuarios"))
+
+# Rutas para análisis de código estático
+@views_bp.route('/code-analysis')
+@login_required
+def code_analysis():
+    """Página principal de análisis de código"""
+    return code_analysis_controller.index()
+
+@views_bp.route('/code-analysis/upload', methods=['POST'])
+@login_required  
+def code_analysis_upload():
+    """Subir archivo y realizar análisis"""
+    return code_analysis_controller.upload_and_analyze()
+
+@views_bp.route('/code-analysis/project/<int:proyecto_id>')
+@login_required
+def code_analysis_project(proyecto_id):
+    """Obtener análisis de un proyecto específico"""
+    return code_analysis_controller.get_project_analysis(proyecto_id)
+
+@views_bp.route('/code-analysis/languages')
+@login_required
+def code_analysis_languages():
+    """Obtener lenguajes soportados"""
+    return code_analysis_controller.get_supported_languages()
+
+@views_bp.route('/code-analysis/stats/<int:proyecto_id>')
+@login_required
+def code_analysis_stats(proyecto_id):
+    """Obtener estadísticas de un proyecto específico"""
+    return code_analysis_controller.get_project_stats(proyecto_id)
+
+@views_bp.route('/code-analysis/reevaluate/<int:proyecto_id>', methods=['POST'])
+@login_required
+def code_analysis_reevaluate(proyecto_id):
+    """Reevaluar análisis tras cambio de criterios"""
+    return code_analysis_controller.reevaluate_project_criteria(proyecto_id)
