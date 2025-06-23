@@ -420,7 +420,7 @@ body {
     border-radius: 12px;
     box-shadow: var(--shadow-md);
     background-color: white;
-    z-index: 1000; /* Menor que el navbar */
+    /* Eliminamos z-index para evitar crear un stacking context que oculte los modales */
     position: relative;
 }
 
@@ -447,7 +447,7 @@ body {
     border-radius: 8px;
     background-color: white;
     box-shadow: var(--shadow-sm);
-    z-index: 1000; /* Menor que el navbar */
+    /* Eliminamos z-index para permitir que los modales internos salgan fuera del stacking context */
     position: relative;
 }
 

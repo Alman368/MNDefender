@@ -59,106 +59,133 @@ class GreetingMessageService:
 
 class AnimalFactsService:
     def __init__(self):
-        # IMPORTANTE: Esta clave API no es válida. Necesitas obtener una clave real de OpenRouter.ai
-        # Visita https://openrouter.ai/ para obtener tu clave API
-        self.api_key = "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"  # API key actualizada
-        self.api_url = "https://openrouter.ai/api/v1/chat/completions"
+        """Servicio que consume la API de Google Gemini para generar respuestas.
+
+        La clase conserva el nombre `AnimalFactsService` para evitar cambios en el resto del
+        código, pero la implementación usa Gemini (google-generativeai).
+        """
+
+        import os
+        from dotenv import load_dotenv
+        
+        # Cargar variables de entorno desde config.env
+        load_dotenv('config.env')
+
+        # Leer clave API desde archivo de configuración
+        self.api_key = os.getenv("GEMINI_API_KEY")
+        
+        # Validar que la clave API existe
+        if not self.api_key:
+            print("❌ Error: GEMINI_API_KEY no encontrada en config.env")
+            self.api_key = None
+
+        # Permitir que el modelo sea configurable mediante variable de entorno
+        self.model_name = os.getenv("GEMINI_MODEL", "gemini-1.5-flash")
 
         # Mensaje de error cuando la API no está configurada correctamente
-        self.api_error_message = """❌ **Error de configuración de IA**
+        self.api_error_message = (
+            "❌ **Error de configuración de IA**\n\n"
+            "La clave API de Gemini no está configurada en `config.env`.\n\n"
+            "**Para solucionarlo:**\n"
+            "1. Edita el archivo `config.env` en la raíz del proyecto\n"
+            "2. Añade tu clave API: `GEMINI_API_KEY=tu_clave_aqui`\n"
+            "3. Obtén una clave válida en https://ai.google.dev\n"
+            "3. Reinicia el servidor"
+        )
 
-La clave API de OpenRouter no está configurada correctamente.
+        # Intentar inicializar la librería
+        if not self.api_key:
+            print("API key no disponible, servicio deshabilitado")
+            self.model = None
+            return
+            
+        try:
+            import google.generativeai as genai
+            genai.configure(api_key=self.api_key)
 
-**Para solucionarlo:**
-1. Ve a https://openrouter.ai/
-2. Crea una cuenta y obtén tu clave API
-3. Reemplaza "TU_CLAVE_API_AQUI" en services/message_service.py con tu clave real
-4. Reinicia el servidor
+            # Normalizar nombre: si no empieza con "models/" lo añadimos para la llamada inicial
+            candidate_name = self.model_name
+            if not candidate_name.startswith("models/"):
+                candidate_name_with_prefix = f"models/{candidate_name}"
+            else:
+                candidate_name_with_prefix = candidate_name
 
-Mientras tanto, la IA no estará disponible."""
+            try:
+                # Intento principal con identificador completo
+                self.model = genai.GenerativeModel(candidate_name_with_prefix)
+                print(f"✅ Gemini configurado correctamente con modelo: {self.model_name}")
+            except ValueError:
+                # Fallback con el nombre tal cual (algunas versiones aceptan el nombre corto)
+                self.model = genai.GenerativeModel(candidate_name)
+                print(f"✅ Gemini configurado con modelo fallback: {candidate_name}")
+        except Exception as e:
+            print(f"Error inicializando Gemini: {e}")
+            self.model = None
+
+    def _build_prompt(self, user_text: str) -> str:
+        """Crea un prompt conciso que garantice respuestas en español y Markdown."""
+
+        system_instructions = (
+            "Eres **SVAIA**, asistente experto en ciberseguridad.\n\n"
+            "INSTRUCCIONES:\n"
+            "- Responde SIEMPRE en español.\n"
+            "- Usa formato **Markdown** rico: listas, tablas, cabeceras cuando sea útil.\n"
+            "- Mantén un tono profesional y amigable.\n"
+            "- NO incluyas código salvo que el usuario lo solicite explícitamente.\n"
+            "- Conecta cualquier tema con la seguridad informática siempre que sea posible."
+        )
+
+        # Comprimimos el prompt: sistema + pregunta del usuario, separados por \n\n
+        return f"{system_instructions}\n\nUsuario: {user_text}"
 
     def get_response(self, input_text):
-        import requests
-        import json
+        """Genera una respuesta usando Gemini. Devuelve Markdown listo para la UI."""
 
-        # Verificar si la API está configurada
-        if self.api_key == "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":
+        # Validar que la librería y el modelo están listos
+        if self.model is None:
             return self.api_error_message
 
         try:
-            # Preparar el prompt para que se comporte como un asistente de ciberseguridad
-            system_prompt = """Eres SVAIA (Sistema de Soporte para Vulnerabilidades y Amenazas basado en Inteligencia Artificial), un asistente experto en ciberseguridad.
+            prompt = self._build_prompt(input_text)
 
-INSTRUCCIONES IMPORTANTES:
-- Responde SIEMPRE en español
-- Usa un tono profesional pero amigable
-- NO generes código Python a menos que sea específicamente solicitado
-- Proporciona respuestas conversacionales claras y útiles
+            response = self.model.generate_content(prompt, generation_config={
+                "temperature": 0.7,
+                "max_output_tokens": 1024,
+            })
 
-Tu especialidad es ayudar con:
-• Análisis de vulnerabilidades de seguridad
-• Mejores prácticas de ciberseguridad
-• Protección contra ataques (XSS, SQLi, CSRF, etc.)
-• Seguridad en frameworks web (Flask, Django, etc.)
-• Configuración segura de sistemas
-• Análisis de código fuente para detectar problemas de seguridad
+            # La librería devuelve un objeto; extraemos el texto
+            markdown_text = response.text.strip() if hasattr(response, "text") else str(response)
 
-Ejemplos de respuestas apropiadas:
-- "Para proteger contra XSS en Flask, te recomiendo usar escape automático..."
-- "Las principales vulnerabilidades en aplicaciones web incluyen..."
-- "Para mejorar la seguridad de tu base de datos MySQL, deberías..."
+            # Convertimos Markdown a HTML para que el front-end lo muestre con formato
+            try:
+                import markdown2
+                # Convertir Markdown a HTML con todas las características
+                html = markdown2.markdown(
+                    markdown_text, 
+                    extras=[
+                        "tables",           # Soporte para tablas
+                        "fenced-code-blocks", # Bloques de código
+                        "strike",           # Texto tachado
+                        "task_list",        # Listas de tareas
+                        "break-on-newline", # Saltos de línea
+                        "cuddled-lists",    # Listas sin espacios
+                        "footnotes",        # Notas al pie
+                        "header-ids",       # IDs en encabezados
+                        "smarty-pants",     # Comillas inteligentes
+                        "spoiler"           # Texto oculto
+                    ]
+                )
+                print(f"Markdown original: {markdown_text[:200]}...")
+                print(f"HTML convertido: {html[:200]}...")
+            except Exception as conv_err:
+                print(f"Error convirtiendo Markdown a HTML: {conv_err}")
+                html = markdown_text  # Fallback: devolver el Markdown crudo
 
-Si el usuario hace preguntas no relacionadas con seguridad, conecta amablemente la respuesta con aspectos de seguridad relevantes."""
-
-            response = requests.post(
-                url=self.api_url,
-                headers={
-                    "Authorization": f"Bearer {self.api_key}",
-                    "Content-Type": "application/json",
-                    "HTTP-Referer": "https://svaia.local",
-                    "X-Title": "SVAIA - Sistema de Vulnerabilidades y Amenazas IA",
-                },
-                data=json.dumps({
-                    "model": "deepseek/deepseek-chat",
-                    "messages": [
-                        {
-                            "role": "system",
-                            "content": system_prompt
-                        },
-                        {
-                            "role": "user",
-                            "content": input_text
-                        }
-                    ],
-                }),
-                timeout=30
-            )
-
-            if response.status_code == 200:
-                result = response.json()
-                if 'choices' in result and len(result['choices']) > 0:
-                    return result['choices'][0]['message']['content']
-                else:
-                    return "❌ La IA no pudo generar una respuesta adecuada en este momento."
-            elif response.status_code == 401:
-                print(f"Error de autenticación API: {response.status_code}")
-                return "❌ **Error de autenticación con la IA**\n\nLa clave API no es válida o ha expirado. Por favor, verifica tu clave API en OpenRouter.ai"
-            else:
-                print(f"Error API: {response.status_code} - {response.text}")
-                return f"❌ **Error de la IA** (Código: {response.status_code})\n\nHubo un problema al conectar con el servicio de inteligencia artificial."
-
-        except requests.exceptions.Timeout:
-            print("Timeout en la conexión con OpenRouter API")
-            return "⏱️ **Timeout de la IA**\n\nLa consulta está tardando más de lo esperado. Por favor, inténtalo de nuevo."
-
-        except requests.exceptions.RequestException as e:
-            print(f"Error de conexión: {e}")
-            return "🌐 **Error de conexión**\n\nNo se pudo conectar con el servicio de IA. Verifica tu conexión a internet."
-
-        except json.JSONDecodeError as e:
-            print(f"Error decodificando JSON: {e}")
-            return "❌ **Error de formato**\n\nHubo un problema procesando la respuesta de la IA."
+            return html
 
         except Exception as e:
-            print(f"Error inesperado: {e}")
-            return f"❌ **Error inesperado**\n\nOcurrió un error no previsto: {str(e)}"
+            print(f"Error generando respuesta Gemini: {e}")
+            return (
+                "❌ **Error de la IA**\n\n"
+                "No fue posible obtener respuesta en este momento. Inténtalo de nuevo más tarde."
+            )

@@ -141,4 +141,155 @@
 	background: #a8a8a8;
 }
 
+/* ====== FIN CORRECCIÓN VENTANAS MODALES ====== */
+
+/* ====== ESTILOS PARA CONTENIDO HTML DEL BOT ====== */
+/* Estilos para que el HTML renderizado por el bot se vea correctamente */
+
+.bot-html-content {
+    line-height: 1.5;
+}
+
+/* Encabezados en mensajes del bot */
+.bot-html-content h1,
+.bot-html-content h2,
+.bot-html-content h3,
+.bot-html-content h4,
+.bot-html-content h5,
+.bot-html-content h6 {
+    margin: 10px 0 5px 0;
+    color: white;
+    font-weight: bold;
+}
+
+.bot-html-content h1 { font-size: 1.4em; }
+.bot-html-content h2 { font-size: 1.3em; }
+.bot-html-content h3 { font-size: 1.2em; }
+.bot-html-content h4 { font-size: 1.1em; }
+
+/* Párrafos */
+.bot-html-content p {
+    margin: 8px 0;
+    color: white;
+}
+
+/* Texto en negrita y cursiva */
+.bot-html-content strong,
+.bot-html-content b {
+    font-weight: bold;
+    color: #f8f9fa;
+}
+
+.bot-html-content em,
+.bot-html-content i {
+    font-style: italic;
+    color: #f8f9fa;
+}
+
+/* Listas */
+.bot-html-content ul,
+.bot-html-content ol {
+    margin: 10px 0;
+    padding-left: 20px;
+    color: white;
+}
+
+.bot-html-content li {
+    margin: 3px 0;
+    color: white;
+}
+
+/* Tablas */
+.bot-html-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.bot-html-content table th,
+.bot-html-content table td {
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.bot-html-content table th {
+    background-color: rgba(255, 255, 255, 0.15);
+    font-weight: bold;
+    color: #f8f9fa;
+}
+
+.bot-html-content table tr:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Código inline y bloques de código */
+.bot-html-content code {
+    background-color: rgba(255, 255, 255, 0.15);
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-family: 'Courier New', monospace;
+    color: #f8f9fa;
+    font-size: 0.9em;
+}
+
+.bot-html-content pre {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    border-radius: 5px;
+    overflow-x: auto;
+    margin: 10px 0;
+    border-left: 3px solid rgba(255, 255, 255, 0.3);
+}
+
+.bot-html-content pre code {
+    background-color: transparent;
+    padding: 0;
+}
+
+/* Enlaces */
+.bot-html-content a {
+    color: #87ceeb;
+    text-decoration: underline;
+}
+
+.bot-html-content a:hover {
+    color: #b0e0e6;
+}
+
+/* Citas */
+.bot-html-content blockquote {
+    border-left: 3px solid rgba(255, 255, 255, 0.3);
+    padding-left: 15px;
+    margin: 10px 0;
+    font-style: italic;
+    color: #e9ecef;
+}
+
+/* Texto tachado */
+.bot-html-content del,
+.bot-html-content s {
+    text-decoration: line-through;
+    color: #ced4da;
+}
+
+/* Líneas horizontales */
+.bot-html-content hr {
+    border: none;
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.3);
+    margin: 15px 0;
+}
+
+/* Listas de tareas */
+.bot-html-content input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+/* ====== FIN ESTILOS CONTENIDO HTML BOT ====== */
+
 

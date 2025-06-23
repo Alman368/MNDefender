@@ -19,7 +19,13 @@ function createChatMessage(messageText, isFromBot) {
             const messageElement = messageTemplate.content.cloneNode(true);
             const messageContentElement = messageElement.querySelector('.message-content');
             if (messageContentElement) {
-                messageContentElement.textContent = messageText;
+                // Para mensajes del bot, usar innerHTML para renderizar HTML
+                if (isFromBot) {
+                    messageContentElement.innerHTML = messageText;
+                } else {
+                    // Para mensajes del usuario, usar textContent para evitar XSS
+                    messageContentElement.textContent = messageText;
+                }
                 chatContainer.appendChild(messageElement);
                 // Scroll suave al final después de un pequeño delay
                 setTimeout(() => {
@@ -47,13 +53,13 @@ function createChatMessage(messageText, isFromBot) {
                 </svg>
             </div>
             <div class="col-10 bg-secondary text-white justify-content-start rounded p-3">
-                <p class="m-0">${messageText}</p>
+                <div class="m-0 message-content bot-html-content">${messageText}</div>
             </div>
         `;
     } else {
         messageDiv.innerHTML = `
             <div class="col-10 bg-primary text-white rounded p-3">
-                <p class="m-0">${messageText}</p>
+                <p class="m-0">${messageText.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</p>
             </div>
             <div class="col-2 d-flex justify-content-center p-2">
                 <!-- Icono del usuario usando Bootstrap Icons -->

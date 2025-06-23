@@ -1,15 +1,14 @@
-# Entornos virtuales
-venv/
-env/
-ENV/
-.env/
-.venv/
+# Archivos de configuración con información sensible
+config.env
+.env
+*.env
 
-# Caché de Python
+# Cache de Python
 __pycache__/
 *.py[cod]
 *$py.class
-*.so
+
+# Distribución / empaquetado
 .Python
 build/
 develop-eggs/
@@ -27,9 +26,55 @@ wheels/
 .installed.cfg
 *.egg
 
-# IDEs y editores
-.idea/
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Entornos virtuales
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDEs
 .vscode/
+.idea/
 *.swp
 *.swo
+*~
+
+# Sistema operativo
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Bases de datos
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+*.log
