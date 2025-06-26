@@ -284,15 +284,6 @@ API_KEY = os.getenv('API_KEY')
 - [ ] **Interfaz web funcional** sin errores
 - [ ] **Reevaluación automática** cuando cambian criterios
 
-### **⚠️ Posibles Problemas y Soluciones:**
-
-| Problema | Causa Probable | Solución |
-|----------|----------------|-----------|
-| No detecta vulnerabilidades | Patrones no coinciden | Usar exactamente los ejemplos de código dados |
-| CVEs ficticios | Sin conexión NIST | Verificar conexión a internet y nvdlib |
-| Error de criterios | Event listeners | Ya corregido en el sistema |
-| Interfaz no carga | Puerto ocupado | Usar `python run.py` en puerto 5000 |
-
 ---
 
 ## 📝 **Resumen para Evaluación Rápida**
