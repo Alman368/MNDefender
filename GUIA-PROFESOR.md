@@ -6,7 +6,7 @@ Esta guía le permitirá evaluar las **dos funcionalidades principales** del sis
 1. **📊 Criterios de Aceptabilidad**: Sistema de configuración de límites de seguridad por proyecto
 2. **🔍 Análisis de Código SAST**: Detección de vulnerabilidades con CVEs reales de NIST NVD
 
-##IMPORTANTE!:
+## IMPORTANTE!:
 Antes de nada, hay que crear una base de datos con el nombre svaia en mysql para poder probarlo.
 
 
